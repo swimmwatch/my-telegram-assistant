@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "telegram-assistant"
+version = "0.1.0"
+description = "Telegram assistant"
+authors = ["Dmitry Vasiliev <contact.vasiliev.dmitry@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+aiogram = "^2.19"
+loguru = "^0.6.0"
+
+[tool.poetry.dev-dependencies]
+mypy = "^0.941"
+flake8 = "^4.0.1"
+pytest = "^7.1.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+ignore_missing_imports = "True"
