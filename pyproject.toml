@@ -10,6 +10,7 @@ aiogram = "^2.19"
 loguru = "^0.6.0"
 aiotdlib = "^0.17.0"
 instaloader = "^4.8.5"
+pytube = "^12.0.0"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.941"
