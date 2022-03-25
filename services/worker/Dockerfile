@@ -10,4 +10,4 @@ ENV PATH /root/.local/bin:$PATH
 
 RUN poetry install --no-dev
 
-ENTRYPOINT ["poetry", "run", "celery", "-A", "worker.app", "worker", "-l", "info"]
+ENTRYPOINT ["poetry", "run", "celery", "-A", "services.worker.app", "worker", "-l", "info"]
