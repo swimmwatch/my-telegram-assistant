@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  assistant_manager:
+    build:
+      context: '.'
+      dockerfile: services/assistant_manager/Dockerfile
+    restart: always
+    environment:
+      TELEGRAM_API_TOKEN: "${TELEGRAM_API_TOKEN}"
