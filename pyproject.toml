@@ -21,6 +21,7 @@ asgiref = "^3.5.0"
 mypy = "^0.941"
 flake8 = "^4.0.1"
 pytest = "^7.1.1"
+types-redis = "^4.1.18"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

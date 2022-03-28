@@ -618,6 +618,14 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "types-redis"
+version = "4.1.18"
+description = "Typing stubs for redis"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "typing-extensions"
 version = "4.1.1"
 description = "Backported and Experimental Type Hints for Python 3.6+"
@@ -696,7 +704,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "2c85167dcb273c5bf8c88c2edaeb5cc7695d3cb6d9c2a42ad332a9ed4e1132af"
+content-hash = "5dc12454427df54793e7977752252f1e77d77bb8a948bbf04fa0a556404bc63b"
 
 [metadata.files]
 aiogram = [
@@ -1165,6 +1173,10 @@ sortedcontainers = [
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
+]
+types-redis = [
+    {file = "types-redis-4.1.18.tar.gz", hash = "sha256:b00fc56074d8ef0d7f52f5dc3ebfa2cc2f1970b384c8c83733ebab940b1f985e"},
+    {file = "types_redis-4.1.18-py3-none-any.whl", hash = "sha256:93bc85db6fb4634e85eff8b64cb662d47a55141b532085f4a99c70b174e65e8d"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.1.1-py3-none-any.whl", hash = "sha256:21c85e0fe4b9a155d0799430b0ad741cdce7e359660ccbd8b530613e8df88ce2"},
