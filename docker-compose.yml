@@ -31,3 +31,16 @@ services:
       TELEGRAM_API_TOKEN: "${TELEGRAM_API_TOKEN}"
       REDIS_HOST: redis
       REDIS_PORT: 6379
+  assistant:
+    build:
+      context: '.'
+      dockerfile: services/assistant/Dockerfile
+    restart: always
+    depends_on:
+      - redis
+    environment:
+      AIOTDLIB_API_ID: "${AIOTDLIB_API_ID}"
+      AIOTDLIB_API_HASH: "${AIOTDLIB_API_HASH}"
+      PHONE_NUMBER: "${PHONE_NUMBER}"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
