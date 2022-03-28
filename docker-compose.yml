@@ -1,10 +1,33 @@
 version: "3.9"
 
 services:
+  redis:
+    image: redis:6.2.6
+    restart: always
+    ports:
+      - "6364:6379"
+#  rabbitmq:
+#    image: rabbitmq:3.9
+#    restart: always
+  worker:
+    build:
+      context: '.'
+      dockerfile: services/worker/Dockerfile
+    restart: always
+    depends_on:
+      - redis
+#      - rabbitmq
+    environment:
+      BROKER_URL: "redis://redis"
+      BACKEND_URL: "redis://redis"
   assistant_manager:
     build:
       context: '.'
       dockerfile: services/assistant_manager/Dockerfile
     restart: always
+    depends_on:
+      - redis
     environment:
       TELEGRAM_API_TOKEN: "${TELEGRAM_API_TOKEN}"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
