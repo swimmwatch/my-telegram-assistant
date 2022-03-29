@@ -38,6 +38,7 @@ services:
     restart: always
     depends_on:
       - redis
+      - worker
     environment:
       AIOTDLIB_API_ID: "${AIOTDLIB_API_ID}"
       AIOTDLIB_API_HASH: "${AIOTDLIB_API_HASH}"
