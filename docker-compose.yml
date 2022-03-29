@@ -14,19 +14,19 @@ services:
   worker:
     build:
       context: '.'
-      dockerfile: services/worker/Dockerfile
     restart: always
+    command: poetry run celery -A services.worker.app worker -l info
     depends_on:
       - redis
-#      - rabbitmq
+      - rabbitmq
     environment:
       BROKER_URL: "redis://redis"
       BACKEND_URL: "redis://redis"
   assistant_manager:
     build:
       context: '.'
-      dockerfile: services/assistant_manager/Dockerfile
     restart: always
+    command: poetry run python -m services.assistant_manager.main
     depends_on:
       - redis
     environment:
@@ -36,8 +36,8 @@ services:
   assistant:
     build:
       context: '.'
-      dockerfile: services/assistant/Dockerfile
     restart: always
+    command: poetry run python -m services.assistant.main
     depends_on:
       - redis
       - worker
