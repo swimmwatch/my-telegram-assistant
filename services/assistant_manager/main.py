@@ -4,9 +4,9 @@ from dependency_injector.wiring import inject, Provide
 from loguru import logger
 from redis import Redis
 
-from app.config import MY_TELEGRAM_ID
 from app.container import Container
 from services.assistant_manager.bot import dp
+from services.assistant_manager.config import MY_TELEGRAM_ID
 from utils.aiogram.decorators import serve_only_specific_user
 
 serve_only_me = serve_only_specific_user(MY_TELEGRAM_ID)
