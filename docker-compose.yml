@@ -31,6 +31,7 @@ services:
       - redis
     environment:
       TELEGRAM_API_TOKEN: "${TELEGRAM_API_TOKEN}"
+      MY_TELEGRAM_ID: "${MY_TELEGRAM_ID}"
       REDIS_HOST: redis
       REDIS_PORT: 6379
   assistant:
