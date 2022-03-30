@@ -15,7 +15,7 @@ services:
     build:
       context: '.'
     restart: always
-    command: poetry run celery -A services.worker.app worker -l info
+    command: poetry run celery --app services.worker.app worker --loglevel INFO
     depends_on:
       - redis
       - rabbitmq
