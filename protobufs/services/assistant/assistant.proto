@@ -1,0 +1,20 @@
+syntax = "proto3";
+package assistant;
+
+import "google/protobuf/empty.proto";
+
+message SendVideoRequest {
+  uint32 chat_id = 1;
+  string video_path = 2;
+}
+
+message SendTextRequest {
+  uint32 chat_id = 1;
+  string text = 2;
+  bool disable_notification = 3;
+}
+
+service Assistant {
+  rpc send_video(SendVideoRequest) returns (google.protobuf.Empty);
+  rpc send_text(SendTextRequest) returns (google.protobuf.Empty);
+}
