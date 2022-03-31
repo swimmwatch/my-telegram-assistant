@@ -686,6 +686,14 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "types-protobuf"
+version = "3.19.15"
+description = "Typing stubs for protobuf"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "types-redis"
 version = "4.1.18"
 description = "Typing stubs for redis"
@@ -772,7 +780,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "8f2ca4d39a14c402ff463231647d155ea7dcffef6a3c2d08e49c91765cc80fe8"
+content-hash = "e9516809dba5541a84d2bbda864cc416e9e44eb6c97e28fdd7d69edd2f279cdc"
 
 [metadata.files]
 aiogram = [
@@ -1393,6 +1401,10 @@ soupsieve = [
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
+]
+types-protobuf = [
+    {file = "types-protobuf-3.19.15.tar.gz", hash = "sha256:d371d0a5b32e78c2d684329a5d4491d385e6eadcab497b37c41172ded328c5d9"},
+    {file = "types_protobuf-3.19.15-py3-none-any.whl", hash = "sha256:4673a4e56495886590c36cd87f2d855299a699a598eacb2e27d82b57eb4afb05"},
 ]
 types-redis = [
     {file = "types-redis-4.1.18.tar.gz", hash = "sha256:b00fc56074d8ef0d7f52f5dc3ebfa2cc2f1970b384c8c83733ebab940b1f985e"},
