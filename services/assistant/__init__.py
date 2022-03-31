@@ -1,11 +1,25 @@
 """
 Assistant service package.
 """
-from services.assistant.config import AIOTDLIB_API_ID, AIOTDLIB_API_HASH, PHONE_NUMBER
-from utils.aiotdlib.client import CustomClient
+import aiotdlib
 
-aiotdlib_client = CustomClient(
-    api_id=AIOTDLIB_API_ID,
-    api_hash=AIOTDLIB_API_HASH,
-    phone_number=PHONE_NUMBER,
-)
+from services.assistant.assistant_pb2 import SendTextRequest, SendVideoRequest
+from services.assistant.assistant_pb2_grpc import AssistantServicer
+
+
+class AsyncAssistantService(AssistantServicer):
+    def __init__(self, aiotdlib_client: aiotdlib.Client):
+        super().__init__()
+
+        self.aiotdlib_client = aiotdlib_client
+
+    async def send_text(self, request: SendTextRequest, context) -> None:
+        # TODO: handle errors from Aiotdlib
+        await self.aiotdlib_client.send_text(
+            request.chat_id,
+            request.text,
+            disable_notification=request.disable_notification
+        )
+
+    async def send_video(self, request: SendVideoRequest, context):
+        raise NotImplementedError
