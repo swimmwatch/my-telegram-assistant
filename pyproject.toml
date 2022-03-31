@@ -16,6 +16,8 @@ redis = "^4.2.0"
 aioredis = "^2.0.1"
 dependency-injector = "^4.38.0"
 asgiref = "^3.5.0"
+grpcio-tools = "^1.45.0"
+grpcio = "^1.45.0"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.941"
