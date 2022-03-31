@@ -2,7 +2,7 @@ from aiotdlib import Client
 from aiotdlib.api import UpdateNewMessage
 from loguru import logger
 
-from services.worker.tasks import download_and_send_youtube_video
+from services.worker.app import download_and_send_youtube_video
 from utils.youtube import extract_link
 
 
