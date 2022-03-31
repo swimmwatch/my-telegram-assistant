@@ -22,6 +22,8 @@ services:
     environment:
       BROKER_URL: "redis://redis"
       BACKEND_URL: "redis://redis"
+    volumes:
+      - ".:/app"
   assistant_manager:
     build:
       context: '.'
@@ -34,6 +36,8 @@ services:
       MY_TELEGRAM_ID: "${MY_TELEGRAM_ID}"
       REDIS_HOST: redis
       REDIS_PORT: 6379
+    volumes:
+      - ".:/app"
   assistant:
     build:
       context: '.'
@@ -48,3 +52,5 @@ services:
       PHONE_NUMBER: "${PHONE_NUMBER}"
       REDIS_HOST: redis
       REDIS_PORT: 6379
+    volumes:
+      - ".:/app"
