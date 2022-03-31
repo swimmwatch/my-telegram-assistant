@@ -18,6 +18,7 @@ dependency-injector = "^4.38.0"
 asgiref = "^3.5.0"
 grpcio-tools = "^1.45.0"
 grpcio = "^1.45.0"
+google = "^3.0.0"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.941"
