@@ -6,6 +6,9 @@ import "google/protobuf/empty.proto";
 message SendVideoRequest {
   uint32 chat_id = 1;
   string video_path = 2;
+
+  optional string caption = 3;
+  optional bool disable_notification = 4;
 }
 
 message SendTextRequest {

@@ -26,5 +26,7 @@ class AsyncAssistantService(AssistantServicer):
         # TODO: handle errors from Aiotdlib
         await self.aiotdlib_client.send_video(
             request.chat_id,
-            request.video_path
+            request.video_path,
+            caption=request.caption,
+            disable_notification=request.disable_notification
         )
