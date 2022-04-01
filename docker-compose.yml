@@ -50,7 +50,7 @@ services:
     ports:
       - "50051:50051"
     environment:
-      ASSISTANT_GRPC_PORT: "50051"
+      ASSISTANT_GRPC_ADDR: "assistant:50051"
       AIOTDLIB_API_ID: "${AIOTDLIB_API_ID}"
       AIOTDLIB_API_HASH: "${AIOTDLIB_API_HASH}"
       PHONE_NUMBER: "${PHONE_NUMBER}"
