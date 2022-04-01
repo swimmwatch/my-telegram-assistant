@@ -25,6 +25,7 @@ services:
       BACKEND_URL: "redis://redis"
     volumes:
       - ".:/app"
+      - youtube_videos:/tmp/youtube
   assistant_manager:
     build:
       context: '.'
@@ -58,3 +59,7 @@ services:
       REDIS_PORT: 6379
     volumes:
       - ".:/app"
+      - youtube_videos:/tmp/youtube
+
+volumes:
+  youtube_videos:
