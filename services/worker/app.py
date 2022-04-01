@@ -36,4 +36,4 @@ def download_and_send_youtube_video(
     video_path = os.path.join(out_dir, out_filename)
 
     req = SendTextRequest(chat_id=chat_id, text=video_path, disable_notification=True)
-    assistant_grpc_client.client.send_text(req)
+    assistant_grpc_client.stub.send_text(req)

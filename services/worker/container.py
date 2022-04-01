@@ -9,7 +9,7 @@ from services.worker.config import ASSISTANT_SERVICE_ADDR
 
 
 class WorkerContainer(DeclarativeContainer):
-    assistant_grpc_client = providers.Singleton(
+    assistant_grpc_client = providers.Factory(
         AssistantGrpcClient,
         addr=f'{ASSISTANT_SERVICE_ADDR}'
     )
