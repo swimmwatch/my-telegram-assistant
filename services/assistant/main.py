@@ -1,18 +1,47 @@
 import asyncio
 import logging
 
+import aiotdlib
 from aiotdlib.api import API
+from grpc import aio
+from loguru import logger
 
 from app.container import Container
-from services.assistant import aiotdlib_client
+from services.assistant import assistant_pb2_grpc, AsyncAssistantService
+from services.assistant.config import AIOTDLIB_API_ID, AIOTDLIB_API_HASH, PHONE_NUMBER, ASSISTANT_GRPC_PORT, \
+    ASSISTANT_GRPC_HOST
 from services.assistant.handlers import handle_new_own_message
+from utils.aiotdlib.client import CustomClient
+
+
+async def run_grpc_server(aiotdlib_client: aiotdlib.Client):
+    server = aio.server()
+    assistant_pb2_grpc.add_AssistantServicer_to_server(AsyncAssistantService(aiotdlib_client), server)
+    listen_addr = f'{ASSISTANT_GRPC_HOST}:{ASSISTANT_GRPC_PORT}'
+    server.add_insecure_port(listen_addr)
+
+    logger.info(f'starting gRPC server on {listen_addr}')
+    await server.start()
+    await server.wait_for_termination()
+
+
+async def run_assistant(aiotdlib_client: aiotdlib.Client):
+    async with aiotdlib_client:
+        await aiotdlib_client.idle()
 
 
 async def main():
+    aiotdlib_client = CustomClient(
+        api_id=AIOTDLIB_API_ID,
+        api_hash=AIOTDLIB_API_HASH,
+        phone_number=PHONE_NUMBER,
+    )
     aiotdlib_client.add_event_handler(handle_new_own_message, update_type=API.Types.UPDATE_NEW_MESSAGE)
 
-    async with aiotdlib_client:
-        await aiotdlib_client.idle()
+    await asyncio.gather(
+        run_assistant(aiotdlib_client),
+        run_grpc_server(aiotdlib_client)
+    )
 
 
 if __name__ == '__main__':
