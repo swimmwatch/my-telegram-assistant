@@ -23,4 +23,8 @@ class AsyncAssistantService(AssistantServicer):
         return Empty()
 
     async def send_video(self, request, context):
-        raise NotImplementedError
+        # TODO: handle errors from Aiotdlib
+        await self.aiotdlib_client.send_video(
+            request.chat_id,
+            request.video_path
+        )
