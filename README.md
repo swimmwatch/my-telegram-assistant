@@ -1,1 +1,1 @@
-# telegram-assistant
+# my-telegram-assistant
