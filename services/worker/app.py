@@ -1,6 +1,10 @@
 """
 Init Celery application.
 """
+import os.path
+from datetime import datetime, timedelta
+from pathlib import Path
+
 import pytube.exceptions
 from celery import Celery
 from dependency_injector.wiring import inject
@@ -11,7 +15,7 @@ from services.assistant.assistant_pb2 import SendVideoRequest
 from services.assistant.grpc_client import AssistantGrpcClient
 # TODO: use env variables for init Celery broker and backend
 # from services.worker.config import BROKER_URL, BACKEND_URL
-from services.worker.config import ASSISTANT_GRPC_ADDR, YT_MAX_VIDEO_LENGTH, YT_OUT_DIR
+from services.worker.config import ASSISTANT_GRPC_ADDR, YT_MAX_VIDEO_LENGTH, YT_OUT_DIR, YT_VIDEO_TTL
 from services.worker.container import WorkerContainer
 
 celery = Celery(broker='redis://redis', backend='redis://redis')
@@ -21,6 +25,13 @@ celery = Celery(broker='redis://redis', backend='redis://redis')
 def init_di_container(sender, **kwargs):
     worker_container = WorkerContainer()
     worker_container.wire(modules=[__name__])
+
+
+@celery.task
+def clear_cache_youtube_video(video_path: Path):
+    """Clear YouTube video from cache"""
+    if os.path.exists(video_path):
+        os.remove(video_path)
 
 
 @celery.task
@@ -57,3 +68,6 @@ def download_and_send_youtube_video(
         disable_notification=True
     )
     assistant_grpc_client.stub.send_video(req)
+
+    release_date = datetime.now() + timedelta(seconds=YT_VIDEO_TTL)
+    clear_cache_youtube_video.apply_async((video_path,), eta=release_date)
