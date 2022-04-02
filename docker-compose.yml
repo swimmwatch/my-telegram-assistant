@@ -23,6 +23,8 @@ services:
       ASSISTANT_GRPC_ADDR: "assistant:50051"
       BROKER_URL: "redis://redis"
       BACKEND_URL: "redis://redis"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     volumes:
       - ".:/app"
       - youtube_videos:/tmp/youtube
