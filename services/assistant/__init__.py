@@ -30,3 +30,4 @@ class AsyncAssistantService(AssistantServicer):
             caption=request.caption,
             disable_notification=request.disable_notification
         )
+        return Empty()
