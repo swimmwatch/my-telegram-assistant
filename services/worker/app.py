@@ -3,15 +3,17 @@ Init Celery application.
 """
 import os
 
+import pytube.exceptions
 from celery import Celery
 from dependency_injector.wiring import inject
+from loguru import logger
 from pytube import YouTube
 
 from services.assistant.assistant_pb2 import SendVideoRequest
 from services.assistant.grpc_client import AssistantGrpcClient
 # TODO: use env variables for init Celery broker and backend
 # from services.worker.config import BROKER_URL, BACKEND_URL
-from services.worker.config import ASSISTANT_GRPC_ADDR
+from services.worker.config import ASSISTANT_GRPC_ADDR, YT_MAX_VIDEO_LENGTH, YT_OUT_DIR
 from services.worker.container import WorkerContainer
 
 celery = Celery(broker='redis://redis', backend='redis://redis')
@@ -31,12 +33,23 @@ def download_and_send_youtube_video(
         # TODO: fix it
         # assistant_grpc_client: AssistantGrpcClient = Provide[WorkerContainer.assistant_grpc_client]
 ):
-    yt = YouTube(link)
-    stream = yt.streams.filter(progressive=True, file_extension='mp4').first()
-    out_dir = os.path.join('/tmp', 'youtube')
+    try:
+        yt = YouTube(link)
+    except pytube.exceptions.VideoUnavailable:
+        logger.info(f'{link}: video is unavailable')
+        return
+
+    if yt.length >= YT_MAX_VIDEO_LENGTH:
+        logger.info(f'{link} video too long')
+        return
+
+    stream = yt.streams.filter(progressive=True, file_extension='mp4').get_highest_resolution()
+    if stream is None:
+        logger.warning(f'{link}: stream is not available')
+        return
+
     out_filename = yt.video_id
-    stream.download(out_dir, out_filename)
-    video_path = os.path.join(out_dir, out_filename)
+    video_path = stream.download(YT_OUT_DIR, out_filename)
 
     assistant_grpc_client = AssistantGrpcClient(ASSISTANT_GRPC_ADDR)
     req = SendVideoRequest(
