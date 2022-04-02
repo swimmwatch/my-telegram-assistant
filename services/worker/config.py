@@ -17,4 +17,3 @@ YT_VIDEO_TTL = 60 * 2
 # Redis
 REDIS_HOST = os.environ.get('REDIS_HOST')
 REDIS_PORT = os.environ.get('REDIS_PORT')
-
