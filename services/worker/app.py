@@ -1,8 +1,6 @@
 """
 Init Celery application.
 """
-import os
-
 import pytube.exceptions
 from celery import Celery
 from dependency_injector.wiring import inject
