@@ -1,0 +1,3 @@
+"""
+Control panel web application.
+"""

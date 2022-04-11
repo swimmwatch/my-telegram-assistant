@@ -23,6 +23,15 @@ services:
     restart: always
     ports:
       - "5672:5672"
+  control_panel:
+    build: services/control_panel
+    restart: always
+    ports:
+      - '80:80'
+    environment:
+      NODE_ENV: production
+    volumes:
+      - '.:/app'
   worker:
     build:
       context: '.'
@@ -40,6 +49,22 @@ services:
     volumes:
       - ".:/app"
       - youtube_videos:/tmp/youtube
+  control_panel_api:
+    build:
+      context: '.'
+    restart: always
+    ports:
+      - '8000'
+    depends_on:
+      - db
+    command: poetry run uvicorn services.control_panel_api.main:app --host 0.0.0.0 --port 8000
+    environment:
+      DB_NAME: "${DB_NAME}"
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_HOST: db
+    volumes:
+      - '.:/app'
   assistant_manager:
     build:
       context: '.'
