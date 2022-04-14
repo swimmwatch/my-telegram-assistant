@@ -64,5 +64,5 @@ class PostFactory(Factory):
     @staticmethod
     def init_from_post_id(post_id: str) -> Post:
         class_name, id_ = post_id.split(':')
-        subclasses: Dict[str, Type[Post]] = {class_.__name__: class_ for class_ in Post.__subclasses__()}
+        subclasses = {class_.__name__: class_ for class_ in Post.__subclasses__()}
         return subclasses[class_name].init_from_id(id_)
