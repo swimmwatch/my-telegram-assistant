@@ -1,25 +1,33 @@
 """
 Init Celery application.
 """
-import os.path
-from datetime import datetime, timedelta
-from pathlib import Path
+from datetime import datetime
+from os import path
 
-import pytube.exceptions
 from celery import Celery
 from dependency_injector.wiring import inject, Provide
 from loguru import logger
-from pytube import YouTube
-from redis import Redis
 
-from services.assistant.assistant_pb2 import SendVideoRequest, ForwardMessagesRequest
 from services.assistant.grpc_client import AssistantGrpcClient
 # TODO: use env variables for init Celery broker and backend
 # from services.worker.config import BROKER_URL, BACKEND_URL
-from services.worker.config import ASSISTANT_GRPC_ADDR, YT_MAX_VIDEO_LENGTH, YT_OUT_DIR, YT_VIDEO_TTL
+from services.assistant.assistant_pb2 import ForwardMessagesRequest
+from services.sent_post_msg_info_cache_manager import SentPostMessageInfoCacheManager
+from services.worker.config import ASSISTANT_GRPC_ADDR, OUT_DIR
 from services.worker.container import WorkerContainer
+from utils.post.impl import PostFactory
+from utils.post.cache.state import PostCacheState
+from utils.post.cache.state.redis import RedisPostStateCacheManager
+from utils.post.exceptions import PostNonDownloadable, PostUnavailable, PostTooLarge
+from utils.post.impl.youtube import YouTubeShortVideo
 
 celery = Celery(broker='redis://redis', backend='redis://redis')
+
+task_routes = {
+    'services.worker.app.download_and_send_post': {
+        'queue': 'downloads'
+    }
+}
 
 
 @celery.on_after_configure.connect
@@ -29,66 +37,72 @@ def init_di_container(sender, **kwargs):
 
 
 @celery.task
-def clear_cache_youtube_video(video_path: Path):
-    """Clear YouTube video from cache"""
-    if os.path.exists(video_path):
-        os.remove(video_path)
+@inject
+def clear_cached_post(
+    post_id: str,
+    out_filename: str,
+    post_state_cache_manager: RedisPostStateCacheManager = Provide[WorkerContainer.post_cache_state_manager],
+    sent_post_msg_info_cache_manager: SentPostMessageInfoCacheManager =
+    Provide[WorkerContainer.sent_post_msg_info_cache_manager]
+):
+    """Clear cached post"""
+    post = PostFactory.init_from_post_id(post_id)
+    post_state_cache_manager.clear_state(post.id)
+    sent_post_msg_info_cache_manager.clear_msg_info(post)
+    post.clear(out_filename)
 
 
 @celery.task
 @inject
-def download_and_send_youtube_video(
-        chat_id: int,
-        link: str,
-        redis_client: Redis = Provide[WorkerContainer.redis_client]
-        # TODO: fix it
-        # assistant_grpc_client: AssistantGrpcClient = Provide[WorkerContainer.assistant_grpc_client]
+def download_and_send_post(
+    chat_id: int,
+    link: str,
+    post_state_cache_manager: RedisPostStateCacheManager = Provide[WorkerContainer.post_cache_state_manager],
+    sent_post_msg_info_cache_manager: SentPostMessageInfoCacheManager =
+    Provide[WorkerContainer.sent_post_msg_info_cache_manager]
+    # TODO: fix it
+    # assistant_grpc_client: AssistantGrpcClient = Provide[WorkerContainer.assistant_grpc_client]
 ):
     assistant_grpc_client = AssistantGrpcClient(ASSISTANT_GRPC_ADDR)
 
     try:
-        yt = YouTube(link)
-    except pytube.exceptions.VideoUnavailable:
-        logger.info(f'{link}: video is unavailable')
+        post = YouTubeShortVideo(link)
+    except (PostUnavailable, PostTooLarge) as err:
+        logger.info(err.message)
         return
 
-    if yt.length >= YT_MAX_VIDEO_LENGTH:
-        logger.info(f'{link} video too long')
-        return
-
-    # forward message if it's existing in cache
-    yt_cached_msg_id = f'youtube:{yt.video_id}'
-    if redis_client.exists(yt_cached_msg_id):
-        chat_message_id = redis_client.get(yt_cached_msg_id).decode()
-        from_chat_id, message_id = map(int, chat_message_id.split(':'))
+    # forward message if it was sent
+    msg_info = sent_post_msg_info_cache_manager.get_msg_info(post)
+    if msg_info:
         req = ForwardMessagesRequest(
-            from_chat_id=from_chat_id,
+            from_chat_id=msg_info.chat_id,
             chat_id=chat_id,
             disable_notification=True
         )
-        req.message_ids.append(message_id)
+        req.message_ids.append(msg_info.message_id)
         assistant_grpc_client.stub.forward_messages(req)
         return
 
-    stream = yt.streams.filter(progressive=True, file_extension='mp4').get_highest_resolution()
-    if stream is None:
-        logger.warning(f'{link}: stream is not available')
-        return
+    cache_state = post_state_cache_manager.get_state(post.id)
+    if cache_state is PostCacheState.NONE:
+        try:
+            out_filename = post.download(OUT_DIR)
+        except PostNonDownloadable as err:
+            logger.warning(err.message)
+            return
+        post_state_cache_manager.set_state(post.id, PostCacheState.DOWNLOADED)
+    elif cache_state is PostCacheState.DOWNLOADED:
+        out_filename = path.join(OUT_DIR, post.id)
 
-    out_filename = yt.video_id
-    video_path = stream.download(YT_OUT_DIR, out_filename)
-
-    req = SendVideoRequest(
+    result_msg = post.send(
+        assistant_grpc_client,
+        video_path=out_filename,
         chat_id=chat_id,
-        video_path=video_path,
-        caption=yt.title,
         disable_notification=True
     )
-    result_msg = assistant_grpc_client.stub.send_video(req)
 
-    video_ttl = timedelta(seconds=YT_VIDEO_TTL)
-    # cache message id in Redis store
-    redis_client.set(yt_cached_msg_id, f'{chat_id}:{result_msg.id}', video_ttl)
+    # cache sent message with post
+    sent_post_msg_info_cache_manager.cache_msg_info(chat_id, result_msg.id, post)
 
-    release_date = datetime.now() + video_ttl
-    clear_cache_youtube_video.apply_async((video_path,), eta=release_date)
+    release_date = datetime.now() + post.ttl
+    clear_cached_post.apply_async((post.id, out_filename), eta=release_date)
