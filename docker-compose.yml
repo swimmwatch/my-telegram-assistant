@@ -48,7 +48,7 @@ services:
       REDIS_PORT: 6379
     volumes:
       - ".:/app"
-      - youtube_videos:/tmp/youtube
+      - cached_posts:/tmp/posts
   control_panel_api:
     build:
       context: '.'
@@ -98,9 +98,9 @@ services:
       REDIS_PORT: 6379
     volumes:
       - ".:/app"
-      - youtube_videos:/tmp/youtube
+      - cached_posts:/tmp/posts
 
 volumes:
   db:
     driver: local
-  youtube_videos:
+  cached_posts:
