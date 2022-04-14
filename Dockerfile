@@ -17,6 +17,12 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sSL https://install.python-poetry.org | python -
 ENV PATH /root/.local/bin:$PATH
 
+# Install Python dependecies
 RUN poetry install --no-dev
 
-ENTRYPOINT ["poetry", "run", "python", "-m", "services.assistant.main"]
+# Build gRPC services
+RUN poetry run python -m grpc_tools.protoc \
+    -I /app/protobufs \
+    --python_out=. \
+     --grpc_python_out=. \
+    /app/protobufs/services/assistant/assistant.proto
