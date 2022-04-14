@@ -9,3 +9,8 @@ class Repository(Protocol):
     Repository protocol.
     """
     pass
+
+
+class Factory(Protocol):
+    """Factory protocol."""
+    pass
