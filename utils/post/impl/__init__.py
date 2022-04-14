@@ -3,7 +3,6 @@ Basic class for social networks posts.
 """
 from abc import ABC, abstractmethod
 from datetime import timedelta
-from typing import Dict, Type
 
 from utils.aiotdlib.protocols import SupportsTelegramSending
 from utils.common.patterns import Factory
