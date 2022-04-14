@@ -11,7 +11,7 @@ ASSISTANT_GRPC_ADDR = os.environ.get('ASSISTANT_GRPC_ADDR', 'localhost')
 
 # YouTube
 YT_MAX_VIDEO_LENGTH = 60 * 3
-YT_OUT_DIR = os.path.join('/tmp', 'youtube')
+OUT_DIR = os.path.join('/tmp', 'posts')
 YT_VIDEO_TTL = 60 * 2
 
 # Redis
