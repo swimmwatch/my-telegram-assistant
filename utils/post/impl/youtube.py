@@ -4,7 +4,6 @@ YouTube post implementation.
 import os.path
 from datetime import timedelta
 from os import path
-from pathlib import Path
 
 import pytube.exceptions
 from pytube import YouTube
