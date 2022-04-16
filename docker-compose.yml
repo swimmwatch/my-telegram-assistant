@@ -42,8 +42,8 @@ services:
       - rabbitmq
     environment:
       ASSISTANT_GRPC_ADDR: "assistant:50051"
-      BROKER_URL: "redis://redis"
-      BACKEND_URL: "redis://redis"
+      CELERY_BROKER_URL: "redis://redis"
+      CELERY_RESULT_BACKEND: "redis://redis"
       REDIS_HOST: redis
       REDIS_PORT: 6379
     volumes:
@@ -96,6 +96,8 @@ services:
       PHONE_NUMBER: "${PHONE_NUMBER}"
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      CELERY_BROKER_URL: "redis://redis"
+      CELERY_RESULT_BACKEND: "redis://redis"
     volumes:
       - ".:/app"
       - cached_posts:/tmp/posts
