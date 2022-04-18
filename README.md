@@ -9,15 +9,19 @@ Read this in other languages:
 
 ### Commands
 Commands allow handling user requests from conversation (analog [Telegram bot commands](https://core.telegram.org/bots)).
+There are several types of commands:
+* Explicit - they are explicitly stated in the message.
+* Implicit - they are called without stating.
 
 #### Supported commands:
 
-##### `\d url`  - download post/video from social network
+#### Implicit
+##### download post/video from social network
 Supported social networks:
 * [ ] YouTube
 * [ ] TikTok
 * [ ] Instagram
-* [ ] Twitter
-##### `\v` - check a file/link on violations
+* [ ] Twitter (video or gif image)
 
-##### `\me` - generate contact info about user
+#### Explicit
+##### `\me [type]` - generate contact info about user
