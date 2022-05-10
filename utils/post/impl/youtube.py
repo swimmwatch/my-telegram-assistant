@@ -41,7 +41,7 @@ class YouTubeShortVideo(Post):
         :param out_dir: Output directory
         :return: Output filename
         """
-        stream = self.yt.streams.filter(progressive=True, file_extension='mp4').get_highest_resolution()
+        stream = self.yt.streams.get_highest_resolution()
         if stream is None:
             raise PostNonDownloadable(self.url)
         out_filename = stream.download(out_dir, self.id)
