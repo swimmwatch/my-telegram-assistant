@@ -1,0 +1,34 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    assignees:
+      - swimmwatch
+    directory: "/"
+    target-branch: dev
+    schedule:
+      interval: "daily"
+    labels:
+      - "pip"
+      - "dependencies"
+
+  - package-ecosystem: "npm"
+    assignees:
+      - swimmwatch
+    directory: "/services/control_panel/react-app"
+    target-branch: dev
+    schedule:
+      interval: "daily"
+    labels:
+      - "npm"
+      - "dependencies"
+
+  - package-ecosystem: "github-actions"
+    assignees:
+      - swimmwatch
+    directory: "/"
+    target-branch: dev
+    schedule:
+      interval: "daily"
+    labels:
+      - "github-actions"
+      - "dependencies"
