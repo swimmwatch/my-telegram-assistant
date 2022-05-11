@@ -7,7 +7,6 @@ from datetime import timedelta
 from os import path
 
 import pytube
-from TikTokApi import TikTokApi
 from pytube import YouTube
 
 from services.assistant import MessageResponse
@@ -132,46 +131,46 @@ class YouTubeShortVideo(Post):
         return YouTubeShortVideo(url)
 
 
-class TikTokVideo(Post):
-    TT_VIDEO_TTL = timedelta(minutes=3)
-    TT_VIDEO_MAX_LEN = timedelta(minutes=3)
-
-    def __init__(self, url: str):
-        self.url = url
-
-        # TODO: check for available video
-        # TODO: add check for video size
-        self.tiktok_api = TikTokApi()
-        self.video = self.tiktok_api.video(url=self.url)
-
-    @property
-    def id(self) -> str:
-        return f'{type(self).__name__}:{self.video.id}'
-
-    def download(self, out_dir: str) -> str:
-        with self.tiktok_api:
-            video_data = self.video.bytes()
-            video_path = os.path.join(out_dir, self.id)
-            with open(video_path, "wb") as out_file:
-                out_file.write(video_data)
-
-        return video_path
-
-    @property
-    def ttl(self) -> timedelta:
-        return self.TT_VIDEO_TTL
-
-    @property
-    def title(self) -> str:
-        # TODO: handle if something wrong
-        info = self.video.info()
-        return info['desc']
-
-    def clear(self, out_filename: str) -> None:
-        if os.path.exists(out_filename):
-            os.remove(out_filename)
-
-    @staticmethod
-    def init_from_id(id_: str) -> 'Post':
-        url = f'https://www.tiktok.com/embed/video/{id_}'
-        return TikTokVideo(url)
+# class TikTokVideo(Post):
+#     TT_VIDEO_TTL = timedelta(minutes=3)
+#     TT_VIDEO_MAX_LEN = timedelta(minutes=3)
+#
+#     def __init__(self, url: str):
+#         self.url = url
+#
+#         # TODO: check for available video
+#         # TODO: add check for video size
+#         self.tiktok_api = TikTokApi()
+#         self.video = self.tiktok_api.video(url=self.url)
+#
+#     @property
+#     def id(self) -> str:
+#         return f'{type(self).__name__}:{self.video.id}'
+#
+#     def download(self, out_dir: str) -> str:
+#         with self.tiktok_api:
+#             video_data = self.video.bytes()
+#             video_path = os.path.join(out_dir, self.id)
+#             with open(video_path, "wb") as out_file:
+#                 out_file.write(video_data)
+#
+#         return video_path
+#
+#     @property
+#     def ttl(self) -> timedelta:
+#         return self.TT_VIDEO_TTL
+#
+#     @property
+#     def title(self) -> str:
+#         # TODO: handle if something wrong
+#         info = self.video.info()
+#         return info['desc']
+#
+#     def clear(self, out_filename: str) -> None:
+#         if os.path.exists(out_filename):
+#             os.remove(out_filename)
+#
+#     @staticmethod
+#     def init_from_id(id_: str) -> 'Post':
+#         url = f'https://www.tiktok.com/embed/video/{id_}'
+#         return TikTokVideo(url)
