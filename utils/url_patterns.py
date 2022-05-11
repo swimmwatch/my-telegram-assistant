@@ -9,14 +9,8 @@ YOUTUBE_LINK_PATTERN = re.compile(
 )
 
 TIKTOK_LINK_PATTERN = re.compile(
-    r'(?x)'
     r'https?://'
-    r'(?:'
-    r'(?:www|m|vt)\.'
+    r'(?:www|m|vt|vm)\.'
     r'(?:tiktok\.com)\/'
-    r'(?:.+)'
-    r'(?:\/)?'
-    r'(?:\?.+=)?'
-    r')'
-    r'(?P<id>[\da-z]+)'
+    r'(?:[\w/?=@.&]+)?'
 )
