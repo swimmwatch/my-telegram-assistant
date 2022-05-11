@@ -20,6 +20,9 @@ ENV PATH /root/.local/bin:$PATH
 # Install Python dependecies
 RUN poetry install --no-dev
 
+# Install playwright
+RUN poetry run playwright install
+
 # Build gRPC services
 RUN poetry run python -m grpc_tools.protoc \
     -I /app/protobufs \
