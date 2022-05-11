@@ -28,6 +28,6 @@ from utils.youtube import extract_youtube_link
     ('', None),
     ('i see you', None),
 ])
-def test_extract_link(msg: str, expected: Optional[str]):
+def test_extract_youtube_link(msg: str, expected: Optional[str]):
     actual = extract_youtube_link(msg)
     assert actual == expected
