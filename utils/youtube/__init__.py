@@ -3,7 +3,7 @@ from typing import Optional
 from utils.url_patterns import YOUTUBE_LINK_PATTERN
 
 
-def extract_link(msg: str) -> Optional[str]:
+def extract_youtube_link(msg: str) -> Optional[str]:
     """
     Extract link from text message.
     :param msg: Some message
