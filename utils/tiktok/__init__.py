@@ -14,7 +14,7 @@ def extract_tiktok_link(text: str) -> Optional[str]:
     :param text: Some text
     :return: Extracted TikTok link
     """
-    match = re.match(TIKTOK_LINK_PATTERN, text)
+    match = re.search(TIKTOK_LINK_PATTERN, text)
     if not match:
         return None
     link = match.group(0)
