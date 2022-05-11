@@ -1,12 +1,11 @@
 from aiotdlib import Client
 from aiotdlib.api import UpdateNewMessage, MessageText
 
-from services.assistant.commands import YouTubeShortVideoDownloadCommandHandler, TikTokVideoDownloadCommandHandler, \
-    CommandRequest
+from services.assistant.commands import YouTubeShortVideoDownloadCommandHandler, CommandRequest
 from utils.aiotdlib.decorators import serve_only_own_actions
 
 
-commands = YouTubeShortVideoDownloadCommandHandler(TikTokVideoDownloadCommandHandler(None))
+commands = YouTubeShortVideoDownloadCommandHandler(None)
 
 
 @serve_only_own_actions
