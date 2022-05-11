@@ -2,7 +2,7 @@
 Common patterns.
 """
 from abc import ABC, abstractmethod
-from typing import Protocol
+from typing import Protocol, Optional
 
 
 class Repository(Protocol):
@@ -19,13 +19,13 @@ class Factory(Protocol):
 
 class ChainOfResponsibility(ABC):
     """Chain Of Responsibility pattern"""
-    def __init__(self, next_handler: 'ChainOfResponsibility'):
+    def __init__(self, next_handler: Optional['ChainOfResponsibility']):
         self._next_handler = next_handler
 
     def handle(self, request):
         handled = self.process_request(request)
 
-        if not handled:
+        if not handled and self._next_handler:
             self._next_handler.handle(request)
 
     @abstractmethod
