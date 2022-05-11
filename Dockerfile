@@ -22,6 +22,7 @@ RUN poetry install --no-dev
 
 # Install playwright
 RUN poetry run playwright install
+RUN poetry run playwright install-deps
 
 # Build gRPC services
 RUN poetry run python -m grpc_tools.protoc \
