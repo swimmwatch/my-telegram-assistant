@@ -1,3 +1,6 @@
+"""
+YouTube utils.
+"""
 from typing import Optional
 
 from utils.url_patterns import YOUTUBE_LINK_PATTERN
