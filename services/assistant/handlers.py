@@ -22,7 +22,12 @@ async def handle_new_own_message(client: Client, update: UpdateNewMessage):
         return
 
     # remove web page preview
-    await client.edit_text(chat_id, update.message.id, text=msg, disable_web_page_preview=True)
+    await client.edit_text(
+        chat_id,
+        update.message.id,
+        text=msg,
+        disable_web_page_preview=True
+    )
 
     download_and_send_post.delay(chat_id, link)
     logger.info(f'downloading post: {link}')
