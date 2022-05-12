@@ -15,7 +15,21 @@ ExplicitCommandHandler = Callable[[ParsedArguments, Client, CommandRequest], Awa
 
 
 class ExplicitCommand:
+    MAX_COMMAND_NAME_LEN = 16
+
     def __init__(self, name: str):
+        if not name:
+            raise ValueError('Command name must be not empty')
+
+        if '\\' in name:
+            raise ValueError(r'Command name must doesn\'t contain "\" character')
+
+        if len(name) >= ExplicitCommand.MAX_COMMAND_NAME_LEN:
+            raise ValueError(f'Command name length must be less then {ExplicitCommand.MAX_COMMAND_NAME_LEN}')
+
+        if any(char.isdigit() for char in name):
+            raise ValueError(f'Command name must doesn\'t contain digits')
+
         self._name = name
         self._args: Dict[str, Type] = {}
         self._handlers: Deque[ExplicitCommandHandler] = deque()
