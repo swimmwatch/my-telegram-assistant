@@ -1,31 +1,61 @@
 from aiotdlib import Client
-from aiotdlib.api import UpdateNewMessage, MessageText
+from loguru import logger
 
-from services.assistant.commands import YouTubeShortVideoDownloadCommandHandler, CommandRequest
-from utils.aiotdlib.decorators import serve_only_own_actions
+from services.assistant.commands import CommandRequest, ExplicitCommand, ParsedArguments
+from services.worker.app import download_and_send_post
+from utils.common.patterns import ChainOfResponsibility, AsyncChainOfResponsibility
+from utils.post.impl import YouTubeShortVideo
+from utils.youtube import extract_youtube_link
 
 
-commands = YouTubeShortVideoDownloadCommandHandler(None)
+class YouTubeShortVideoDownloadCommandHandler(AsyncChainOfResponsibility):
+    async def process_request(self, request: CommandRequest) -> bool:
+        link = extract_youtube_link(request.message)
+        if not link:
+            return False
+
+        post = YouTubeShortVideo(link)
+        download_and_send_post.delay(request.chat_id, post.id)
+        logger.info(f'downloading YouTube short video post: {link}')
+
+        return True
 
 
-@serve_only_own_actions
-async def handle_new_own_message(client: Client, update: UpdateNewMessage):
-    chat_id = update.message.chat_id
+about_me_command = ExplicitCommand(name="me").add_arg(name='type', type_=str)
 
-    content = update.message.content
-    if not isinstance(content, MessageText):
-        return
 
-    formatted_text = content.text
-    msg = formatted_text.text
+@about_me_command.on
+async def handle_output_work_profile(args: ParsedArguments, client: Client, command_request: CommandRequest):
+    if args['type'] == 'work':
+        await client.send_text(command_request.chat_id, 'I work!')
 
-    # remove web page preview
-    await client.edit_text(
-        chat_id,
-        update.message.id,
-        text=msg,
-        disable_web_page_preview=True
-    )
 
-    command_request = CommandRequest(message=msg, chat_id=chat_id)
-    commands.handle(command_request)
+@about_me_command.on
+async def handle_output_work_profile(args: ParsedArguments, client: Client, command_request: CommandRequest):
+    if args['type'] == 'game':
+        await client.send_text(command_request.chat_id, 'I game')
+
+
+class AboutMeCommandHandler(AsyncChainOfResponsibility):
+    async def process_request(self, request: CommandRequest) -> bool:
+        args = about_me_command.parse(request.message)
+        if not args:
+            return False
+
+        await about_me_command.emit(args, request.client, request)
+        logger.info(f'handling about me command')
+
+        return True
+
+
+# class TikTokVideoDownloadCommandHandler(ChainOfResponsibility):
+#     def process_request(self, request: CommandRequest) -> bool:
+#         link = extract_tiktok_link(request.message)
+#         if not link:
+#             return False
+#
+#         post = TikTokVideo(link)
+#         download_and_send_post.delay(request.chat_id, post.id)
+#         logger.info(f'downloading TikTok post: {link}')
+#
+#         return True
