@@ -17,7 +17,6 @@ from utils.post.impl import PostFactory
 from utils.post.cache.state import PostCacheState
 from utils.post.cache.state.redis import RedisPostStateCacheManager
 from utils.post.exceptions import PostNonDownloadable, PostUnavailable, PostTooLarge
-from utils.post.impl.youtube import YouTubeShortVideo
 
 celery = Celery('tasks', broker=CELERY_BROKER_URL, backend=CELERY_RESULT_BACKEND)
 
@@ -54,7 +53,7 @@ def clear_cached_post(
 @inject
 def download_and_send_post(
     chat_id: int,
-    link: str,
+    post_id: str,
     post_state_cache_manager: RedisPostStateCacheManager = Provide[WorkerContainer.post_cache_state_manager],
     sent_post_msg_info_cache_manager: SentPostMessageInfoCacheManager =
     Provide[WorkerContainer.sent_post_msg_info_cache_manager]
@@ -64,7 +63,7 @@ def download_and_send_post(
     assistant_grpc_client = AssistantGrpcClient(ASSISTANT_GRPC_ADDR)
 
     try:
-        post = YouTubeShortVideo(link)
+        post = PostFactory.init_from_post_id(post_id)
     except (PostUnavailable, PostTooLarge) as err:
         logger.info(err.message)
         return
