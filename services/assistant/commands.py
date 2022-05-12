@@ -28,7 +28,7 @@ class ExplicitCommand:
             raise ValueError(f'Command name length must be less then {ExplicitCommand.MAX_COMMAND_NAME_LEN}')
 
         if any(char.isdigit() for char in name):
-            raise ValueError(f'Command name must doesn\'t contain digits')
+            raise ValueError('Command name must doesn\'t contain digits')
 
         self._name = name
         self._args: Dict[str, Type] = {}
