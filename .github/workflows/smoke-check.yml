@@ -1,0 +1,28 @@
+name: "Run smoke tests"
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  python-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10']
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+      - name: "Setup Python"
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{matrix.python-version}}
+      - name: "Setup Poetry"
+        uses: abatilo/actions-poetry@v2.1.4
+        with:
+          poetry-version: '1.1.13'
+      - name: "Setup Python packages"
+        run: poetry install
+      - name: "Run Python smoke tests"
+        run: poetry run pytest -m smoke
+  # TODO: add testing job for web application
