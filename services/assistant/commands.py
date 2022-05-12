@@ -59,7 +59,7 @@ class ExplicitCommand:
         actual_command_name = parts[0]
         expected_command_name = fr'\{self._name}'
 
-        if not text.startswith(expected_command_name) and actual_command_name == expected_command_name:
+        if not text.startswith(expected_command_name) or actual_command_name != expected_command_name:
             return None
 
         values = parts[1:]
