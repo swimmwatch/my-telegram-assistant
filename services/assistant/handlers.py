@@ -3,7 +3,7 @@ from loguru import logger
 
 from services.assistant.commands import CommandRequest, ExplicitCommand, ParsedArguments
 from services.worker.app import download_and_send_post
-from utils.common.patterns import ChainOfResponsibility, AsyncChainOfResponsibility
+from utils.common.patterns import AsyncChainOfResponsibility
 from utils.post.impl import YouTubeShortVideo
 from utils.youtube import extract_youtube_link
 
@@ -27,13 +27,13 @@ about_me_command = ExplicitCommand(name="me").add_arg(name='type', type_=str)
 @about_me_command.on
 async def handle_output_work_profile(args: ParsedArguments, client: Client, command_request: CommandRequest):
     if args['type'] == 'work':
-        await client.send_text(command_request.chat_id, 'I work!')
+        await client.send_text(command_request.chat_id, 'I am working!')
 
 
 @about_me_command.on
-async def handle_output_work_profile(args: ParsedArguments, client: Client, command_request: CommandRequest):
+async def handle_output_game_profile(args: ParsedArguments, client: Client, command_request: CommandRequest):
     if args['type'] == 'game':
-        await client.send_text(command_request.chat_id, 'I game')
+        await client.send_text(command_request.chat_id, 'I am gaming!')
 
 
 class AboutMeCommandHandler(AsyncChainOfResponsibility):
@@ -43,7 +43,7 @@ class AboutMeCommandHandler(AsyncChainOfResponsibility):
             return False
 
         await about_me_command.emit(args, request.client, request)
-        logger.info(f'handling about me command')
+        logger.info('handling about me command')
 
         return True
 
