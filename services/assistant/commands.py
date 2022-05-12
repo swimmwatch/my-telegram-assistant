@@ -52,7 +52,9 @@ class ExplicitCommand:
             await handler(args, client, command_request)
 
     def parse(self, text: str) -> Optional[ParsedArguments]:
-        # TODO: write unittests
+        if not text:
+            return None
+
         parts = text.split()
         actual_command_name = parts[0]
         expected_command_name = fr'\{self._name}'
