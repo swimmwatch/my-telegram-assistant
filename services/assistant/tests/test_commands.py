@@ -41,6 +41,11 @@ def test_command_invalid_name(name: str):
         {},
         {}
     ),
+    (
+        r' \name',
+        {},
+        None
+    ),
     # Cases with int type
     (
         r'\name 0',
@@ -121,6 +126,17 @@ def test_command_invalid_name(name: str):
     ),
     (
         r'\name hello world',
+        {
+            'param1': str,
+            'param2': str
+        },
+        {
+            'param1': 'hello',
+            'param2': 'world'
+        }
+    ),
+    (
+        '\\name \n  hello\t  world  ',
         {
             'param1': str,
             'param2': str
