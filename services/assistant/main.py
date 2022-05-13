@@ -49,18 +49,11 @@ async def handle_new_own_message(client: Client, update: UpdateNewMessage):
     formatted_text = content.text
     msg = formatted_text.text
 
-    # remove web page preview
-    await client.edit_text(
-        chat_id,
-        update.message.id,
-        text=msg,
-        disable_web_page_preview=True
-    )
-
     command_request = CommandRequest(
         message=msg,
         chat_id=chat_id,
-        client=client
+        client=client,
+        update=update
     )
     await commands.handle(command_request)
 

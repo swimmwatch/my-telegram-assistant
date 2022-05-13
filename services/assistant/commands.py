@@ -2,6 +2,7 @@ from collections import deque
 from typing import NamedTuple, Type, Dict, Callable, Deque, Any, Awaitable, Optional
 
 from aiotdlib import Client
+from aiotdlib.api import UpdateNewMessage
 from loguru import logger
 
 from utils.common.patterns import AsyncChainOfResponsibility
@@ -11,6 +12,7 @@ class CommandRequest(NamedTuple):
     client: Client
     message: str
     chat_id: int
+    update: UpdateNewMessage
 
 
 ParsedArguments = Dict[str, Any]

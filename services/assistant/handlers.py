@@ -14,6 +14,14 @@ class YouTubeShortVideoDownloadCommandHandler(AsyncChainOfResponsibility):
         if not link:
             return False
 
+        # remove web page preview
+        await request.client.edit_text(
+            request.chat_id,
+            request.update.message.id,
+            text=request.message,
+            disable_web_page_preview=True
+        )
+
         post = YouTubeShortVideo(link)
         download_and_send_post.delay(request.chat_id, post.id)
         logger.info(f'downloading YouTube short video post: {link}')
