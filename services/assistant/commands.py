@@ -16,7 +16,7 @@ class CommandRequest(NamedTuple):
 
 
 ParsedArguments = Dict[str, Any]
-ExplicitCommandHandler = Callable[[ParsedArguments, Client, CommandRequest], Awaitable[None]]
+ExplicitCommandHandler = Callable[[ParsedArguments, CommandRequest], Awaitable[None]]
 
 
 class ExplicitCommand:
@@ -56,9 +56,9 @@ class ExplicitCommand:
     def on(self, func: ExplicitCommandHandler) -> None:
         self._add_handler(func)
 
-    async def emit(self, args: ParsedArguments, client: Client, command_request: CommandRequest):
+    async def emit(self, args: ParsedArguments, command_request: CommandRequest):
         for handler in self._handlers:
-            await handler(args, client, command_request)
+            await handler(args, command_request)
 
     def parse(self, text: str) -> Optional[ParsedArguments]:
         if not text:
@@ -92,7 +92,7 @@ class ExplicitCommandHandlerWrapper(AsyncChainOfResponsibility):
         if not args:
             return False
 
-        await self.command.emit(args, request.client, request)
+        await self.command.emit(args, request)
         logger.info(f'handling {self.command.name} command')
 
         return True

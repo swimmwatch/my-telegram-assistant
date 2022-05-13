@@ -1,4 +1,3 @@
-from aiotdlib import Client
 from loguru import logger
 
 from services.assistant.commands import CommandRequest, ExplicitCommand, ParsedArguments
@@ -33,15 +32,15 @@ about_me_command = ExplicitCommand(name="me").add_arg(name='type', type_=str)
 
 
 @about_me_command.on
-async def handle_output_work_profile(args: ParsedArguments, client: Client, command_request: CommandRequest):
+async def handle_output_work_profile(args: ParsedArguments, command_request: CommandRequest):
     if args['type'] == 'work':
-        await client.send_text(command_request.chat_id, 'I am working!')
+        await command_request.client.send_text(command_request.chat_id, 'I am working!')
 
 
 @about_me_command.on
-async def handle_output_game_profile(args: ParsedArguments, client: Client, command_request: CommandRequest):
+async def handle_output_game_profile(args: ParsedArguments, command_request: CommandRequest):
     if args['type'] == 'game':
-        await client.send_text(command_request.chat_id, 'I am gaming!')
+        await command_request.client.send_text(command_request.chat_id, 'I am gaming!')
 
 
 # class TikTokVideoDownloadCommandHandler(ChainOfResponsibility):
