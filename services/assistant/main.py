@@ -15,12 +15,21 @@ from services.assistant.handlers import YouTubeShortVideoDownloadCommandHandler,
 from utils.aiotdlib.client import CustomClient
 from utils.aiotdlib.decorators import serve_only_own_actions
 
-commands = YouTubeShortVideoDownloadCommandHandler(
-    ExplicitCommandHandlerWrapper(
-        None,
-        about_me_command
+
+class CommandsManager:
+    """
+    Commands manager.
+    """
+    _commands = YouTubeShortVideoDownloadCommandHandler(
+        ExplicitCommandHandlerWrapper(
+            None,
+            about_me_command
+        )
     )
-)
+
+    @classmethod
+    async def handle(cls, request: CommandRequest):
+        await cls._commands.handle(request)
 
 
 async def run_grpc_server(aiotdlib_client: aiotdlib.Client):
@@ -55,7 +64,7 @@ async def handle_new_own_message(client: Client, update: UpdateNewMessage):
         client=client,
         update=update
     )
-    await commands.handle(command_request)
+    await CommandsManager.handle(command_request)
 
 
 async def main():
