@@ -15,7 +15,12 @@ from services.assistant.handlers import YouTubeShortVideoDownloadCommandHandler,
 from utils.aiotdlib.client import CustomClient
 from utils.aiotdlib.decorators import serve_only_own_actions
 
-commands = YouTubeShortVideoDownloadCommandHandler(ExplicitCommandHandlerWrapper(None, about_me_command))
+commands = YouTubeShortVideoDownloadCommandHandler(
+    ExplicitCommandHandlerWrapper(
+        None,
+        about_me_command
+    )
+)
 
 
 async def run_grpc_server(aiotdlib_client: aiotdlib.Client):
