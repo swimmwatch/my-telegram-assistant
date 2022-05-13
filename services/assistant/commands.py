@@ -73,8 +73,11 @@ class ExplicitCommand:
 
         values = parts[1:]
         res = {arg_name: None for arg_name in self._args}
-        for (arg_name, arg_type), arg_value in zip(self._args.items(), values):
-            res[arg_name] = arg_type(arg_value)
+        try:
+            for (arg_name, arg_type), arg_value in zip(self._args.items(), values):
+                res[arg_name] = arg_type(arg_value)
+        except ValueError:
+            return None
         return res
 
 
