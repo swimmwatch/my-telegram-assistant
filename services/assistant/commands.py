@@ -72,7 +72,10 @@ class ExplicitCommand:
             return None
 
         values = parts[1:]
-        return {arg_name: arg_type(val) for (arg_name, arg_type), val in zip(self._args.items(), values)}
+        res = {arg_name: None for arg_name in self._args}
+        for (arg_name, arg_type), arg_value in zip(self._args.items(), values):
+            res[arg_name] = arg_type(arg_value)
+        return res
 
 
 class ExplicitCommandHandlerWrapper(AsyncChainOfResponsibility):
