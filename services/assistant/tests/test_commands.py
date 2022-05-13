@@ -119,6 +119,17 @@ def test_command_invalid_name(name: str):
             'param2': None
         }
     ),
+    (
+        r'\name hello world',
+        {
+            'param1': str,
+            'param2': str
+        },
+        {
+            'param1': 'hello',
+            'param2': 'world'
+        }
+    ),
 ])
 def test_command_parser_with_immutable_types(text: str, args: Dict[str, Type], expected: ParsedArguments):
     name = 'name'
