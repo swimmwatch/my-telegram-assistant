@@ -34,6 +34,10 @@ class ExplicitCommand:
         self._args: Dict[str, Type] = {}
         self._handlers: Deque[ExplicitCommandHandler] = deque()
 
+    @property
+    def name(self):
+        return self._name
+
     def _add_arg(self, name: str, type_: Type):
         self._args[name] = type_
 
