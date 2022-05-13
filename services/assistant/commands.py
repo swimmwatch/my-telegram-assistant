@@ -2,6 +2,9 @@ from collections import deque
 from typing import NamedTuple, Type, Dict, Callable, Deque, Any, Awaitable, Optional
 
 from aiotdlib import Client
+from loguru import logger
+
+from utils.common.patterns import AsyncChainOfResponsibility
 
 
 class CommandRequest(NamedTuple):
@@ -68,3 +71,20 @@ class ExplicitCommand:
 
         values = parts[1:]
         return {arg_name: arg_type(val) for (arg_name, arg_type), val in zip(self._args.items(), values)}
+
+
+class ExplicitCommandHandlerWrapper(AsyncChainOfResponsibility):
+    def __init__(self, next_handler: Optional['AsyncChainOfResponsibility'], command: ExplicitCommand):
+        super().__init__(next_handler)
+        self.command = command
+
+    async def process_request(self, request: CommandRequest) -> bool:
+        args = self.command.parse(request.message)
+
+        if not args:
+            return False
+
+        await self.command.emit(args, request.client, request)
+        logger.info(f'handling {self.command.name} command')
+
+        return True

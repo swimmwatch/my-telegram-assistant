@@ -36,18 +36,6 @@ async def handle_output_game_profile(args: ParsedArguments, client: Client, comm
         await client.send_text(command_request.chat_id, 'I am gaming!')
 
 
-class AboutMeCommandHandler(AsyncChainOfResponsibility):
-    async def process_request(self, request: CommandRequest) -> bool:
-        args = about_me_command.parse(request.message)
-        if not args:
-            return False
-
-        await about_me_command.emit(args, request.client, request)
-        logger.info('handling about me command')
-
-        return True
-
-
 # class TikTokVideoDownloadCommandHandler(ChainOfResponsibility):
 #     def process_request(self, request: CommandRequest) -> bool:
 #         link = extract_tiktok_link(request.message)
