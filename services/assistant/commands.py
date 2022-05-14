@@ -11,7 +11,7 @@ from utils.common.patterns import AsyncChainOfResponsibility
 class CommandRequest(NamedTuple):
     client: Client
     message: str
-    chat_id: int
+    chat_id: int  # TODO: delete chat_id field
     update: UpdateNewMessage
 
 
