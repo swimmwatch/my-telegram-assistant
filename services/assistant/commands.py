@@ -1,5 +1,5 @@
 from collections import deque
-from typing import NamedTuple, Type, Dict, Callable, Deque, Any, Awaitable, Optional
+from typing import NamedTuple, Type, Dict, Callable, Deque, Any, Awaitable, Optional, Tuple
 
 from aiotdlib import Client
 from aiotdlib.api import UpdateNewMessage
@@ -17,6 +17,7 @@ class CommandRequest(NamedTuple):
 
 ParsedArguments = Dict[str, Any]
 ExplicitCommandHandler = Callable[[ParsedArguments, CommandRequest], Awaitable[None]]
+ExplicitCommandCondition = Callable[[ParsedArguments], bool]
 
 
 class ExplicitCommand:
@@ -37,7 +38,7 @@ class ExplicitCommand:
 
         self._name = name
         self._args: Dict[str, Type] = {}
-        self._handlers: Deque[ExplicitCommandHandler] = deque()
+        self._handlers: Deque[Tuple[ExplicitCommandHandler, Optional[ExplicitCommandCondition]]] = deque()
 
     @property
     def name(self):
@@ -50,15 +51,23 @@ class ExplicitCommand:
         self._add_arg(name, type_)
         return self
 
-    def _add_handler(self, func: ExplicitCommandHandler):
-        self._handlers.append(func)
+    def _add_handler(self, func: ExplicitCommandHandler, condition: Optional[ExplicitCommandCondition]):
+        self._handlers.append(
+            (func, condition)
+        )
 
-    def on(self, func: ExplicitCommandHandler) -> None:
-        self._add_handler(func)
+    def on(self, condition: Optional[ExplicitCommandCondition]):
+        def wrapper(func: ExplicitCommandHandler) -> None:
+            self._add_handler(func, condition)
+
+        return wrapper
 
     async def emit(self, args: ParsedArguments, command_request: CommandRequest):
-        for handler in self._handlers:
-            await handler(args, command_request)
+        for func, condition in self._handlers:
+            if condition:
+                condition(args) and (await func(args, command_request))
+            else:
+                await func(args, command_request)
 
     def parse(self, text: str) -> Optional[ParsedArguments]:
         if not text:
