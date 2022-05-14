@@ -444,6 +444,14 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "htmgem"
+version = "0.0.2"
+description = "Generate HTML with Python!"
+category = "main"
+optional = false
+python-versions = ">3.5"
+
+[[package]]
 name = "idna"
 version = "3.3"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -917,7 +925,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "7e798c56e6dd3bd3b6daa00cfd888c7d385b7089a643749ea7ebe15aaf4ee041"
+content-hash = "84fe593b86275ffba3b4fc5cd8129a470dcdf1b67d2debf803c61a0520e7db6d"
 
 [metadata.files]
 aiogram = [
@@ -1393,6 +1401,10 @@ grpcio-tools = [
 h11 = [
     {file = "h11-0.13.0-py3-none-any.whl", hash = "sha256:8ddd78563b633ca55346c8cd41ec0af27d3c79931828beffb46ce70a379e7442"},
     {file = "h11-0.13.0.tar.gz", hash = "sha256:70813c1135087a248a4d38cc0e1a0181ffab2188141a93eaf567940c3957ff06"},
+]
+htmgem = [
+    {file = "htmgem-0.0.2-py3-none-any.whl", hash = "sha256:600a62f64b0ada245f53ea7c429582b4627cd448fe585cbf8aea2a37217a3f80"},
+    {file = "htmgem-0.0.2.tar.gz", hash = "sha256:df194f5c92442f7d974866df809b07c326bff10a42b2f35cc023ddbc6c5187f2"},
 ]
 idna = [
     {file = "idna-3.3-py3-none-any.whl", hash = "sha256:84d9dd047ffa80596e0f246e2eab0b391788b0503584e8945f2368256d2735ff"},
