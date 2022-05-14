@@ -21,6 +21,7 @@ ExplicitCommandCondition = Callable[[ParsedArguments], bool]
 
 
 class ExplicitCommand:
+    # TODO: add docstrings
     MAX_COMMAND_NAME_LEN = 16
 
     def __init__(self, name: str):
@@ -91,6 +92,7 @@ class ExplicitCommand:
 
 
 class ExplicitCommandHandlerWrapper(AsyncChainOfResponsibility):
+    # TODO: add docstrings
     def __init__(self, next_handler: Optional['AsyncChainOfResponsibility'], command: ExplicitCommand):
         super().__init__(next_handler)
         self.command = command
