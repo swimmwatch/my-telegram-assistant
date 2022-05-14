@@ -51,6 +51,7 @@ class GameScopeValues(Enum):
     STEAM = 'steam'
     DISCORD = 'discord'
     PSN = 'psn'
+    UBISOFT = 'ubisoft'
 
 
 class ScopeInfo(NamedTuple):
@@ -116,11 +117,23 @@ async def handle_output_work_profile(args: ParsedArguments, request: CommandRequ
 game_info_dict = {
     GameScopeValues.PSN: ScopeInfo(
         full_name='Playstation Network',
-        value=''
+        value=a(
+            {
+                # TODO: fina another link
+                'href': 'https://www.exophase.com/psn/user/swimmwatch/'
+            },
+            'swimmwatch'
+        )
     ),
     GameScopeValues.EPIC: ScopeInfo(
         full_name='Epic Games',
-        value=''
+        value=a(
+            {
+                # TODO: fina another link
+                'href': 'https://www.exophase.com/epic/user/swimmwatch/'
+            },
+            'swimmwatch'
+        )
     ),
     GameScopeValues.STEAM: ScopeInfo(
         full_name='Steam',
@@ -129,6 +142,33 @@ game_info_dict = {
                 'href': 'https://steamcommunity.com/profiles/76561198076339909'
             },
             'swimmwatch'
+        )
+    ),
+    GameScopeValues.DISCORD: ScopeInfo(
+        full_name='Discord',
+        value=a(
+            {
+                'href': 'https://discordapp.com/users/277206963845201932'
+            },
+            'swimmwatch'
+        )
+    ),
+    GameScopeValues.ORIGIN: ScopeInfo(
+        full_name='Origin',
+        value=a(
+            {
+                'href': 'https://www.exophase.com/origin/user/swimmwatch/'
+            },
+            'swimmwatch'
+        )
+    ),
+    GameScopeValues.UBISOFT: ScopeInfo(
+        full_name='Ubisoft Connect',
+        value=a(
+            {
+                'href': 'https://www.exophase.com/uplay/user/swimmwatch007/'
+            },
+            'swimmwatch007'
         )
     )
 }
