@@ -73,7 +73,7 @@ work_info_dict = {
     ),
     WorkScopeValues.CV: ScopeInfo(
         full_name='\N{SCROLL} CV',
-        value=f"{a({'href': 'www.example.com'}, 'Russian version')},"  # TODO: add short link 
+        value=f"{a({'href': 'www.example.com'}, 'Russian version')},"  # TODO: add short link
               f" {a({'href': 'www.example.com'}, 'English version')}"  # TODO: add short link
     ),
     WorkScopeValues.GITHUB: ScopeInfo(
@@ -87,7 +87,7 @@ work_info_dict = {
     ),
     WorkScopeValues.TELEGRAM: ScopeInfo(
         full_name='\N{TELEPHONE RECEIVER} Telegram',
-        value=f"@contact_dmitry_vasiliev"
+        value="@contact_dmitry_vasiliev"
     ),
 }
 
@@ -105,6 +105,11 @@ async def handle_output_work_profile(args: ParsedArguments, request: CommandRequ
     else:
         scope_value = WorkScopeValues(args['scope'])
         work_item = work_info_dict.get(scope_value, None)
+
+        if work_item is None:
+            # TODO: handle error through Telegram bot
+            return
+
         res_message = f'{work_item.full_name}: {work_item.value}'
 
     await request.client.send_text(
@@ -187,6 +192,11 @@ async def handle_output_game_profile(args: ParsedArguments, request: CommandRequ
     else:
         scope_value = GameScopeValues(args['scope'])
         game_item = game_info_dict.get(scope_value, None)
+
+        if game_item is None:
+            # TODO: handle error through Telegram bot
+            return
+
         res_message = f'{game_item.full_name}: {game_item.value}'
 
     await request.client.send_text(
