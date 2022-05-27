@@ -52,8 +52,6 @@ async def run_assistant(aiotdlib_client: aiotdlib.Client):
 
 @serve_only_own_actions
 async def handle_new_own_message(client: Client, update: UpdateNewMessage):
-    chat_id = update.message.chat_id
-
     content = update.message.content
     if not isinstance(content, MessageText):
         return
@@ -63,7 +61,6 @@ async def handle_new_own_message(client: Client, update: UpdateNewMessage):
 
     command_request = CommandRequest(
         message=msg,
-        chat_id=chat_id,
         client=client,
         update=update
     )

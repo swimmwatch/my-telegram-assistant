@@ -19,14 +19,14 @@ class YouTubeShortVideoDownloadCommandHandler(AsyncChainOfResponsibility):
 
         # remove web page preview
         await request.client.edit_text(
-            request.chat_id,
+            request.update.message.chat_id,
             request.update.message.id,
             text=request.message,
             disable_web_page_preview=True
         )
 
         post = YouTubeShortVideo(link)
-        download_and_send_post.delay(request.chat_id, post.id)
+        download_and_send_post.delay(request.update.message.chat_id, post.id)
         logger.info(f'downloading YouTube short video post: {link}')
 
         return True
@@ -108,7 +108,7 @@ async def handle_output_work_profile(args: ParsedArguments, request: CommandRequ
         res_message = f'{work_item.full_name}: {work_item.value}'
 
     await request.client.send_text(
-        request.chat_id,
+        request.update.message.chat_id,
         res_message,
         disable_web_page_preview=True
     )
@@ -190,7 +190,7 @@ async def handle_output_game_profile(args: ParsedArguments, request: CommandRequ
         res_message = f'{game_item.full_name}: {game_item.value}'
 
     await request.client.send_text(
-        request.chat_id,
+        request.update.message.chat_id,
         res_message,
         disable_web_page_preview=True
     )
@@ -207,7 +207,7 @@ async def handle_welcome_output(_: ParsedArguments, request: CommandRequest):
         "In short, this program helps to automate messaging in Telegram."
     ])
     await request.client.send_text(
-        request.chat_id,
+        request.update.message.chat_id,
         res_message
     )
 

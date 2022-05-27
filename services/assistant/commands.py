@@ -14,7 +14,6 @@ class CommandRequest(NamedTuple):
     """
     client: Client
     message: str
-    chat_id: int  # TODO: delete chat_id field
     update: UpdateNewMessage
 
 
