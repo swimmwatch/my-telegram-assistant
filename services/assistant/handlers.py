@@ -196,6 +196,21 @@ async def handle_output_game_profile(args: ParsedArguments, request: CommandRequ
     )
 
 
+hello_command = ExplicitCommand(name="hello")
+
+
+@hello_command.on()
+async def handle_welcome_output(_: ParsedArguments, request: CommandRequest):
+    project_link_html = a({'href': 'https://github.com/swimmwatch/my-telegram-assistant'}, 'Telegram Assistant')
+    res_message = '\n'.join([
+        f"Hi! This message was sent by \N{ROBOT FACE} {project_link_html}.",
+        "In short, this program helps to automate messaging in Telegram."
+    ])
+    await request.client.send_text(
+        request.chat_id,
+        res_message
+    )
+
 # class TikTokVideoDownloadCommandHandler(ChainOfResponsibility):
 #     def process_request(self, request: CommandRequest) -> bool:
 #         link = extract_tiktok_link(request.message)
