@@ -57,7 +57,7 @@ class ExplicitCommand:
             (func, condition)
         )
 
-    def on(self, condition: Optional[ExplicitCommandCondition]):
+    def on(self, condition: Optional[ExplicitCommandCondition] = None):
         def wrapper(func: ExplicitCommandHandler) -> None:
             self._add_handler(func, condition)
 
@@ -100,7 +100,7 @@ class ExplicitCommandHandlerWrapper(AsyncChainOfResponsibility):
     async def process_request(self, request: CommandRequest) -> bool:
         args = self.command.parse(request.message)
 
-        if not args:
+        if args is None:
             return False
 
         await self.command.emit(args, request)
