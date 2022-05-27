@@ -22,11 +22,11 @@ class CommandsManager:
     """
     _commands = YouTubeShortVideoDownloadCommandHandler(
         ExplicitCommandHandlerWrapper(
+            about_me_command,
             ExplicitCommandHandlerWrapper(
-                None,
-                hello_command
-            ),
-            about_me_command
+                hello_command,
+                None
+            )
         )
     )
 

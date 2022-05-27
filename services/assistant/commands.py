@@ -144,7 +144,7 @@ class ExplicitCommandHandlerWrapper(AsyncChainOfResponsibility):
     """
     Handler wrapper for explicit commands.
     """
-    def __init__(self, next_handler: Optional['AsyncChainOfResponsibility'], command: ExplicitCommand):
+    def __init__(self, command: ExplicitCommand, next_handler: Optional['AsyncChainOfResponsibility'] = None):
         super().__init__(next_handler)
         self.command = command
 
