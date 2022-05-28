@@ -1,11 +1,11 @@
+import functools
 from enum import Enum
 from typing import NamedTuple
 
-from aiotdlib.api import MessageText
 from loguru import logger
 from htmgem.tags import a
 
-from services.assistant.commands import CommandRequest, ExplicitCommand, ParsedArguments
+from services.assistant.commands import CommandRequest, ExplicitCommand, ParsedArguments, ExplicitCommandHandler
 from services.worker.app import download_and_send_post
 from utils.common.patterns import AsyncChainOfResponsibility
 from utils.post.impl import YouTubeShortVideo
@@ -14,6 +14,9 @@ from utils.youtube import extract_youtube_link
 
 class YouTubeShortVideoDownloadCommandHandler(AsyncChainOfResponsibility):
     async def process_request(self, request: CommandRequest) -> bool:
+        if not request.text:
+            return False
+
         link = extract_youtube_link(request.text)
         if not link:
             return False

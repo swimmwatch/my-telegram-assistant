@@ -3,7 +3,7 @@ import logging
 
 import aiotdlib
 from aiotdlib import Client
-from aiotdlib.api import API, MessageText, UpdateNewMessage
+from aiotdlib.api import API, UpdateNewMessage
 from grpc import aio
 from loguru import logger
 
@@ -52,15 +52,7 @@ async def run_assistant(aiotdlib_client: aiotdlib.Client):
 
 @serve_only_own_actions
 async def handle_new_own_message(client: Client, update: UpdateNewMessage):
-    content = update.message.content
-    if not isinstance(content, MessageText):
-        return
-
-    formatted_text = content.text
-    msg = formatted_text.text
-
     command_request = CommandRequest(
-        text=msg,
         client=client,
         message=update.message
     )

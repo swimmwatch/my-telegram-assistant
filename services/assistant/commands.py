@@ -1,21 +1,32 @@
 from collections import deque
-from typing import NamedTuple, Type, Dict, Callable, Deque, Any, Awaitable, Optional, Tuple
+from dataclasses import dataclass
+from typing import Type, Dict, Callable, Deque, Any, Awaitable, Optional, Tuple
 
 from aiotdlib import Client
 from aiotdlib.api import Message
 from loguru import logger
 
+from utils.aiotdlib.message import extract_text_from_telegram_message
 from utils.common.patterns import AsyncChainOfResponsibility
 
 
-class CommandRequest(NamedTuple):
+@dataclass
+class CommandRequest:
     """
     Command request data.
     """
     client: Client
-    text: str
     message: Message
     replied: bool = False
+
+    @property
+    def text(self) -> Optional[str]:
+        """
+        Return text from Telegram message if it is contained.
+
+        :return: Text from Telegram message
+        """
+        return extract_text_from_telegram_message(self.message)
 
 
 ParsedArguments = Dict[str, Any]
@@ -156,6 +167,9 @@ class ExplicitCommandHandlerWrapper(AsyncChainOfResponsibility):
         :param request: Command request
         :return: Parsing status
         """
+        if not request.text:
+            return False
+
         args = self.command.parse(request.text)
 
         if args is None:
