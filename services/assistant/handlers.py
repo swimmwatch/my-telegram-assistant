@@ -1,6 +1,7 @@
 from enum import Enum
 from typing import NamedTuple
 
+from aiotdlib.api import MessageText
 from loguru import logger
 from htmgem.tags import a
 
@@ -13,20 +14,20 @@ from utils.youtube import extract_youtube_link
 
 class YouTubeShortVideoDownloadCommandHandler(AsyncChainOfResponsibility):
     async def process_request(self, request: CommandRequest) -> bool:
-        link = extract_youtube_link(request.message)
+        link = extract_youtube_link(request.text)
         if not link:
             return False
 
         # remove web page preview
         await request.client.edit_text(
-            request.update.message.chat_id,
-            request.update.message.id,
-            text=request.message,
+            request.message.chat_id,
+            request.message.id,
+            text=request.text,
             disable_web_page_preview=True
         )
 
         post = YouTubeShortVideo(link)
-        download_and_send_post.delay(request.update.message.chat_id, post.id)
+        download_and_send_post.delay(request.message.chat_id, post.id)
         logger.info(f'downloading YouTube short video post: {link}')
 
         return True
@@ -113,7 +114,7 @@ async def handle_output_work_profile(args: ParsedArguments, request: CommandRequ
         res_message = f'{work_item.full_name}: {work_item.value}'
 
     await request.client.send_text(
-        request.update.message.chat_id,
+        request.message.chat_id,
         res_message,
         disable_web_page_preview=True
     )
@@ -200,7 +201,7 @@ async def handle_output_game_profile(args: ParsedArguments, request: CommandRequ
         res_message = f'{game_item.full_name}: {game_item.value}'
 
     await request.client.send_text(
-        request.update.message.chat_id,
+        request.message.chat_id,
         res_message,
         disable_web_page_preview=True
     )
@@ -217,7 +218,7 @@ async def handle_welcome_output(_: ParsedArguments, request: CommandRequest):
         "In short, this program helps to automate messaging in Telegram."
     ])
     await request.client.send_text(
-        request.update.message.chat_id,
+        request.message.chat_id,
         res_message
     )
 

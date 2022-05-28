@@ -2,7 +2,7 @@ from collections import deque
 from typing import NamedTuple, Type, Dict, Callable, Deque, Any, Awaitable, Optional, Tuple
 
 from aiotdlib import Client
-from aiotdlib.api import UpdateNewMessage
+from aiotdlib.api import Message
 from loguru import logger
 
 from utils.common.patterns import AsyncChainOfResponsibility
@@ -13,8 +13,8 @@ class CommandRequest(NamedTuple):
     Command request data.
     """
     client: Client
-    message: str
-    update: UpdateNewMessage
+    text: str
+    message: Message
 
 
 ParsedArguments = Dict[str, Any]
@@ -155,7 +155,7 @@ class ExplicitCommandHandlerWrapper(AsyncChainOfResponsibility):
         :param request: Command request
         :return: Parsing status
         """
-        args = self.command.parse(request.message)
+        args = self.command.parse(request.text)
 
         if args is None:
             return False

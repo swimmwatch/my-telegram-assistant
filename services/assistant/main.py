@@ -60,9 +60,9 @@ async def handle_new_own_message(client: Client, update: UpdateNewMessage):
     msg = formatted_text.text
 
     command_request = CommandRequest(
-        message=msg,
+        text=msg,
         client=client,
-        update=update
+        message=update.message
     )
     await CommandsManager.handle(command_request)
 
