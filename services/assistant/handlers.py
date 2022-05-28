@@ -225,6 +225,42 @@ async def handle_welcome_output(_: ParsedArguments, request: CommandRequest):
         res_message
     )
 
+
+async def serve_only_replied_request(func: ExplicitCommandHandler) -> ExplicitCommandHandler:
+    """
+    Decorate explicit command handler for handling only replied requests.
+
+    :param func: Explicit command handler
+    :return: Wrapped explicit command handler
+    """
+    @functools.wraps(func)
+    async def wrapper(args: ParsedArguments, request: CommandRequest):
+        reply_to_message_id = request.message.reply_to_message_id
+        if reply_to_message_id:
+            func(args, request)
+
+    return wrapper
+
+
+reply_download_post_command = ExplicitCommand(name="d")
+
+
+@reply_download_post_command.on()
+@serve_only_replied_request
+async def handle_replied_download_post_call(_: ParsedArguments, request: CommandRequest):
+    replied_message = await request.client.api.get_message(
+        request.message.chat_id,
+        request.message.reply_to_message_id
+    )
+    inner_req = CommandRequest(
+        message=replied_message,
+        client=request.client,
+        replied=True
+    )
+    yt_handler = YouTubeShortVideoDownloadCommandHandler(None)
+    await yt_handler.process_request(inner_req)
+
+
 # class TikTokVideoDownloadCommandHandler(ChainOfResponsibility):
 #     def process_request(self, request: CommandRequest) -> bool:
 #         link = extract_tiktok_link(request.message)

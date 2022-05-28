@@ -11,7 +11,8 @@ from app.container import Container
 from services.assistant import assistant_pb2_grpc, AsyncAssistantService
 from services.assistant.commands import CommandRequest, ExplicitCommandHandlerWrapper
 from services.assistant.config import AIOTDLIB_API_ID, AIOTDLIB_API_HASH, PHONE_NUMBER, ASSISTANT_GRPC_ADDR
-from services.assistant.handlers import YouTubeShortVideoDownloadCommandHandler, about_me_command, hello_command
+from services.assistant.handlers import YouTubeShortVideoDownloadCommandHandler, about_me_command, hello_command, \
+    reply_download_post_command
 from utils.aiotdlib.client import CustomClient
 from utils.aiotdlib.decorators import serve_only_own_actions
 
@@ -25,7 +26,9 @@ class CommandsManager:
             about_me_command,
             ExplicitCommandHandlerWrapper(
                 hello_command,
-                None
+                ExplicitCommandHandlerWrapper(
+                    reply_download_post_command
+                )
             )
         )
     )
