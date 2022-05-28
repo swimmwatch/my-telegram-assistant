@@ -167,7 +167,7 @@ class ExplicitCommandHandlerWrapper(AsyncChainOfResponsibility):
         :param request: Command request
         :return: Parsing status
         """
-        if not request.text:
+        if request.text is None:
             return False
 
         args = self.command.parse(request.text)
