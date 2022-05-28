@@ -15,6 +15,7 @@ class CommandRequest(NamedTuple):
     client: Client
     text: str
     message: Message
+    replied: bool = False
 
 
 ParsedArguments = Dict[str, Any]

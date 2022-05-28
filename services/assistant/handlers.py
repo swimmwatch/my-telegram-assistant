@@ -19,12 +19,13 @@ class YouTubeShortVideoDownloadCommandHandler(AsyncChainOfResponsibility):
             return False
 
         # remove web page preview
-        await request.client.edit_text(
-            request.message.chat_id,
-            request.message.id,
-            text=request.text,
-            disable_web_page_preview=True
-        )
+        if not request.replied:
+            await request.client.edit_text(
+                request.message.chat_id,
+                request.message.id,
+                text=request.text,
+                disable_web_page_preview=True
+            )
 
         post = YouTubeShortVideo(link)
         download_and_send_post.delay(request.message.chat_id, post.id)
@@ -61,7 +62,6 @@ class ScopeInfo(NamedTuple):
 
 
 about_me_command = ExplicitCommand(name="me").add_arg(name='type', type_=TypeProfiles).add_arg(name='scope', type_=str)
-
 
 work_info_dict = {
     WorkScopeValues.EMAIL: ScopeInfo(
