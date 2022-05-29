@@ -18,10 +18,12 @@ There are several types of commands:
 #### Implicit
 ##### download post/video from social network
 Supported social networks:
-* [ ] YouTube
+* [x] YouTube
 * [ ] TikTok
 * [ ] Instagram
 * [ ] Twitter (video or gif image)
 
 #### Explicit
-##### `\me [type]` - generate contact info about user
+##### `\me [type] [scope]` - generate contact info about user
+##### `\d` - download post by replied message
+##### `\hello` - self-promotion :smirk:
