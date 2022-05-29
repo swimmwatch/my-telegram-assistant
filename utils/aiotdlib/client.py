@@ -17,7 +17,7 @@ class CustomClient(aiotdlib.Client):
         code = None
         logger.info('start polling auth code')
         while not code:
-            code = redis_client.get('auth_code')
+            code = redis_client.get('auth_code').decode()
             if not code:
                 logger.info('current code is none')
             await asyncio.sleep(5)
