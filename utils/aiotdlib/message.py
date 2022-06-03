@@ -5,6 +5,7 @@ from typing import Optional
 
 from aiotdlib.api import Message, MessageText, MessageVideo, MessageVoiceNote, MessageAnimation, MessageAudio, \
     MessageDocument, MessagePhoto
+from htmgem.tags import a
 
 
 def extract_text_from_telegram_message(message: Message) -> Optional[str]:
@@ -27,3 +28,14 @@ def extract_text_from_telegram_message(message: Message) -> Optional[str]:
         return None
 
     return formatted_text.text
+
+
+def get_mention_text(user_id: int, username: str) -> str:
+    """
+    Return mention text
+
+    :param user_id: User ID
+    :param username: Username
+    :return: Message text with mention
+    """
+    return a({'href': f'tg://user?id={user_id}'}, username)
