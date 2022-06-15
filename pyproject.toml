@@ -6,27 +6,28 @@ authors = ["Dmitry Vasiliev <contact.vasiliev.dmitry@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-aiogram = "^2.19"
+aiogram = "^2.20"
 loguru = "^0.6.0"
 aiotdlib = "^0.17.0"
 instaloader = "^4.8.5"
-pytube = "^12.0.0"
+pytube = "^12.1.0"
 celery = "^5.2.3"
 redis = "^4.2.0"
 aioredis = "^2.0.1"
 dependency-injector = "^4.38.0"
 asgiref = "^3.5.0"
-grpcio-tools = "^1.45.0"
-grpcio = "^1.45.0"
+grpcio-tools = "^1.46.1"
+grpcio = "^1.46.1"
 google = "^3.0.0"
-fastapi = "^0.75.1"
+fastapi = "^0.78.0"
 uvicorn = "^0.17.6"
 pydantic = "^1.9.0"
 SQLAlchemy = {extras = ["asyncio"], version = "^1.4.35"}
 asyncpg = "^0.25.0"
+htmgem = "^0.0.2"
 
 [tool.poetry.dev-dependencies]
-mypy = "^0.941"
+mypy = "^0.960"
 flake8 = "^4.0.1"
 pytest = "^7.1.1"
 types-redis = "^4.1.18"
@@ -38,3 +39,8 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.mypy]
 ignore_missing_imports = "True"
+
+[tool.pytest.ini_options]
+markers = [
+    "smoke",
+]

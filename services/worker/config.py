@@ -3,8 +3,8 @@ Celery worker configuration.
 """
 import os
 
-BACKEND_URL = os.environ.get('BACKEND_URL')
-BROKER_URL = os.environ.get('BROKER_URL')
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379'),
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379')
 
 # Assistant gRPC service
 ASSISTANT_GRPC_ADDR = os.environ.get('ASSISTANT_GRPC_ADDR', 'localhost')

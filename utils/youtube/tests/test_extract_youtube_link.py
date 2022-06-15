@@ -2,7 +2,7 @@ from typing import Optional
 
 import pytest
 
-from utils.youtube import extract_link
+from utils.youtube import extract_youtube_link
 
 
 @pytest.mark.parametrize('msg,expected', [
@@ -28,6 +28,6 @@ from utils.youtube import extract_link
     ('', None),
     ('i see you', None),
 ])
-def test_extract_link(msg: str, expected: Optional[str]):
-    actual = extract_link(msg)
+def test_extract_youtube_link(msg: str, expected: Optional[str]):
+    actual = extract_youtube_link(msg)
     assert actual == expected

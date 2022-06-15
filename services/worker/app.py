@@ -9,19 +9,16 @@ from dependency_injector.wiring import inject, Provide
 from loguru import logger
 
 from services.assistant.grpc_client import AssistantGrpcClient
-# TODO: use env variables for init Celery broker and backend
-# from services.worker.config import BROKER_URL, BACKEND_URL
 from services.assistant.assistant_pb2 import ForwardMessagesRequest
 from services.sent_post_msg_info_cache_manager import SentPostMessageInfoCacheManager
-from services.worker.config import ASSISTANT_GRPC_ADDR, OUT_DIR
+from services.worker.config import ASSISTANT_GRPC_ADDR, OUT_DIR, CELERY_BROKER_URL, CELERY_RESULT_BACKEND
 from services.worker.container import WorkerContainer
 from utils.post.impl import PostFactory
 from utils.post.cache.state import PostCacheState
 from utils.post.cache.state.redis import RedisPostStateCacheManager
 from utils.post.exceptions import PostNonDownloadable, PostUnavailable, PostTooLarge
-from utils.post.impl.youtube import YouTubeShortVideo
 
-celery = Celery(broker='redis://redis', backend='redis://redis')
+celery = Celery('tasks', broker=CELERY_BROKER_URL, backend=CELERY_RESULT_BACKEND)
 
 task_routes = {
     'services.worker.app.download_and_send_post': {
@@ -56,7 +53,7 @@ def clear_cached_post(
 @inject
 def download_and_send_post(
     chat_id: int,
-    link: str,
+    post_id: str,
     post_state_cache_manager: RedisPostStateCacheManager = Provide[WorkerContainer.post_cache_state_manager],
     sent_post_msg_info_cache_manager: SentPostMessageInfoCacheManager =
     Provide[WorkerContainer.sent_post_msg_info_cache_manager]
@@ -66,7 +63,7 @@ def download_and_send_post(
     assistant_grpc_client = AssistantGrpcClient(ASSISTANT_GRPC_ADDR)
 
     try:
-        post = YouTubeShortVideo(link)
+        post = PostFactory.init_from_post_id(post_id)
     except (PostUnavailable, PostTooLarge) as err:
         logger.info(err.message)
         return

@@ -11,6 +11,7 @@ from aiotdlib.api import UpdateNewMessage
 def serve_only_own_actions(handler: Callable) -> Callable:
     """
     Decorates Aiotdlib handler for serving only own actions.
+
     :return: Decorated handler
     """
     @functools.wraps(handler)
