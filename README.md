@@ -24,6 +24,6 @@ Supported social networks:
 * [ ] Twitter (video or gif image)
 
 #### Explicit
-##### `\me [type] [scope]` - generate contact info about user
+##### `\me [type] [scope]` - output contact info about user
 ##### `\d` - download post by replied message
 ##### `\hello` - self-promotion :smirk:
