@@ -26,7 +26,7 @@ asyncpg = "^0.25.0"
 htmgem = "^0.0.2"
 
 [tool.poetry.dev-dependencies]
-mypy = "^0.960"
+mypy = "^0.961"
 flake8 = "^4.0.1"
 pytest = "^7.1.1"
 types-redis = "^4.1.18"
