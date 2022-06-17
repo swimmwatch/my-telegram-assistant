@@ -21,7 +21,7 @@
 * [x] YouTube
 * [ ] TikTok
 * [ ] Instagram
-* [ ] Twitter (видео или гифка)
+* [ ] Twitter
 
 #### Явные
 ##### `\me [type] [scope]` - выводит контактную информацию о пользователе

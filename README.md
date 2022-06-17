@@ -21,7 +21,7 @@ Supported social networks:
 * [x] YouTube
 * [ ] TikTok
 * [ ] Instagram
-* [ ] Twitter (video or gif image)
+* [ ] Twitter
 
 #### Explicit
 ##### `\me [type] [scope]` - output contact info about user
