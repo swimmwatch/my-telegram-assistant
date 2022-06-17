@@ -30,7 +30,7 @@ mypy = "^0.961"
 flake8 = "^4.0.1"
 pytest = "^7.1.1"
 types-redis = "^4.1.18"
-types-protobuf = "^3.19.15"
+types-protobuf = "^3.19.22"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

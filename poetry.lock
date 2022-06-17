@@ -787,7 +787,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "types-protobuf"
-version = "3.19.21"
+version = "3.19.22"
 description = "Typing stubs for protobuf"
 category = "dev"
 optional = false
@@ -883,7 +883,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "e2a2fb45af708fd2236ea1ffbe420d5be4358aaca45575351703660a58462eb6"
+content-hash = "f2cb7801fb9d7c015885cfafee2e8155e8cd7e54a57eef6d50cac2ade600830b"
 
 [metadata.files]
 aiogram = [
@@ -1644,8 +1644,8 @@ tomli = [
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
 ]
 types-protobuf = [
-    {file = "types-protobuf-3.19.21.tar.gz", hash = "sha256:ecbff0b17b4196aecec055ae4bd25eb344aaf5d848ce38043a44d68a0d51ec3e"},
-    {file = "types_protobuf-3.19.21-py3-none-any.whl", hash = "sha256:6ac25d57f6d674a3f31c9657997aeebdd1196b3ead87e0b798b174243d719856"},
+    {file = "types-protobuf-3.19.22.tar.gz", hash = "sha256:d2b26861b0cb46a3c8669b0df507b7ef72e487da66d61f9f3576aa76ce028a83"},
+    {file = "types_protobuf-3.19.22-py3-none-any.whl", hash = "sha256:d291388678af91bb045fafa864f142dc4ac22f5d4cdca097c7d8d8a32fa9b3ab"},
 ]
 types-redis = [
     {file = "types-redis-4.2.6.tar.gz", hash = "sha256:d6adc77185cf40b300816767a64c0ee9ee0b21dc174e8e5c23b7e83d43189cb8"},
