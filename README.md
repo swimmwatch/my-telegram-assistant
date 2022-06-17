@@ -28,3 +28,32 @@ Supported social networks:
 ##### `\d` - download post by replied message
 ##### `\all` - mention all members in group chat (works only in basic group chat)
 ##### `\hello` - self-promotion
+
+## Installation and startup
+### 1. Setup necessary environment variables
+```shell
+# Telegram bot (assistant manager)
+TELEGRAM_API_TOKEN=
+MY_TELEGRAM_ID=
+
+# Assistant client
+AIOTDLIB_API_ID=
+AIOTDLIB_API_HASH=
+PHONE_NUMBER=
+
+# Worker
+CELERY_RESULT_BACKEND=
+CELERY_BROKER_URL=
+
+# Assistant service
+ASSISTANT_GRPC_PORT=
+ASSISTANT_GRPC_HOST=
+ASSISTANT_GRPC_ADDR=
+
+# Database
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+```
+
+### 2. docker compose up!
