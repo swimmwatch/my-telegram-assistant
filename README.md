@@ -26,4 +26,5 @@ Supported social networks:
 #### Explicit
 ##### `\me [type] [scope]` - output contact info about user
 ##### `\d` - download post by replied message
-##### `\hello` - self-promotion :smirk:
+##### `\all` - mention all members in group chat (works only in basic group chat)
+##### `\hello` - self-promotion
