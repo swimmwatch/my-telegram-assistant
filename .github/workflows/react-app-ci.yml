@@ -3,8 +3,8 @@ on:
   pull_request:
     paths:
       - "**/*.[jt]sx?"
-      - "package.json"
-      - "package-lock.json"
+      - "services/control_panel/react-app/package.json"
+      - "services/control_panel/react-app/package-lock.json"
     branches:
       - master
       - dev
