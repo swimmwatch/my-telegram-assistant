@@ -24,8 +24,8 @@ services:
     ports:
       - "5672:5672"
     environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: mypass
+      RABBITMQ_DEFAULT_USER: "${RABBITMQ_DEFAULT_USER}"
+      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_DEFAULT_PASS}"
 #  control_panel:
 #    build: services/control_panel
 #    restart: always
@@ -46,7 +46,7 @@ services:
       - rabbitmq
     environment:
       ASSISTANT_GRPC_ADDR: "assistant:50051"
-      CELERY_BROKER_URL: "amqp://admin:mypass@rabbitmq"
+      CELERY_BROKER_URL: "amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq"
       CELERY_RESULT_BACKEND: "redis://redis"
       REDIS_HOST: redis
       REDIS_PORT: 6379
