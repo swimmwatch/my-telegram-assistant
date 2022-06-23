@@ -795,7 +795,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-redis"
-version = "4.3.1"
+version = "4.3.2"
 description = "Typing stubs for redis"
 category = "dev"
 optional = false
@@ -1639,8 +1639,8 @@ types-protobuf = [
     {file = "types_protobuf-3.19.22-py3-none-any.whl", hash = "sha256:d291388678af91bb045fafa864f142dc4ac22f5d4cdca097c7d8d8a32fa9b3ab"},
 ]
 types-redis = [
-    {file = "types-redis-4.3.1.tar.gz", hash = "sha256:506968ce674d775367cfd1b34b54dca68b1111dfdb930150d3accda95ec5703a"},
-    {file = "types_redis-4.3.1-py3-none-any.whl", hash = "sha256:001d8ecb8bcf237e92407ad37f71c598c13bf069a8a78adbe0f6bbc0118b5722"},
+    {file = "types-redis-4.3.2.tar.gz", hash = "sha256:a193508faa68c53dec45cc30515eab94c331325af8a0c3c80095f60f2ab6daa6"},
+    {file = "types_redis-4.3.2-py3-none-any.whl", hash = "sha256:6c2772dcf9abd611dfdecf92afeb9e9128bab66ab0c9b61517fac5c6d7c5d81e"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.2.0-py3-none-any.whl", hash = "sha256:6657594ee297170d19f67d55c05852a874e7eb634f4f753dbd667855e07c1708"},
