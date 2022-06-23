@@ -6,7 +6,7 @@ authors = ["Dmitry Vasiliev <contact.vasiliev.dmitry@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-aiogram = "^2.20"
+aiogram = "^2.21"
 loguru = "^0.6.0"
 aiotdlib = "^0.17.0"
 pytube = "^12.1.0"
