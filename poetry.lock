@@ -63,16 +63,16 @@ frozenlist = ">=1.1.0"
 
 [[package]]
 name = "aiotdlib"
-version = "0.17.0"
+version = "0.18.0"
 description = "Python asyncio Telegram client based on TDLib"
 category = "main"
 optional = false
 python-versions = ">=3.9,<4.0"
 
 [package.dependencies]
-pydantic = ">=1.8.2,<2.0.0"
+pydantic = ">=1.9.0,<2.0.0"
 sortedcontainers = ">=2.4.0,<3.0.0"
-ujson = ">=5.1.0,<6.0.0"
+ujson = ">=5.2.0,<6.0.0"
 
 [[package]]
 name = "amqp"
@@ -882,7 +882,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "588d3b9b91202ebf999804c831e214849b75c6510321c7e1c71d3ca45e40d852"
+content-hash = "b8231ba06719a56c9ef1f55d03cd23dbd6b3954901447e8cc43bb75d44362cf2"
 
 [metadata.files]
 aiogram = [
@@ -972,8 +972,8 @@ aiosignal = [
     {file = "aiosignal-1.2.0.tar.gz", hash = "sha256:78ed67db6c7b7ced4f98e495e572106d5c432a93e1ddd1bf475e1dc05f5b7df2"},
 ]
 aiotdlib = [
-    {file = "aiotdlib-0.17.0-py3-none-any.whl", hash = "sha256:bba6b8215723a9b7f725c2aab76f9bb798b0c5257f3edef56e8ff38e45f8805f"},
-    {file = "aiotdlib-0.17.0.tar.gz", hash = "sha256:5a0be947e5b1caacd58e85ba6ca9a69da4c18fc285e8b5338e2c5ce1b54b1bf8"},
+    {file = "aiotdlib-0.18.0-py3-none-any.whl", hash = "sha256:ef835f699f291c9fc202fc15210c882c5c71a9f6def423f2c39ebd980bb64851"},
+    {file = "aiotdlib-0.18.0.tar.gz", hash = "sha256:8eaf8d767ad400c067739e3709ddb218405d4c26d76875ed6038a72faabb44c2"},
 ]
 amqp = [
     {file = "amqp-5.1.1-py3-none-any.whl", hash = "sha256:6f0956d2c23d8fa6e7691934d8c3930eadb44972cbbd1a7ae3a520f735d43359"},
