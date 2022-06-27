@@ -8,7 +8,8 @@ from grpc import aio
 from loguru import logger
 
 from app.container import Container
-from services.assistant import assistant_pb2_grpc, AsyncAssistantService
+from services.assistant import assistant_pb2_grpc
+from services.assistant.grpc.server import AsyncAssistantService
 from services.assistant.commands import CommandRequest, ExplicitCommandHandlerWrapper
 from services.assistant.config import AIOTDLIB_API_ID, AIOTDLIB_API_HASH, PHONE_NUMBER, ASSISTANT_GRPC_ADDR
 from services.assistant.handlers.about_me import about_me_command

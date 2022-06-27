@@ -5,7 +5,7 @@ from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.wiring import providers
 from redis import Redis
 
-from services.assistant.grpc_client import AssistantGrpcClient
+from services.assistant.grpc.client import AssistantGrpcClient
 from services.sent_post_msg_info_cache_manager import SentPostMessageInfoCacheManager
 from services.worker.config import ASSISTANT_GRPC_ADDR, REDIS_HOST, REDIS_PORT
 from utils.post.cache.state.redis import RedisPostStateCacheManager

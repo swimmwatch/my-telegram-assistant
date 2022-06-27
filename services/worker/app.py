@@ -8,7 +8,7 @@ from celery import Celery
 from dependency_injector.wiring import inject, Provide
 from loguru import logger
 
-from services.assistant.grpc_client import AssistantGrpcClient
+from services.assistant.grpc.client import AssistantGrpcClient
 from services.assistant.assistant_pb2 import ForwardMessagesRequest
 from services.sent_post_msg_info_cache_manager import SentPostMessageInfoCacheManager
 from services.worker.config import ASSISTANT_GRPC_ADDR, OUT_DIR, CELERY_BROKER_URL, CELERY_RESULT_BACKEND

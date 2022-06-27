@@ -9,9 +9,8 @@ from os import path
 import pytube
 from pytube import YouTube
 
-from services.assistant import MessageResponse
-from services.assistant.assistant_pb2 import SendVideoRequest
-from services.assistant.grpc_client import AssistantGrpcClient
+from services.assistant.assistant_pb2 import SendVideoRequest, MessageResponse
+from services.assistant.grpc.client import AssistantGrpcClient
 from utils.aiotdlib.protocols import SupportsTelegramSending
 from utils.common.patterns import Factory
 from utils.post.exceptions import PostUnavailable, PostTooLarge, PostNonDownloadable
