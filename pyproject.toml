@@ -6,22 +6,22 @@ authors = ["Dmitry Vasiliev <contact.vasiliev.dmitry@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-aiogram = "^2.20"
+aiogram = "^2.21"
 loguru = "^0.6.0"
 aiotdlib = "^0.17.0"
 pytube = "^12.1.0"
 celery = "^5.2.3"
-redis = "^4.2.0"
+redis = "^4.3.4"
 aioredis = "^2.0.1"
 dependency-injector = "^4.38.0"
 asgiref = "^3.5.0"
-grpcio-tools = "^1.46.1"
-grpcio = "^1.46.1"
+grpcio-tools = "^1.47.0"
+grpcio = "^1.47.0"
 google = "^3.0.0"
 fastapi = "^0.78.0"
-uvicorn = "^0.17.6"
+uvicorn = "^0.18.2"
 pydantic = "^1.9.0"
-SQLAlchemy = {extras = ["asyncio"], version = "^1.4.35"}
+SQLAlchemy = {extras = ["asyncio"], version = "^1.4.39"}
 asyncpg = "^0.25.0"
 htmgem = "^0.0.2"
 
@@ -29,7 +29,7 @@ htmgem = "^0.0.2"
 mypy = "^0.961"
 flake8 = "^4.0.1"
 pytest = "^7.1.1"
-types-redis = "^4.2.8"
+types-redis = "^4.3.2"
 types-protobuf = "^3.19.22"
 
 [build-system]
