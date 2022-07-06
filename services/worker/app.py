@@ -11,14 +11,18 @@ from loguru import logger
 from services.assistant.grpc.client import AssistantGrpcClient
 from services.assistant.assistant_pb2 import ForwardMessagesRequest
 from services.sent_post_msg_info_cache_manager import SentPostMessageInfoCacheManager
-from services.worker.config import ASSISTANT_GRPC_ADDR, OUT_DIR, CELERY_BROKER_URL, CELERY_RESULT_BACKEND
+from services.worker.config import OUT_DIR, worker_settings
 from services.worker.container import WorkerContainer
 from utils.post.impl import PostFactory
 from utils.post.cache.state import PostCacheState
 from utils.post.cache.state.redis import RedisPostStateCacheManager
 from utils.post.exceptions import PostNonDownloadable, PostUnavailable, PostTooLarge
 
-celery = Celery('tasks', broker=CELERY_BROKER_URL, backend=CELERY_RESULT_BACKEND)
+celery = Celery(
+    'tasks',
+    broker=worker_settings.celery_broker_url,
+    backend=worker_settings.celery_result_backend
+)
 
 task_routes = {
     'services.worker.app.download_and_send_post': {
@@ -60,7 +64,7 @@ def download_and_send_post(
     # TODO: fix it
     # assistant_grpc_client: AssistantGrpcClient = Provide[WorkerContainer.assistant_grpc_client]
 ):
-    assistant_grpc_client = AssistantGrpcClient(ASSISTANT_GRPC_ADDR)
+    assistant_grpc_client = AssistantGrpcClient(worker_settings.assistant_grpc_addr)
 
     try:
         post = PostFactory.init_from_post_id(post_id)

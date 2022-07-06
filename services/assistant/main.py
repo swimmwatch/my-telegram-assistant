@@ -11,7 +11,7 @@ from app.container import Container
 from services.assistant import assistant_pb2_grpc
 from services.assistant.grpc.server import AsyncAssistantService
 from services.assistant.commands import CommandRequest, ExplicitCommandHandlerWrapper
-from services.assistant.config import AIOTDLIB_API_ID, AIOTDLIB_API_HASH, PHONE_NUMBER, ASSISTANT_GRPC_ADDR
+from services.assistant.config import assistant_settings
 from services.assistant.handlers.about_me import about_me_command
 from services.assistant.handlers.all import all_command
 from services.assistant.handlers.download_post import YouTubeShortVideoDownloadCommandHandler, \
@@ -48,9 +48,9 @@ class CommandsManager:
 async def run_grpc_server(aiotdlib_client: aiotdlib.Client):
     server = aio.server()
     assistant_pb2_grpc.add_AssistantServicer_to_server(AsyncAssistantService(aiotdlib_client), server)
-    server.add_insecure_port(ASSISTANT_GRPC_ADDR)
+    server.add_insecure_port(assistant_settings.assistant_grpc_addr)
 
-    logger.info(f'starting gRPC server on {ASSISTANT_GRPC_ADDR}')
+    logger.info(f'starting gRPC server on {assistant_settings.assistant_grpc_addr}')
     await server.start()
     await server.wait_for_termination()
 
@@ -71,9 +71,9 @@ async def handle_new_own_message(client: Client, update: UpdateNewMessage):
 
 async def main():
     aiotdlib_client = CustomClient(
-        api_id=AIOTDLIB_API_ID,
-        api_hash=AIOTDLIB_API_HASH,
-        phone_number=PHONE_NUMBER,
+        api_id=assistant_settings.aiotdlib_api_id,
+        api_hash=assistant_settings.aiotdlib_api_hash,
+        phone_number=assistant_settings.phone_number,
     )
     aiotdlib_client.add_event_handler(handle_new_own_message, update_type=API.Types.UPDATE_NEW_MESSAGE)
 
