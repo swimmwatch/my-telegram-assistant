@@ -60,12 +60,9 @@ def download_and_send_post(
     post_id: str,
     post_state_cache_manager: RedisPostStateCacheManager = Provide[WorkerContainer.post_cache_state_manager],
     sent_post_msg_info_cache_manager: SentPostMessageInfoCacheManager =
-    Provide[WorkerContainer.sent_post_msg_info_cache_manager]
-    # TODO: fix it
-    # assistant_grpc_client: AssistantGrpcClient = Provide[WorkerContainer.assistant_grpc_client]
+    Provide[WorkerContainer.sent_post_msg_info_cache_manager],
+    assistant_grpc_client: AssistantGrpcClient = Provide[WorkerContainer.assistant_grpc_client]
 ):
-    assistant_grpc_client = AssistantGrpcClient(worker_settings.assistant_grpc_addr)
-
     try:
         post = PostFactory.init_from_post_id(post_id)
     except (PostUnavailable, PostTooLarge) as err:
