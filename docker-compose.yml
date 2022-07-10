@@ -14,7 +14,7 @@ services:
 #      - db:/var/lib/postgresql/data
 #      - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
   redis:
-    image: redis:6.2.6
+    image: redis:6.2.6-alpine
     restart: always
     ports:
       - "6364:6379"
