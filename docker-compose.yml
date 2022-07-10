@@ -19,7 +19,7 @@ services:
     ports:
       - "6364:6379"
   rabbitmq:
-    image: rabbitmq:3.9
+    image: rabbitmq:3.9-alpine
     restart: always
     ports:
       - "5672:5672"
