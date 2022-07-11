@@ -6,10 +6,10 @@ from redis import Redis
 
 from app.container import Container
 from services.assistant_manager.bot import dp
-from services.assistant_manager.config import MY_TELEGRAM_ID
+from services.assistant_manager.config import assistant_manager_settings
 from utils.aiogram.decorators import serve_only_specific_user
 
-serve_only_me = serve_only_specific_user(MY_TELEGRAM_ID)
+serve_only_me = serve_only_specific_user(assistant_manager_settings.my_telegram_id)
 
 
 @dp.message_handler(regexp=r'^[0-9]+$')
