@@ -13,7 +13,7 @@ from app.container import Container
 
 class CustomClient(aiotdlib.Client):
     @inject
-    async def _Client__auth_get_code(self, redis_client: Redis = Provide[Container.redis_client]) -> str:
+    async def _auth_get_code(self, redis_client: Redis = Provide[Container.redis_client]) -> str:
         code = None
         key_auth_code = 'auth_code'
         logger.info('start polling auth code')
