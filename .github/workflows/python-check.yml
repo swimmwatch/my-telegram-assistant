@@ -52,9 +52,9 @@ jobs:
         uses: abatilo/actions-poetry@v2.1.5
         with:
           poetry-version: ${{matrix.poetry-version}}
-      - name: Build gRPC proto files
-        uses: ./.github/actions/build-grpc-proto
       - name: Install dependencies
         run: poetry install
+      - name: Build gRPC proto files
+        uses: ./.github/actions/build-grpc-proto
       - name: Run pytest
         run: poetry run pytest
