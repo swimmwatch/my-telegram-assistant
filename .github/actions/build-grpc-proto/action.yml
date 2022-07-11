@@ -1,0 +1,32 @@
+name: "Build gRPC proto files"
+description: "Build gRPC proto files (Python)"
+
+inputs:
+  python-out:
+    required: false
+    default: "."
+    description: "Generate Python source file"
+  grpc-python-out:
+    required: false
+    default: "."
+    description: "Generate Python source file"
+  proto-files:
+    required: false
+    default: "protobufs/services/**/**.proto"
+    description: "Glob for .proto files"
+  proto-path:
+    required: false
+    default: "protobufs"
+    description: "Specify the directory in which to search for imports."
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Build gRPC proto files"
+      run: |
+        poetry run python -m grpc_tools.protoc \
+        -I protobufs \
+        --python_out=${{inputs.python-out}} \
+        --grpc_python_out=${{inputs.grpc-python-out}} \
+        ${{inputs.proto-files}}
+      shell: bash
