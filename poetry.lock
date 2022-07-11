@@ -63,16 +63,16 @@ frozenlist = ">=1.1.0"
 
 [[package]]
 name = "aiotdlib"
-version = "0.17.0"
+version = "0.19.2"
 description = "Python asyncio Telegram client based on TDLib"
 category = "main"
 optional = false
 python-versions = ">=3.9,<4.0"
 
 [package.dependencies]
-pydantic = ">=1.8.2,<2.0.0"
+pydantic = ">=1.9.1,<2.0.0"
 sortedcontainers = ">=2.4.0,<3.0.0"
-ujson = ">=5.1.0,<6.0.0"
+ujson = ">=5.4.0,<6.0.0"
 
 [[package]]
 name = "amqp"
@@ -136,7 +136,7 @@ test = ["pycodestyle (>=2.7.0,<2.8.0)", "flake8 (>=3.9.2,<3.10.0)", "uvloop (>=0
 
 [[package]]
 name = "atomicwrites"
-version = "1.4.0"
+version = "1.4.1"
 description = "Atomic file writes."
 category = "dev"
 optional = false
@@ -882,7 +882,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "ad9a14ba3b5b67ed4990587e4bb0a5dc0848a78a3d8e9cf65b6f058a4df82a9c"
+content-hash = "7383ce8ac769b498ec3e9affb56df793dd6a117905a5e68dd69c7117f91d01b7"
 
 [metadata.files]
 aiogram = [
@@ -972,8 +972,8 @@ aiosignal = [
     {file = "aiosignal-1.2.0.tar.gz", hash = "sha256:78ed67db6c7b7ced4f98e495e572106d5c432a93e1ddd1bf475e1dc05f5b7df2"},
 ]
 aiotdlib = [
-    {file = "aiotdlib-0.17.0-py3-none-any.whl", hash = "sha256:bba6b8215723a9b7f725c2aab76f9bb798b0c5257f3edef56e8ff38e45f8805f"},
-    {file = "aiotdlib-0.17.0.tar.gz", hash = "sha256:5a0be947e5b1caacd58e85ba6ca9a69da4c18fc285e8b5338e2c5ce1b54b1bf8"},
+    {file = "aiotdlib-0.19.2-py3-none-any.whl", hash = "sha256:b830a2aee78513a24886832a6f9d7f8e5622fcd9c94aa08629e4db0e0a5f7698"},
+    {file = "aiotdlib-0.19.2.tar.gz", hash = "sha256:151adc466c573b395848c24ef46555d602b1214bdb4e09496d3fdbefef8f5843"},
 ]
 amqp = [
     {file = "amqp-5.1.1-py3-none-any.whl", hash = "sha256:6f0956d2c23d8fa6e7691934d8c3930eadb44972cbbd1a7ae3a520f735d43359"},
@@ -1020,8 +1020,7 @@ asyncpg = [
     {file = "asyncpg-0.26.0.tar.gz", hash = "sha256:77e684a24fee17ba3e487ca982d0259ed17bae1af68006f4cf284b23ba20ea2c"},
 ]
 atomicwrites = [
-    {file = "atomicwrites-1.4.0-py2.py3-none-any.whl", hash = "sha256:6d1784dea7c0c8d4a5172b6c620f40b6e4cbfdf96d783691f2e1302a7b88e197"},
-    {file = "atomicwrites-1.4.0.tar.gz", hash = "sha256:ae70396ad1a434f9c7046fd2dd196fc04b12f9e91ffb859164193be8b6168a7a"},
+    {file = "atomicwrites-1.4.1.tar.gz", hash = "sha256:81b2c9071a49367a7f770170e5eec8cb66567cfbbc8c73d20ce5ca4a8d71cf11"},
 ]
 attrs = [
     {file = "attrs-21.4.0-py2.py3-none-any.whl", hash = "sha256:2d27e3784d7a565d36ab851fe94887c5eccd6a463168875832a1be79c82828b4"},
