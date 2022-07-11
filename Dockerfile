@@ -27,6 +27,6 @@ RUN poetry run python -m grpc_tools.protoc \
     -I /app/protobufs \
     --python_out=. \
      --grpc_python_out=. \
-    /app/protobufs/services/assistant/assistant.proto
+    /app/protobufs/services/**/**.proto
 
 COPY . .
