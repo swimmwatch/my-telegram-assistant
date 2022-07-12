@@ -29,7 +29,7 @@ aiotdlib = "^0.19.2"
 mypy = "^0.961"
 flake8 = "^4.0.1"
 pytest = "^7.1.1"
-types-redis = "^4.3.3"
+types-redis = "^4.3.4"
 types-protobuf = "^3.19.22"
 
 [build-system]
