@@ -26,7 +26,7 @@ htmgem = "^0.0.2"
 aiotdlib = "^0.19.2"
 
 [tool.poetry.dev-dependencies]
-mypy = "^0.961"
+mypy = "^0.971"
 flake8 = "^4.0.1"
 pytest = "^7.1.1"
 types-redis = "^4.3.9"

@@ -112,7 +112,7 @@ class ExplicitCommand:
 
         return wrapper
 
-    async def emit(self, args: ParsedArguments, command_request: CommandRequest) -> None:
+    async def emit(self, args: ParsedArguments, command_request: CommandRequest):
         """
         Emit handler with passed arguments and command request.
 
@@ -121,7 +121,8 @@ class ExplicitCommand:
         """
         for func, condition in self._handlers:
             if condition:
-                condition(args) and (await func(args, command_request))
+                if condition(args):
+                    await func(args, command_request)
             else:
                 await func(args, command_request)
 
