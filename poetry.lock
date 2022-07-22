@@ -111,7 +111,7 @@ optional = false
 python-versions = ">=3.7"
 
 [package.extras]
-tests = ["pytest", "pytest-asyncio", "mypy (>=0.800)"]
+tests = ["mypy (>=0.800)", "pytest-asyncio", "pytest"]
 
 [[package]]
 name = "async-timeout"
@@ -294,7 +294,7 @@ python-versions = "*"
 click = ">=4.0"
 
 [package.extras]
-dev = ["pytest (>=3.6)", "pytest-cov", "wheel", "coveralls"]
+dev = ["coveralls", "wheel", "pytest-cov", "pytest (>=3.6)"]
 
 [[package]]
 name = "click-repl"
@@ -572,8 +572,8 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-dev = ["pre-commit", "tox"]
-testing = ["pytest", "pytest-benchmark"]
+testing = ["pytest-benchmark", "pytest"]
+dev = ["tox", "pre-commit"]
 
 [[package]]
 name = "prompt-toolkit"
@@ -695,8 +695,8 @@ deprecated = ">=1.2.3"
 packaging = ">=20.4"
 
 [package.extras]
+ocsp = ["requests (>=2.26.0)", "cryptography (>=36.0.1)", "pyopenssl (==20.0.1)"]
 hiredis = ["hiredis (>=1.0.0)"]
-ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==20.0.1)", "requests (>=2.26.0)"]
 
 [[package]]
 name = "six"
@@ -795,7 +795,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-redis"
-version = "4.3.9"
+version = "4.3.10"
 description = "Typing stubs for redis"
 category = "dev"
 optional = false
@@ -830,7 +830,7 @@ click = ">=7.0"
 h11 = ">=0.8"
 
 [package.extras]
-standard = ["websockets (>=10.0)", "httptools (>=0.4.0)", "watchfiles (>=0.13)", "python-dotenv (>=0.13)", "PyYAML (>=5.1)", "uvloop (>=0.14.0,!=0.15.0,!=0.15.1)", "colorama (>=0.4)"]
+standard = ["colorama (>=0.4)", "uvloop (>=0.14.0,!=0.15.0,!=0.15.1)", "PyYAML (>=5.1)", "python-dotenv (>=0.13)", "watchfiles (>=0.13)", "httptools (>=0.4.0)", "websockets (>=10.0)"]
 
 [[package]]
 name = "vine"
@@ -857,7 +857,7 @@ optional = false
 python-versions = ">=3.5"
 
 [package.extras]
-dev = ["pytest (>=4.6.2)", "black (>=19.3b0)"]
+dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 
 [[package]]
 name = "wrapt"
@@ -882,7 +882,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "84564b4da0582851c8c7ffa43eb26a8cda1d4901219ef4956a941663036e2266"
+content-hash = "a333c146c5b6b46af526df402f16d9f51dad8c4b838bc4706de9a45847981ad6"
 
 [metadata.files]
 aiogram = [
@@ -1630,8 +1630,8 @@ types-protobuf = [
     {file = "types_protobuf-3.19.22-py3-none-any.whl", hash = "sha256:d291388678af91bb045fafa864f142dc4ac22f5d4cdca097c7d8d8a32fa9b3ab"},
 ]
 types-redis = [
-    {file = "types-redis-4.3.9.tar.gz", hash = "sha256:431c8a5a9724d822a02f20e151eff18c437f4133fc18673973956ed102e8e1b7"},
-    {file = "types_redis-4.3.9-py3-none-any.whl", hash = "sha256:75be8d1434864c7dd32314aa3aaf01f84d55d9a0432c0101261761f7e250eb38"},
+    {file = "types-redis-4.3.10.tar.gz", hash = "sha256:3bac2a7ffb62c1623c7d1bf9642eafd4f13792895739c666f1e4ac218ad77789"},
+    {file = "types_redis-4.3.10-py3-none-any.whl", hash = "sha256:0f4497cb918346b0872ac38aa56a96ca1b0c5769fce9f5d654b21ce143c0d92b"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.3.0-py3-none-any.whl", hash = "sha256:25642c956049920a5aa49edcdd6ab1e06d7e5d467fc00e0506c44ac86fbfca02"},
