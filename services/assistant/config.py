@@ -2,12 +2,14 @@
 Telegram assistant configuration.
 """
 
-import os
+from pydantic import BaseSettings
 
-# TDLib
-AIOTDLIB_API_ID = int(os.environ.get('AIOTDLIB_API_ID', 0))
-AIOTDLIB_API_HASH = os.environ.get('AIOTDLIB_API_HASH')
-PHONE_NUMBER = os.environ.get('PHONE_NUMBER')
 
-# gRPC server
-ASSISTANT_GRPC_ADDR = os.environ.get('ASSISTANT_GRPC_ADDR')
+class AssistantSettings(BaseSettings):
+    aiotdlib_api_id: int = 0
+    aiotdlib_api_hash: str = ''
+    phone_number: str = ''
+    assistant_grpc_addr: str = 'localhost:50051'
+
+
+assistant_settings = AssistantSettings()

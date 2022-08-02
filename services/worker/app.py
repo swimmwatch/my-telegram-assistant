@@ -8,17 +8,21 @@ from celery import Celery
 from dependency_injector.wiring import inject, Provide
 from loguru import logger
 
-from services.assistant.grpc_client import AssistantGrpcClient
+from services.assistant.grpc.client import AssistantGrpcClient
 from services.assistant.assistant_pb2 import ForwardMessagesRequest
 from services.sent_post_msg_info_cache_manager import SentPostMessageInfoCacheManager
-from services.worker.config import ASSISTANT_GRPC_ADDR, OUT_DIR, CELERY_BROKER_URL, CELERY_RESULT_BACKEND
+from services.worker.config import OUT_DIR, worker_settings
 from services.worker.container import WorkerContainer
 from utils.post.impl import PostFactory
 from utils.post.cache.state import PostCacheState
 from utils.post.cache.state.redis import RedisPostStateCacheManager
 from utils.post.exceptions import PostNonDownloadable, PostUnavailable, PostTooLarge
 
-celery = Celery('tasks', broker=CELERY_BROKER_URL, backend=CELERY_RESULT_BACKEND)
+celery = Celery(
+    'tasks',
+    broker=worker_settings.celery_broker_url,
+    backend=worker_settings.celery_result_backend
+)
 
 task_routes = {
     'services.worker.app.download_and_send_post': {
@@ -56,12 +60,9 @@ def download_and_send_post(
     post_id: str,
     post_state_cache_manager: RedisPostStateCacheManager = Provide[WorkerContainer.post_cache_state_manager],
     sent_post_msg_info_cache_manager: SentPostMessageInfoCacheManager =
-    Provide[WorkerContainer.sent_post_msg_info_cache_manager]
-    # TODO: fix it
-    # assistant_grpc_client: AssistantGrpcClient = Provide[WorkerContainer.assistant_grpc_client]
+    Provide[WorkerContainer.sent_post_msg_info_cache_manager],
+    assistant_grpc_client: AssistantGrpcClient = Provide[WorkerContainer.assistant_grpc_client]
 ):
-    assistant_grpc_client = AssistantGrpcClient(ASSISTANT_GRPC_ADDR)
-
     try:
         post = PostFactory.init_from_post_id(post_id)
     except (PostUnavailable, PostTooLarge) as err:

@@ -45,8 +45,9 @@ work_info_dict = {
     ),
     WorkScopeValues.CV: ScopeInfo(
         full_name='\N{SCROLL} CV',
-        value=f"{a({'href': 'www.example.com'}, 'Russian version')},"  # TODO: add short link
-              f" {a({'href': 'www.example.com'}, 'English version')}"  # TODO: add short link
+        # TODO: add short link
+        value=f"{a({'href': 'https://hh.ru/resume_converter/Васильев Дмитрий Олегович.pdf?hash=78777defff08eb88a60039ed1f6f7739383057&type=pdf&hhtmSource=resume&hhtmFrom=resume_list&force-roles=true'}, 'Russian version')},"  # noqa: E501
+              f" {a({'href': 'www.linkedin.com/in/dmitry-vasiliev'}, 'English version')}"  # TODO: add short link
     ),
     WorkScopeValues.GITHUB: ScopeInfo(
         full_name='\N{GLOBE WITH MERIDIANS} GitHub',
