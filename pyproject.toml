@@ -20,7 +20,7 @@ google = "^3.0.0"
 fastapi = "^0.79.0"
 uvicorn = "^0.18.2"
 pydantic = "^1.9.0"
-SQLAlchemy = {extras = ["asyncio"], version = "^1.4.39"}
+SQLAlchemy = {extras = ["asyncio"], version = "^1.4.40"}
 asyncpg = "^0.26.0"
 htmgem = "^0.0.2"
 aiotdlib = "^0.19.2"
