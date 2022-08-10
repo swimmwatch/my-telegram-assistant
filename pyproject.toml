@@ -23,7 +23,6 @@ pydantic = "^1.9.0"
 SQLAlchemy = {extras = ["asyncio"], version = "^1.4.40"}
 asyncpg = "^0.26.0"
 htmgem = "^0.0.2"
-aiotdlib = "^0.19.2"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.971"
