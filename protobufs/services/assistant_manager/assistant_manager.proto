@@ -1,0 +1,23 @@
+syntax = "proto3";
+package assistant_manager;
+
+message SendTextRequest {
+  uint32 chat_id = 1;
+  string text = 2;
+}
+
+message SendPhotoRequest {
+  uint32 chat_id = 1;
+  string caption = 2;
+  string photo_path = 3;
+}
+
+message MessageResponse {
+  uint64 id = 1;
+  uint32 chat_id = 2;
+}
+
+service AssistantManager {
+  rpc send_text(SendTextRequest) returns (MessageResponse);
+  rpc send_photo(SendPhotoRequest) returns (MessageResponse);
+}
