@@ -1,3 +1,0 @@
-"""
-QR code utilities.
-"""
