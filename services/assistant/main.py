@@ -7,7 +7,6 @@ from aiotdlib.api import API, UpdateNewMessage
 from grpc import aio
 from loguru import logger
 
-from app.container import Container
 from services.assistant import assistant_pb2_grpc
 from services.assistant.grpc.server import AsyncAssistantService
 from services.assistant.commands import CommandRequest, ExplicitCommandHandlerWrapper
@@ -84,8 +83,5 @@ async def main():
 
 
 if __name__ == '__main__':
-    container = Container()
-    container.wire(modules=[__name__])
-
     logging.basicConfig(level=logging.INFO)
     asyncio.run(main())
