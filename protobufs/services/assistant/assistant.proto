@@ -6,7 +6,7 @@ import "google/protobuf/empty.proto";
 message MessageResponse {
   uint64 id = 1;
   uint32 chat_id = 2;
-  bool can_be_forwarded = 3;
+//  bool can_be_forwarded = 3;
 }
 
 message ForwardMessagesRequest {
