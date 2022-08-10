@@ -9,7 +9,7 @@ message SendTextRequest {
 message SendPhotoRequest {
   uint32 chat_id = 1;
   string caption = 2;
-  string photo_path = 3;
+  string base64_img = 3;
 }
 
 message MessageResponse {
