@@ -2,7 +2,7 @@ from typing import Optional
 
 from redis import Redis
 
-from utils.aiotdlib.models import MessageInfo
+from utils.telegram.models import MessageInfo
 from utils.post.impl import Post
 
 

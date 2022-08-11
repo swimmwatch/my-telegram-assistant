@@ -2,6 +2,7 @@
 Download post command handler.
 """
 from loguru import logger
+from telethon import events
 
 from services.assistant.commands import CommandRequest, ParsedArguments, ExplicitCommand
 from services.assistant.commands.decorators import serve_only_replied_request
@@ -21,16 +22,15 @@ class YouTubeShortVideoDownloadCommandHandler(AsyncChainOfResponsibility):
             return False
 
         # remove web page preview
-        if not request.replied:
-            await request.client.edit_text(
-                request.message.chat_id,
-                request.message.id,
-                text=request.text,
-                disable_web_page_preview=True
-            )
+        # if not request.event.is_reply and request.event.message.web_preview:
+        #     await request.event.client.edit_message(
+        #         request.event.sender_id,
+        #         request.event.message.id,
+        #         link_preview=False
+        #     )
 
         post = YouTubeShortVideo(link)
-        download_and_send_post.delay(request.message.chat_id, post.id)
+        download_and_send_post.delay(request.event.message.chat_id, post.id)
         logger.info(f'downloading YouTube short video post: {link}')
 
         return True
@@ -42,14 +42,9 @@ reply_download_post_command = ExplicitCommand(name="d")
 @reply_download_post_command.on()
 @serve_only_replied_request
 async def handle_replied_download_post_call(_: ParsedArguments, request: CommandRequest):
-    replied_message = await request.client.api.get_message(
-        request.message.chat_id,
-        request.message.reply_to_message_id
-    )
+    replied_message = await request.event.message.get_reply_message()
     inner_req = CommandRequest(
-        message=replied_message,
-        client=request.client,
-        replied=True
+        events.NewMessage.Event(replied_message)
     )
     yt_handler = YouTubeShortVideoDownloadCommandHandler(None)
     await yt_handler.process_request(inner_req)

@@ -11,7 +11,7 @@ from pytube import YouTube
 
 from services.assistant.assistant_pb2 import SendVideoRequest, MessageResponse
 from services.assistant.grpc.client import AssistantGrpcClient
-from utils.aiotdlib.protocols import SupportsTelegramSending
+from utils.telegram.protocols import SupportsTelegramSending
 from utils.common.patterns import Factory
 from utils.post.exceptions import PostUnavailable, PostTooLarge, PostNonDownloadable
 

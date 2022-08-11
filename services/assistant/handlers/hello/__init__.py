@@ -15,7 +15,8 @@ async def handle_welcome_output(_: ParsedArguments, request: CommandRequest):
         f"Hi! This message was sent by \N{ROBOT FACE} {project_link_html}.",
         "In short, this program helps to automate messaging in Telegram."
     ])
-    await request.client.send_text(
-        request.message.chat_id,
-        res_message
+    await request.event.client.send_message(
+        request.event.message.chat_id,
+        res_message,
+        parse_mode='html'
     )
