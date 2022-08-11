@@ -1,29 +1,44 @@
-from aiogram.types import Message
-from aiogram.utils import executor
-from dependency_injector.wiring import inject, Provide
-from loguru import logger
-from redis import Redis
+"""
+Assistant manager entrypoint.
+"""
+import asyncio
 
-from app.container import Container
-from services.assistant_manager.bot import dp
+from grpc import aio
+from loguru import logger
+
+from services.assistant_manager import assistant_manager_pb2_grpc
+from services.assistant_manager.bot import dp, bot
 from services.assistant_manager.config import assistant_manager_settings
+from services.assistant_manager.grpc.server import AsyncAssistantManagerService
 from utils.aiogram.decorators import serve_only_specific_user
 
 serve_only_me = serve_only_specific_user(assistant_manager_settings.my_telegram_id)
 
 
-@dp.message_handler(regexp=r'^[0-9]+$')
-@serve_only_me
-@inject
-async def handle_getting_auth_code(msg: Message, redis_client: Redis = Provide[Container.redis_client]):
-    code = msg.text
-    logger.info(f'got auth code: {code}')  # TODO: remove from logs auth code
-    redis_client.set('auth_code', code)
+async def run_grpc_server():
+    server = aio.server()
+    assistant_manager_pb2_grpc.add_AssistantManagerServicer_to_server(
+        AsyncAssistantManagerService(bot),
+        server
+    )
+    server.add_insecure_port(assistant_manager_settings.assistant_manager_grpc_addr)
+
+    logger.info(f'starting gRPC server on {assistant_manager_settings.assistant_manager_grpc_addr}')
+    await server.start()
+    await server.wait_for_termination()
+
+
+async def run_bot():
+    await dp.start_polling()
+
+
+async def main():
+    logger.info('launch bot')
+    await asyncio.gather(
+        run_grpc_server(),
+        run_bot()
+    )
 
 
 if __name__ == '__main__':
-    container = Container()
-    container.wire(modules=[__name__])
-
-    logger.info('launch bot')
-    executor.start_polling(dp)
+    asyncio.run(main())
