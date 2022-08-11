@@ -26,7 +26,7 @@ class Post(ABC, SupportsTelegramSending):
         pass
 
     @abstractmethod
-    def download(self, out_dir: str) -> str:
+    def download(self, out_dir: str) -> os.PathLike:
         """Download post"""
         pass
 
@@ -95,7 +95,7 @@ class YouTubeShortVideo(Post):
     def id(self) -> str:
         return f'{type(self).__name__}:{self.yt.video_id}'
 
-    def download(self, out_dir: str) -> str:
+    def download(self, out_dir: str) -> os.PathLike:
         """
         Download short YouTube video.
 
@@ -105,7 +105,7 @@ class YouTubeShortVideo(Post):
         stream = self.yt.streams.get_highest_resolution()
         if stream is None:
             raise PostNonDownloadable(self.url)
-        uniq_filename = self.id + stream.default_filename
+        uniq_filename = f'{self.id}.{stream.subtype}'
         out_filename = stream.download(out_dir, uniq_filename)
         return out_filename
 

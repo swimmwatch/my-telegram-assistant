@@ -27,7 +27,7 @@ class RedisPostStateCacheManager(SupportsPostStateCache):
         state, output_filename = dec_state_str.split(self.STATE_VALUE_SEP)
         return PostCacheState[state], output_filename or None
 
-    def set_state(self, post_id: str, new_state: PostCacheState, out_filename: str = '') -> None:
+    def set_state(self, post_id: str, new_state: PostCacheState, out_filename: PathLike) -> None:
         key = self.STATE_KEY_PATTERN % post_id
         val = f'{new_state.value}{self.STATE_VALUE_SEP}{out_filename}'
         self.redis_client.set(key, val)

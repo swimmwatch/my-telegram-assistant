@@ -73,7 +73,7 @@ def download_and_send_post(
             PostCacheState.DOWNLOADED,
             out_filename
         )
-    elif cache_state is PostCacheState.DOWNLOADED:
+    elif cache_state is PostCacheState.DOWNLOADED and filename:
         out_filename = filename
 
     post.send(

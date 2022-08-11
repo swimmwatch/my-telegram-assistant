@@ -28,7 +28,7 @@ class SupportsPostStateCache(Protocol):
         """
         ...
 
-    def set_state(self, post_id: str, new_state: PostCacheState, out_filename: str) -> None:
+    def set_state(self, post_id: str, new_state: PostCacheState, out_filename: PathLike) -> None:
         """
         Set post cache state.
 
