@@ -105,7 +105,8 @@ class YouTubeShortVideo(Post):
         stream = self.yt.streams.get_highest_resolution()
         if stream is None:
             raise PostNonDownloadable(self.url)
-        out_filename = stream.download(out_dir, self.id)
+        uniq_filename = self.id + stream.default_filename
+        out_filename = stream.download(out_dir, uniq_filename)
         return out_filename
 
     def clear(self, out_filename: str) -> None:
