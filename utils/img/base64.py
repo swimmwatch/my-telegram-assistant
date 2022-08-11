@@ -5,17 +5,17 @@ import base64
 from io import BytesIO
 
 from PIL import Image
-from PIL.Image import Image
+from PIL.Image import Image as ImageEntity
 
 
 class Base64Image:
     @classmethod
-    def encode(cls, img: Image, format: str = 'PNG') -> str:
+    def encode(cls, img: ImageEntity, format: str = 'PNG') -> str:
         buffered = BytesIO()
         img.save(buffered, format)
         img_bytes = buffered.getvalue()
-        img_str = base64.b64encode(img_bytes)
-        return str(img_str)
+        base64_img = base64.b64encode(img_bytes)
+        return base64_img.decode()
 
     @classmethod
     def decode_file(cls, base64_img: str) -> BytesIO:
@@ -23,6 +23,6 @@ class Base64Image:
         return BytesIO(img_bytes)
 
     @classmethod
-    def decode(cls, base64_img: str, format: str = 'PNG') -> Image:
-        image_file = Base64Image.decode_file(base64_img)
-        return Image.open(image_file, formats=[format])
+    def decode(cls, base64_img: str, format: str = 'PNG') -> ImageEntity:
+        img_file = Base64Image.decode_file(base64_img)
+        return Image.open(img_file, formats=[format])
