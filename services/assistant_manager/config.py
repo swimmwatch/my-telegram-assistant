@@ -6,7 +6,7 @@ from pydantic import BaseSettings
 
 class AssistantManagerSettings(BaseSettings):
     my_telegram_id: int = 0
-    telegram_api_token: str
+    telegram_api_token: str = ''
 
     assistant_manager_grpc_addr: str
 
