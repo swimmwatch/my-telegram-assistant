@@ -6,6 +6,7 @@ from google.protobuf.empty_pb2 import Empty
 
 from services.assistant_manager.assistant_manager_pb2 import MessageResponse
 from services.assistant_manager.assistant_manager_pb2_grpc import AssistantManagerServicer
+from utils.img.base64 import Base64Image
 
 
 class AsyncAssistantManagerService(AssistantManagerServicer):
@@ -28,9 +29,10 @@ class AsyncAssistantManagerService(AssistantManagerServicer):
 
     async def send_photo(self, request, context):
         # TODO: handle errors
+        img_file = Base64Image.decode_file(request.base64_img)
         result_msg = await self.bot.send_photo(
             request.chat_id,
-            request.photo_path,
+            img_file,
             caption=request.caption,
         )
         return MessageResponse(
