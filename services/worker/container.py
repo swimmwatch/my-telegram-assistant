@@ -6,7 +6,6 @@ from dependency_injector.wiring import providers
 from redis import Redis
 
 from services.assistant.grpc.client import AssistantGrpcClient
-from services.sent_post_msg_info_cache_manager import SentPostMessageInfoCacheManager
 from services.worker.config import worker_settings
 from utils.post.cache.state.redis import RedisPostStateCacheManager
 
@@ -23,9 +22,5 @@ class WorkerContainer(DeclarativeContainer):
     )
     post_cache_state_manager = providers.Singleton(
         RedisPostStateCacheManager,
-        redis_client=redis_client
-    )
-    sent_post_msg_info_cache_manager = providers.Singleton(
-        SentPostMessageInfoCacheManager,
         redis_client=redis_client
     )
