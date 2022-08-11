@@ -17,7 +17,7 @@ from services.assistant.handlers.all import all_command
 from services.assistant.handlers.download_post import YouTubeShortVideoDownloadCommandHandler, \
     reply_download_post_command
 from services.assistant.handlers.hello import hello_command
-from services.assistant_manager.assistant_manager_pb2 import SendPhotoRequest
+from services.assistant_manager.assistant_manager_pb2 import SendPhotoRequest, SendTextRequest
 from services.assistant_manager.config import assistant_manager_settings
 from services.assistant_manager.grpc.client import AssistantManagerGrpcClient
 from utils.img.base64 import Base64Image
@@ -63,6 +63,7 @@ async def run_assistant(
         assistant_manager_grpc_client: AssistantManagerGrpcClient =
         Provide[AssistantContainer.assistant_manager_grpc_client]
 ):
+    # TODO: refactor authorize
     await telegram_client.connect()
     is_user_authorized = await telegram_client.is_user_authorized()
     if not is_user_authorized:
@@ -75,7 +76,13 @@ async def run_assistant(
             base64_img=base64_img
         )
         assistant_manager_grpc_client.stub.send_photo(req)
-        await qr_login.wait(assistant_settings.assistant_qr_login_timeout)
+        user = await qr_login.wait(assistant_settings.assistant_qr_login_timeout)
+        if user:
+            req = SendTextRequest(
+                chat_id=assistant_manager_settings.my_telegram_id,
+                text='You were authorized successful!'
+            )
+            assistant_manager_grpc_client.stub.send_text(req)
 
 
 async def main():
