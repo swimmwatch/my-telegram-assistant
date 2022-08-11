@@ -11,5 +11,7 @@ class AssistantSettings(BaseSettings):
     phone_number: str = ''
     assistant_grpc_addr: str = 'localhost:50051'
 
+    assistant_qr_login_timeout: float = 60.0
+
 
 assistant_settings = AssistantSettings()
