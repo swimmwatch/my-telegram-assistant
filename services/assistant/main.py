@@ -11,10 +11,8 @@ async def main():
     assistant_container = AssistantContainer()
     assistant_container.wire(modules=[__name__])
 
-    assistant = assistant_container.assistant()
     assistant_entrypoint = assistant_container.assistant_entrypoint()
 
-    assistant.init()
     await assistant_entrypoint.run()
 
 

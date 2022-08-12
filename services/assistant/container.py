@@ -25,10 +25,10 @@ class AssistantContainer(DeclarativeContainer):
     )
     assistant = providers.Singleton(
         Assistant,
-        telegram_client=telegram_client.provided
+        telegram_client=telegram_client.provided,
+        assistant_manager_grpc_client=assistant_manager_grpc_client.provided
     )
     assistant_entrypoint = providers.Factory(
         AssistantEntrypoint,
-        telegram_client=telegram_client.provided,
-        assistant_manager_grpc_client=assistant_manager_grpc_client.provided
+        assistant=assistant.provided
     )
