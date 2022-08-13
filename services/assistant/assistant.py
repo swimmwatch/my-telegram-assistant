@@ -82,6 +82,7 @@ class Assistant:
         qr_login = await self.telegram_client.qr_login()
         user = None
         while not user:
+            # TODO: Add attempts counting process. If too much the raise exception.
             img = self._create_login_qr_code(qr_login)
             self._send_qr_code(img)
             try:

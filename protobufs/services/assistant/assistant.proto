@@ -31,8 +31,15 @@ message SendTextRequest {
   bool disable_notification = 3;
 }
 
+message BooleanValue {
+  bool value = 1;
+}
+
 service Assistant {
   rpc send_video(SendVideoRequest) returns (MessageResponse);
   rpc send_text(SendTextRequest) returns (MessageResponse);
   rpc forward_messages(ForwardMessagesRequest) returns (google.protobuf.Empty);
+  rpc is_user_authorized(google.protobuf.Empty) returns (BooleanValue);
+  rpc authorize_user(google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc logout_user(google.protobuf.Empty) returns (BooleanValue);
 }

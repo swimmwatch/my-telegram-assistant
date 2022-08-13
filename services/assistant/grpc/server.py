@@ -2,17 +2,18 @@
 gRPC Assistant server.
 """
 from google.protobuf.empty_pb2 import Empty
-from telethon import TelegramClient
 
-from services.assistant.assistant_pb2 import MessageResponse
+from services.assistant.assistant import Assistant
+from services.assistant.assistant_pb2 import MessageResponse, BooleanValue
 from services.assistant.assistant_pb2_grpc import AssistantServicer
 
 
 class AsyncAssistantService(AssistantServicer):
-    def __init__(self, telegram_client: TelegramClient):
+    def __init__(self, assistant: Assistant):
         super().__init__()
 
-        self.telegram_client = telegram_client
+        self.assistant = assistant
+        self.telegram_client = self.assistant.telegram_client
 
     async def send_text(self, request, context) -> Empty:
         # TODO: handle errors
@@ -50,3 +51,28 @@ class AsyncAssistantService(AssistantServicer):
             silent=request.disable_notification
         )
         return Empty()
+
+    async def is_user_authorized(self, request, context):
+        is_user_authorized = await self.assistant.is_user_authorized()
+        return BooleanValue(value=is_user_authorized)
+
+    async def authorize_user(self, request, context):
+        is_connected = self.telegram_client.is_connected()
+        if not is_connected:
+            await self.telegram_client.connect()
+
+        is_user_authorized = await self.assistant.is_user_authorized()
+        if not is_user_authorized:
+            # TODO: Handle too much attempts error.
+            await self.assistant.authorize_user()
+        else:
+            # TODO: Handle if user was authorized.
+            pass
+        return Empty()
+
+    async def logout_user(self, request, context):
+        status = False
+        is_user_authorized = await self.assistant.is_user_authorized()
+        if is_user_authorized:
+            status = await self.telegram_client.log_out()
+        return BooleanValue(value=status)
