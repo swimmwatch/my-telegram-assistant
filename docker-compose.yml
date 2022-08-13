@@ -81,6 +81,7 @@ services:
     environment:
       TELEGRAM_API_TOKEN: "${TELEGRAM_API_TOKEN}"
       MY_TELEGRAM_ID: "${MY_TELEGRAM_ID}"
+      ASSISTANT_GRPC_ADDR: "assistant:50051"
       ASSISTANT_MANAGER_GRPC_ADDR: "assistant_manager:50052"
       REDIS_HOST: redis
       REDIS_PORT: 6379
