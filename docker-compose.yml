@@ -76,8 +76,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     command: poetry run python -m services.assistant_manager.main
-    depends_on:
-      - redis
+      - assistant
     environment:
       TELEGRAM_API_TOKEN: "${TELEGRAM_API_TOKEN}"
       MY_TELEGRAM_ID: "${MY_TELEGRAM_ID}"
