@@ -28,10 +28,11 @@ async def handle_output_work_profile(args: ParsedArguments, request: CommandRequ
 
         res_message = f'{work_item.full_name}: {work_item.value}'
 
-    await request.client.send_text(
-        request.message.chat_id,
+    await request.event.client.send_message(
+        request.event.message.chat_id,
         res_message,
-        disable_web_page_preview=True
+        parse_mode='html',
+        silent=True
     )
 
 
@@ -55,8 +56,9 @@ async def handle_output_game_profile(args: ParsedArguments, request: CommandRequ
 
         res_message = f'{game_item.full_name}: {game_item.value}'
 
-    await request.client.send_text(
-        request.message.chat_id,
+    await request.event.client.send_message(
+        request.event.message.chat_id,
         res_message,
-        disable_web_page_preview=True
+        parse_mode='html',
+        silent=True
     )

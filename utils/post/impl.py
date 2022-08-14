@@ -9,10 +9,9 @@ from os import path
 import pytube
 from pytube import YouTube
 
-from services.assistant import MessageResponse
-from services.assistant.assistant_pb2 import SendVideoRequest
-from services.assistant.grpc_client import AssistantGrpcClient
-from utils.aiotdlib.protocols import SupportsTelegramSending
+from services.assistant.assistant_pb2 import SendVideoRequest, MessageResponse
+from services.assistant.grpc.client import AssistantGrpcClient
+from utils.telegram.protocols import SupportsTelegramSending
 from utils.common.patterns import Factory
 from utils.post.exceptions import PostUnavailable, PostTooLarge, PostNonDownloadable
 
@@ -27,7 +26,7 @@ class Post(ABC, SupportsTelegramSending):
         pass
 
     @abstractmethod
-    def download(self, out_dir: str) -> str:
+    def download(self, out_dir: str) -> os.PathLike:
         """Download post"""
         pass
 
@@ -96,7 +95,7 @@ class YouTubeShortVideo(Post):
     def id(self) -> str:
         return f'{type(self).__name__}:{self.yt.video_id}'
 
-    def download(self, out_dir: str) -> str:
+    def download(self, out_dir: str) -> os.PathLike:
         """
         Download short YouTube video.
 
@@ -106,7 +105,8 @@ class YouTubeShortVideo(Post):
         stream = self.yt.streams.get_highest_resolution()
         if stream is None:
             raise PostNonDownloadable(self.url)
-        out_filename = stream.download(out_dir, self.id)
+        uniq_filename = f'{self.id}.{stream.subtype}'
+        out_filename = stream.download(out_dir, uniq_filename)
         return out_filename
 
     def clear(self, out_filename: str) -> None:

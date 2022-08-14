@@ -14,18 +14,18 @@ services:
 #      - db:/var/lib/postgresql/data
 #      - ./db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
   redis:
-    image: redis:6.2.6
+    image: redis:6.2.6-alpine
     restart: always
     ports:
       - "6364:6379"
   rabbitmq:
-    image: rabbitmq:3.9
+    image: rabbitmq:3.9-alpine
     restart: always
     ports:
       - "5672:5672"
     environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: mypass
+      RABBITMQ_DEFAULT_USER: "${RABBITMQ_DEFAULT_USER}"
+      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_DEFAULT_PASS}"
 #  control_panel:
 #    build: services/control_panel
 #    restart: always
@@ -46,7 +46,7 @@ services:
       - rabbitmq
     environment:
       ASSISTANT_GRPC_ADDR: "assistant:50051"
-      CELERY_BROKER_URL: "amqp://admin:mypass@rabbitmq"
+      CELERY_BROKER_URL: "amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq"
       CELERY_RESULT_BACKEND: "redis://redis"
       REDIS_HOST: redis
       REDIS_PORT: 6379
@@ -76,13 +76,16 @@ services:
       dockerfile: Dockerfile
     restart: always
     command: poetry run python -m services.assistant_manager.main
-    depends_on:
-      - redis
+      - assistant
     environment:
       TELEGRAM_API_TOKEN: "${TELEGRAM_API_TOKEN}"
       MY_TELEGRAM_ID: "${MY_TELEGRAM_ID}"
+      ASSISTANT_GRPC_ADDR: "assistant:50051"
+      ASSISTANT_MANAGER_GRPC_ADDR: "assistant_manager:50052"
       REDIS_HOST: redis
       REDIS_PORT: 6379
+    ports:
+      - "50052:50052"
     volumes:
       - ".:/app"
   assistant:
@@ -94,16 +97,18 @@ services:
     depends_on:
       - redis
       - worker
+      - assistant_manager
     ports:
       - "50051:50051"
     environment:
+      MY_TELEGRAM_ID: "${MY_TELEGRAM_ID}"
+      ASSISTANT_MANAGER_GRPC_ADDR: "assistant_manager:50052"
       ASSISTANT_GRPC_ADDR: "assistant:50051"
       AIOTDLIB_API_ID: "${AIOTDLIB_API_ID}"
       AIOTDLIB_API_HASH: "${AIOTDLIB_API_HASH}"
-      PHONE_NUMBER: "${PHONE_NUMBER}"
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      CELERY_BROKER_URL: "amqp://admin:mypass@rabbitmq"
+      CELERY_BROKER_URL: "amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq"
       CELERY_RESULT_BACKEND: "redis://redis"
     volumes:
       - ".:/app"

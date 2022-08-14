@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9", "3.10"]
+        python-version: ["3.10"]
         poetry-version: ["1.1.13"]
     steps:
       - name: "Checkout"
@@ -25,7 +25,7 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
       - name: "Setup Poetry"
-        uses: abatilo/actions-poetry@v2.1.4
+        uses: abatilo/actions-poetry@v2.1.5
         with:
           poetry-version: ${{matrix.poetry-version}}
       - name: Install dependencies
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9", "3.10"]
+        python-version: ["3.10"]
         poetry-version: [ "1.1.13" ]
     steps:
       - name: Checkout
@@ -49,10 +49,12 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
       - name: Add poetry
-        uses: abatilo/actions-poetry@v2.1.4
+        uses: abatilo/actions-poetry@v2.1.5
         with:
           poetry-version: ${{matrix.poetry-version}}
       - name: Install dependencies
         run: poetry install
+      - name: Build gRPC proto files
+        uses: ./.github/actions/build-grpc-proto
       - name: Run pytest
         run: poetry run pytest

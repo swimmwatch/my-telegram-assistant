@@ -2,23 +2,27 @@
 Command for mentioning all in basic chat.
 """
 from services.assistant.commands import ExplicitCommand, CommandRequest, ParsedArguments
-from services.assistant.commands.decorators import serve_only_basic_group_messages
-from utils.aiotdlib.message import get_mention_text
+from services.assistant.commands.decorators import serve_only_group_messages
+from utils.telegram.message import get_mention_text
 
 all_command = ExplicitCommand(name='all')
 
 
 @all_command.on()
-@serve_only_basic_group_messages
+@serve_only_group_messages
 async def handle_all_command(_: ParsedArguments, request: CommandRequest):
-    chat_info = await request.client.get_chat_info(request.message.chat_id, full=True)
-    members = chat_info.members
     mentions = []
-    for member in members:
-        member_id = member.member_id.user_id
-        member_info = await request.client.get_user(member_id)
-        mention = get_mention_text(member_id, member_info.username)
-        mentions.append(mention)
+    async for member in request.event.client.iter_participants(
+        request.event.message.chat_id,
+        aggressive=True
+    ):
+        if not member.bot and member.username:
+            mention = get_mention_text(member.id, member.username)
+            mentions.append(mention)
 
     mention_msg = ', '.join(mentions)
-    await request.client.send_text(request.message.chat_id, mention_msg)
+    await request.event.client.send_message(
+        request.event.message.chat_id,
+        mention_msg,
+        parse_mode='html'
+    )

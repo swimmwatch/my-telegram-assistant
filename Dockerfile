@@ -1,15 +1,6 @@
-FROM python:3.9
+FROM python:3.10
 
 WORKDIR /app
-
-# Install dependencies for TDLib
-RUN apt-get update && apt-get install -y \
-    zlib1g-dev \
-    libssl-dev \
-    libc++-dev \
-    libc++abi-dev \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
 
 # Install poetry
 RUN curl -sSL https://install.python-poetry.org | python -
@@ -27,6 +18,6 @@ RUN poetry run python -m grpc_tools.protoc \
     -I /app/protobufs \
     --python_out=. \
      --grpc_python_out=. \
-    /app/protobufs/services/assistant/assistant.proto
+    /app/protobufs/services/**/**.proto
 
 COPY . .

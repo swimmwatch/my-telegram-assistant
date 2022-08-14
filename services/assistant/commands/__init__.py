@@ -2,11 +2,9 @@ from collections import deque
 from dataclasses import dataclass
 from typing import Type, Dict, Callable, Deque, Any, Awaitable, Optional, Tuple
 
-from aiotdlib import Client
-from aiotdlib.api import Message
 from loguru import logger
+from telethon import events
 
-from utils.aiotdlib.message import extract_text_from_telegram_message
 from utils.common.patterns import AsyncChainOfResponsibility
 
 
@@ -15,9 +13,7 @@ class CommandRequest:
     """
     Command request data.
     """
-    client: Client
-    message: Message
-    replied: bool = False
+    event: events.NewMessage.Event
 
     @property
     def text(self) -> Optional[str]:
@@ -26,7 +22,7 @@ class CommandRequest:
 
         :return: Text from Telegram message
         """
-        return extract_text_from_telegram_message(self.message)
+        return self.event.message.message
 
 
 ParsedArguments = Dict[str, Any]
@@ -112,7 +108,7 @@ class ExplicitCommand:
 
         return wrapper
 
-    async def emit(self, args: ParsedArguments, command_request: CommandRequest) -> None:
+    async def emit(self, args: ParsedArguments, command_request: CommandRequest):
         """
         Emit handler with passed arguments and command request.
 
@@ -121,7 +117,8 @@ class ExplicitCommand:
         """
         for func, condition in self._handlers:
             if condition:
-                condition(args) and (await func(args, command_request))
+                if condition(args):
+                    await func(args, command_request)
             else:
                 await func(args, command_request)
 

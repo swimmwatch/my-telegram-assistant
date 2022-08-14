@@ -3,8 +3,6 @@ Command decorators.
 """
 import functools
 
-from aiotdlib.api import BasicGroupFullInfo
-
 from services.assistant.commands import ExplicitCommandHandler, ParsedArguments, CommandRequest
 
 
@@ -17,24 +15,22 @@ def serve_only_replied_request(func: ExplicitCommandHandler) -> ExplicitCommandH
     """
     @functools.wraps(func)
     async def wrapper(args: ParsedArguments, request: CommandRequest):
-        reply_to_message_id = request.message.reply_to_message_id
-        if reply_to_message_id:
+        if request.event.is_reply:
             await func(args, request)
 
     return wrapper
 
 
-def serve_only_basic_group_messages(func: ExplicitCommandHandler) -> ExplicitCommandHandler:
+def serve_only_group_messages(func: ExplicitCommandHandler) -> ExplicitCommandHandler:
     """
-    Decorate explicit command handler for handling messages only from basic chat.
+    Decorate explicit command handler for handling messages only from group.
 
     :param func: Explicit command handler
     :return: Wrapped explicit command handler
     """
     @functools.wraps(func)
     async def wrapper(args: ParsedArguments, request: CommandRequest):
-        chat_info = await request.client.get_chat_info(request.message.chat_id, full=True)
-        if isinstance(chat_info, BasicGroupFullInfo):
+        if request.event.message.is_group:
             await func(args, request)
 
     return wrapper

@@ -2,7 +2,8 @@
 Post cache state manager.
 """
 from enum import Enum
-from typing import Protocol
+from os import PathLike
+from typing import Protocol, Tuple
 
 
 class PostCacheState(Enum):
@@ -18,7 +19,7 @@ class SupportsPostStateCache(Protocol):
     """
     Protocol that declares getting and setting cache state.
     """
-    def get_state(self, post_id: str) -> PostCacheState:
+    def get_state(self, post_id: str) -> Tuple[PostCacheState, PathLike | None]:
         """
         Get post cache state.
 
@@ -27,12 +28,13 @@ class SupportsPostStateCache(Protocol):
         """
         ...
 
-    def set_state(self, post_id: str, new_state: PostCacheState) -> None:
+    def set_state(self, post_id: str, new_state: PostCacheState, out_filename: PathLike) -> None:
         """
         Set post cache state.
 
         :param post_id: Post ID
         :param new_state: New state
+        :param out_filename: Output filename
         """
         ...
 
