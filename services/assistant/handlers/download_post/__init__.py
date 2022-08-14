@@ -3,6 +3,7 @@ Download post command handler.
 """
 from loguru import logger
 from telethon import events
+from telethon.errors import MessageNotModifiedError
 
 from services.assistant.commands import CommandRequest, ParsedArguments, ExplicitCommand
 from services.assistant.commands.decorators import serve_only_replied_request
@@ -22,12 +23,12 @@ class YouTubeShortVideoDownloadCommandHandler(AsyncChainOfResponsibility):
             return False
 
         # remove web page preview
-        # if not request.event.is_reply and request.event.message.web_preview:
-        #     await request.event.client.edit_message(
-        #         request.event.sender_id,
-        #         request.event.message.id,
-        #         link_preview=False
-        #     )
+        if not request.event.message.is_reply and request.event.message.web_preview:
+            try:
+                # space for avoid MessageNotModifiedError
+                await request.event.message.edit(request.text + ' ', link_preview=False)
+            except MessageNotModifiedError:
+                logger.warning('link preview was not hidden.')
 
         post = YouTubeShortVideo(link)
         download_and_send_post.delay(request.event.message.chat_id, post.id)
