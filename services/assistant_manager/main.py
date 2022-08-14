@@ -10,7 +10,6 @@ from google.protobuf.empty_pb2 import Empty
 from grpc import StatusCode
 from loguru import logger
 
-from services.assistant.assistant_pb2 import BooleanValue
 from services.assistant.grpc.client import AssistantGrpcClient
 from services.assistant_manager.bot import dp
 from services.assistant_manager.config import assistant_manager_settings
