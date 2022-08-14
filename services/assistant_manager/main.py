@@ -74,7 +74,7 @@ async def handle_status_request(
 ):
     logger.info('call status handler')
     req = Empty()
-    res: BooleanValue = assistant_grpc_client.stub.is_user_authorized(req)
+    res = assistant_grpc_client.stub.is_user_authorized(req)
     if res.value:
         await message.answer('You are authorized.')
     else:
