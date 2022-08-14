@@ -74,8 +74,17 @@ class AsyncAssistantService(AssistantServicer):
         return Empty()
 
     async def logout_user(self, request, context):
-        status = False
         is_user_authorized = await self.assistant.is_user_authorized()
         if is_user_authorized:
             status = await self.telegram_client.log_out()
-        return BooleanValue(value=status)
+
+            if not status:
+                detail_msg = 'Something wrong with logout.'
+                context.set_code(StatusCode.CANCELLED)
+                context.set_details(detail_msg)
+        else:
+            detail_msg = 'You are not authorized.'
+            context.set_code(StatusCode.UNAUTHENTICATED)
+            context.set_details(detail_msg)
+
+        return Empty()

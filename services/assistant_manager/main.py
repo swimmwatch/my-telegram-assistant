@@ -33,12 +33,12 @@ async def handle_login_request(
         assistant_grpc_client.stub.authorize_user(req)
     except grpc.RpcError as err:
         status_code = err.code()
-        details_msg = err.details()
+        detail_msg = err.details()
         match status_code:
             case StatusCode.ALREADY_EXISTS:
-                await message.answer(details_msg)
+                await message.answer(detail_msg)
             case _:
-                logger.error(details_msg)
+                logger.error(detail_msg)
                 await message.answer('Something went wrong.')
 
 
@@ -49,13 +49,20 @@ async def handle_logout_request(
         message: types.Message,
         assistant_grpc_client: AssistantGrpcClient = Provide[AssistantManagerContainer.assistant_grpc_client]
 ):
-    logger.info('call logout handler')
     req = Empty()
-    res: BooleanValue = assistant_grpc_client.stub.logout_user(req)
-    if res.value:
-        await message.answer('You logged out.')
+    try:
+        assistant_grpc_client.stub.logout_user(req)
+    except grpc.RpcError as err:
+        status_code = err.code()
+        detail_msg = err.details()
+        match status_code:
+            case StatusCode.UNAUTHENTICATED:
+                await message.answer(detail_msg)
+            case _:
+                logger.error(detail_msg)
+                await message.answer('Something went wrong')
     else:
-        await message.answer('Something went wrong. Possible, you are authorized.')
+        await message.answer('You logged out.')
 
 
 @dp.message_handler(commands=['status'])

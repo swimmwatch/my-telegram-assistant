@@ -41,5 +41,5 @@ service Assistant {
   rpc forward_messages(ForwardMessagesRequest) returns (google.protobuf.Empty);
   rpc is_user_authorized(google.protobuf.Empty) returns (BooleanValue);
   rpc authorize_user(google.protobuf.Empty) returns (google.protobuf.Empty);
-  rpc logout_user(google.protobuf.Empty) returns (BooleanValue);
+  rpc logout_user(google.protobuf.Empty) returns (google.protobuf.Empty);
 }
