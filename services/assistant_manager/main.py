@@ -3,9 +3,11 @@ Assistant manager entrypoint.
 """
 import asyncio
 
+import grpc
 from aiogram import types
 from dependency_injector.wiring import inject, Provide
 from google.protobuf.empty_pb2 import Empty
+from grpc import StatusCode
 from loguru import logger
 
 from services.assistant.assistant_pb2 import BooleanValue
@@ -23,12 +25,21 @@ serve_only_me = serve_only_specific_user(assistant_manager_settings.my_telegram_
 @serve_only_me
 @inject
 async def handle_login_request(
-        _: types.Message,
+        message: types.Message,
         assistant_grpc_client: AssistantGrpcClient = Provide[AssistantManagerContainer.assistant_grpc_client]
 ):
-    logger.info('call login handler')
     req = Empty()
-    assistant_grpc_client.stub.authorize_user(req)
+    try:
+        assistant_grpc_client.stub.authorize_user(req)
+    except grpc.RpcError as err:
+        status_code = err.code()
+        details_msg = err.details()
+        match status_code:
+            case StatusCode.ALREADY_EXISTS:
+                await message.answer(details_msg)
+            case _:
+                logger.error(details_msg)
+                await message.answer('Something went wrong.')
 
 
 @dp.message_handler(commands=['stop'])

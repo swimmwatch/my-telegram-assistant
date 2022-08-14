@@ -2,6 +2,7 @@
 gRPC Assistant server.
 """
 from google.protobuf.empty_pb2 import Empty
+from grpc import StatusCode
 
 from services.assistant.assistant import Assistant
 from services.assistant.assistant_pb2 import MessageResponse, BooleanValue
@@ -66,8 +67,10 @@ class AsyncAssistantService(AssistantServicer):
             # TODO: Handle too much attempts error.
             await self.assistant.authorize_user()
         else:
-            # TODO: Handle if user was authorized.
-            pass
+            detail_msg = 'You are already logged in.'
+            context.set_code(StatusCode.ALREADY_EXISTS)
+            context.set_details(detail_msg)
+
         return Empty()
 
     async def logout_user(self, request, context):
