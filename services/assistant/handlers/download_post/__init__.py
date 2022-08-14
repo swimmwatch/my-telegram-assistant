@@ -23,7 +23,7 @@ class YouTubeShortVideoDownloadCommandHandler(AsyncChainOfResponsibility):
             return False
 
         # remove web page preview
-        if not request.event.message.is_reply and request.event.message.web_preview:
+        if not request.event.message.is_reply:
             try:
                 # space for avoid MessageNotModifiedError
                 await request.event.message.edit(request.text + ' ', link_preview=False)
