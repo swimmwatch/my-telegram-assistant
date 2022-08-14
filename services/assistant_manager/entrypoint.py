@@ -2,7 +2,6 @@
 Assistant manager entrypoint service.
 """
 import asyncio
-import threading
 from multiprocessing import Process
 
 from aiogram import Dispatcher
