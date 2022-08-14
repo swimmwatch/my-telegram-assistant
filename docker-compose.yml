@@ -109,7 +109,7 @@ services:
       PHONE_NUMBER: "${PHONE_NUMBER}"
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      CELERY_BROKER_URL: "amqp://admin:mypass@rabbitmq"
+      CELERY_BROKER_URL: "amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq"
       CELERY_RESULT_BACKEND: "redis://redis"
     volumes:
       - ".:/app"
