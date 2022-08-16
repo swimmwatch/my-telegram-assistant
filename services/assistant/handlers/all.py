@@ -11,15 +11,19 @@ all_command = ExplicitCommand(name='all')
 @all_command.on()
 @serve_only_group_messages
 async def handle_all_command(_: ParsedArguments, request: CommandRequest):
-    mentions = []
-    async for member in request.event.client.iter_participants(
+    my_id = request.event.client.id
+    members = request.event.client.iter_participants(
         request.event.message.chat_id,
         aggressive=True
-    ):
-        if not member.bot and member.username:
-            mention = get_mention_text(member.id, member.username)
-            mentions.append(mention)
-
+    )
+    members = filter(
+        lambda member: not member.bot and member.username and member.id != my_id,
+        members
+    )
+    mentions = (
+        get_mention_text(member.id, member.username)
+        for member in members
+    )
     mention_msg = ', '.join(mentions)
     await request.event.client.send_message(
         request.event.message.chat_id,
