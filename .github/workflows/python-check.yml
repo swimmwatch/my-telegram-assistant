@@ -20,15 +20,17 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v3
+      - name: Install Poetry
+        run: pipx install poetry
       - name: "Setup Python ${{matrix.python-version}}"
         uses: actions/setup-python@v4
         with:
           python-version: ${{matrix.python-version}}
           cache: 'poetry'
-      - name: "Setup Poetry"
-        uses: abatilo/actions-poetry@v2.1.5
-        with:
-          poetry-version: ${{matrix.poetry-version}}
+#      - name: "Setup Poetry"
+#        uses: abatilo/actions-poetry@v2.1.5
+#        with:
+#          poetry-version: ${{matrix.poetry-version}}
       - name: Install dependencies
         run: poetry install
       - name: Run flake8
@@ -47,15 +49,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Install Poetry
+        run: pipx install poetry
       - name: Setup Python ${{matrix.python-versions}}
         uses: actions/setup-python@v4
         with:
           python-version: ${{matrix.python-version}}
           cache: 'poetry'
-      - name: Add poetry
-        uses: abatilo/actions-poetry@v2.1.5
-        with:
-          poetry-version: ${{matrix.poetry-version}}
+#      - name: Add poetry
+#        uses: abatilo/actions-poetry@v2.1.5
+#        with:
+#          poetry-version: ${{matrix.poetry-version}}
       - name: Build gRPC proto files
         uses: ./.github/actions/build-grpc-proto
       - name: Run pytest
