@@ -59,7 +59,7 @@ async def handle_logout_request(
                 await message.answer(detail_msg)
             case _:
                 logger.error(detail_msg)
-                await message.answer('Something went wrong')
+                await message.answer('Something went wrong.')
     else:
         await message.answer('You logged out.')
 
