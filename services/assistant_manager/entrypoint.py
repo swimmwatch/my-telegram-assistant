@@ -41,6 +41,9 @@ class AssistantManagerEntrypoint:
         return
 
     async def run(self):
+        """
+        Run assistant manager service.
+        """
         processes = [
             Process(target=self._create_event_loop, args=(self.run_grpc_server,)),
             Process(target=self._create_event_loop, args=(self.run_bot,)),
