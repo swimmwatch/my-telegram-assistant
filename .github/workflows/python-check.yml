@@ -27,10 +27,6 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
           cache: 'poetry'
-#      - name: "Setup Poetry"
-#        uses: abatilo/actions-poetry@v2.1.5
-#        with:
-#          poetry-version: ${{matrix.poetry-version}}
       - name: Install dependencies
         run: poetry install
       - name: Run flake8
@@ -38,8 +34,6 @@ jobs:
       - name: Run mypy
         run: poetry run mypy .
   test:
-    needs:
-      - lint  # use cached dependencies from
     name: "Run Python tests"
     runs-on: ubuntu-latest
     strategy:
@@ -56,10 +50,6 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
           cache: 'poetry'
-#      - name: Add poetry
-#        uses: abatilo/actions-poetry@v2.1.5
-#        with:
-#          poetry-version: ${{matrix.poetry-version}}
       - name: Build gRPC proto files
         uses: ./.github/actions/build-grpc-proto
       - name: Run pytest
