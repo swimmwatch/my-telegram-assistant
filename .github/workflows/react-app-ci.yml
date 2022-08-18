@@ -30,6 +30,7 @@ jobs:
         with:
           node-version: ${{matrix.node-version}}
           cache: 'npm'
+          cache-dependency-path: 'services/control_panel/react-app/package-lock.json'
       - name: Install dependencies
         run: npm install
       - name: Build app
