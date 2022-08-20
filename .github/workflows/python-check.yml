@@ -50,6 +50,8 @@ jobs:
         with:
           python-version: ${{matrix.python-version}}
           cache: 'poetry'
+      - name: Install dependencies
+        run: poetry install
       - name: Build gRPC proto files
         uses: ./.github/actions/build-grpc-proto
       - name: Run pytest
