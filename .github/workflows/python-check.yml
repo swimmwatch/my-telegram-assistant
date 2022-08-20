@@ -1,4 +1,4 @@
-name: "Run Python linters and tests"
+name: Run Python linters and tests
 on:
   pull_request:
     paths:
@@ -11,14 +11,14 @@ on:
 
 jobs:
   lint:
-    name: "Run Python linters"
+    name: Run Python linters
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.10"]
         poetry-version: ["1.1.14"]
     steps:
-      - name: "Checkout"
+      - name: Checkout
         uses: actions/checkout@v3
       - name: Install Poetry
         run: pipx install poetry
@@ -34,7 +34,7 @@ jobs:
       - name: Run mypy
         run: poetry run mypy .
   test:
-    name: "Run Python tests"
+    name: Run Python tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
