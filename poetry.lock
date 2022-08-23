@@ -337,7 +337,7 @@ dev = ["tox", "bump2version (<1)", "sphinx (<2)", "importlib-metadata (<3)", "im
 
 [[package]]
 name = "fastapi"
-version = "0.79.1"
+version = "0.80.0"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
 category = "main"
 optional = false
@@ -925,7 +925,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "1da269781810b0bf5337ae459d0e449fdba65c55fffb2d3f3b761f9bb4787779"
+content-hash = "3032f070b40801c7ccc432fc12481ee6653409db14c2e90d90e722053c5ad129"
 
 [metadata.files]
 aiogram = [
@@ -1152,8 +1152,8 @@ deprecated = [
     {file = "Deprecated-1.2.13.tar.gz", hash = "sha256:43ac5335da90c31c24ba028af536a91d41d53f9e6901ddb021bcc572ce44e38d"},
 ]
 fastapi = [
-    {file = "fastapi-0.79.1-py3-none-any.whl", hash = "sha256:3c584179c64e265749e88221c860520fc512ea37e253282dab378cc503dfd7fd"},
-    {file = "fastapi-0.79.1.tar.gz", hash = "sha256:006862dec0f0f5683ac21fb0864af2ff12a931e7ba18920f28cc8eceed51896b"},
+    {file = "fastapi-0.80.0-py3-none-any.whl", hash = "sha256:5340f6016860baf94a52be5040c3a2e94c39ddc7ab4cc7548558182db742d9d6"},
+    {file = "fastapi-0.80.0.tar.gz", hash = "sha256:4e542f71b5b0f4f54a82449e8bd0244305de319186a31addab976bf672206420"},
 ]
 flake8 = [
     {file = "flake8-5.0.4-py2.py3-none-any.whl", hash = "sha256:7a1cf6b73744f5806ab95e526f6f0d8c01c66d7bbe349562d22dfca20610b248"},
