@@ -53,23 +53,23 @@ services:
     volumes:
       - ".:/app"
       - cached_posts:/tmp/posts
-#  control_panel_api:
-#    build:
-#      context: '.'
-#      dockerfile: Dockerfile
-#    restart: always
-#    ports:
-#      - '8000'
-#    depends_on:
-#      - db
-#    command: poetry run uvicorn services.control_panel_api.main:app --host 0.0.0.0 --port 8000
-#    environment:
-#      DB_NAME: "${DB_NAME}"
-#      DB_USER: "${DB_USER}"
-#      DB_PASSWORD: "${DB_PASSWORD}"
-#      DB_HOST: db
-#    volumes:
-#      - '.:/app'
+  control_panel_api:
+    build:
+      context: '.'
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '8000'
+    depends_on:
+      - db
+    command: poetry run uvicorn services.control_panel_api.main:app --host 0.0.0.0 --port 8000
+    environment:
+      DB_NAME: "${DB_NAME}"
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_HOST: db
+    volumes:
+      - '.:/app'
   assistant_manager:
     build:
       context: '.'
