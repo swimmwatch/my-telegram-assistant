@@ -31,6 +31,8 @@ services:
     restart: always
     ports:
       - '8080:80'
+    depends_on:
+      - control_panel_api
     environment:
       NODE_ENV: production
     volumes:
