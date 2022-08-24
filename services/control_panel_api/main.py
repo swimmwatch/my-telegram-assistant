@@ -34,11 +34,4 @@ async def reply_square():
 async def get_all_users(
     user_repo: UserRepository = Depends(Provide[ControlPanelApiContainer.user_repo])
 ):
-    user_records = await user_repo.get_all()
-    return UsersResponse(users=[
-        User(
-            id=user_record.id,
-            name=user_record.name
-        )
-        for user_record in user_records
-    ])
+    return await user_repo.get_all()

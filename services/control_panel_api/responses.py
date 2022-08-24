@@ -10,3 +10,6 @@ class User(BaseModel):
 
 class UsersResponse(BaseModel):
     users: List[User]
+
+    class Config:
+        orm_mode = True
