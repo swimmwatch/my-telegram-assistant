@@ -26,15 +26,15 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: "${RABBITMQ_DEFAULT_USER}"
       RABBITMQ_DEFAULT_PASS: "${RABBITMQ_DEFAULT_PASS}"
-#  control_panel:
-#    build: services/control_panel
-#    restart: always
-#    ports:
-#      - '8080:80'
-#    environment:
-#      NODE_ENV: production
-#    volumes:
-#      - '.:/app'
+  control_panel:
+    build: services/control_panel
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      NODE_ENV: production
+    volumes:
+      - '.:/app'
   worker:
     build:
       context: '.'
