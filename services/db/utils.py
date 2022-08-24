@@ -1,3 +1,6 @@
+"""
+Database service utilities.
+"""
 from services.db import AsyncDatabase
 from services.db.models import User
 
