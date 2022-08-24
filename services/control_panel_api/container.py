@@ -14,7 +14,7 @@ class ControlPanelApiContainer(DeclarativeContainer):
         AsyncDatabase,
         db_url=database_settings.db_url
     )
-    user_repository = providers.Singleton(
+    user_repo = providers.Singleton(
         UserRepository,
         session_factory=db.provided.session
     )

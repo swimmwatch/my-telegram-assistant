@@ -32,9 +32,9 @@ async def reply_square():
 @app.get('/api/users', response_model=UsersResponse)
 @inject
 async def get_all_users(
-    user_repository: UserRepository = Depends(Provide[ControlPanelApiContainer.user_repository])
+    user_repo: UserRepository = Depends(Provide[ControlPanelApiContainer.user_repo])
 ):
-    user_records = await user_repository.get_all()
+    user_records = await user_repo.get_all()
     return UsersResponse(users=[
         User(
             id=user_record.id,
