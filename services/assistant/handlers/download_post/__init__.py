@@ -8,6 +8,7 @@ from telethon.errors import MessageNotModifiedError
 from services.assistant.commands import CommandRequest, ParsedArguments, ExplicitCommand
 from services.assistant.commands.decorators import serve_only_replied_request
 from utils.common.patterns import AsyncChainOfResponsibility
+from utils.post.exceptions import PostTooLarge, PostUnavailable
 from utils.post.impl import YouTubeShortVideo
 from utils.youtube import extract_youtube_link
 from services.worker.app import download_and_send_post
@@ -20,6 +21,11 @@ class YouTubeShortVideoDownloadCommandHandler(AsyncChainOfResponsibility):
 
         link = extract_youtube_link(request.text)
         if not link:
+            return False
+
+        try:
+            _ = YouTubeShortVideo(link)
+        except (PostTooLarge, PostUnavailable):
             return False
 
         # remove web page preview
