@@ -6,7 +6,6 @@ authors = ["Dmitry Vasiliev <contact.vasiliev.dmitry@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-aiogram = "^2.22"
 loguru = "^0.6.0"
 pytube = "^12.1.0"
 celery = "^5.2.3"
