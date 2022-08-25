@@ -3,7 +3,7 @@ import random
 from dependency_injector.wiring import Provide, inject
 from fastapi import FastAPI, Depends
 
-from services.control_panel_api.responses import UsersResponse, User
+from services.control_panel_api.responses import UsersResponse
 from services.control_panel_api.container import ControlPanelApiContainer
 from services.db.dal import UserRepository
 from services.db.utils import async_init_db
