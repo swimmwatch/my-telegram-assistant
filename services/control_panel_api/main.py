@@ -1,10 +1,11 @@
 import random
+from typing import List
 
 from dependency_injector.wiring import Provide, inject
 from fastapi import FastAPI, Depends
 
-from services.control_panel_api.responses import UsersResponse
 from services.control_panel_api.container import ControlPanelApiContainer
+from services.control_panel_api.schemas.user import User
 from services.db.dal import UserRepository
 from services.db.utils import async_init_db
 
@@ -29,9 +30,13 @@ async def reply_square():
     }
 
 
-@app.get('/api/users', response_model=UsersResponse)
+@app.get('/api/users', response_model=List[User])
 @inject
 async def get_all_users(
     user_repo: UserRepository = Depends(Provide[ControlPanelApiContainer.user_repo])
 ):
-    return await user_repo.get_all()
+    users = await user_repo.get_all()
+    return [
+        User(id=user.id, name=user.name)
+        for user in users
+    ]
