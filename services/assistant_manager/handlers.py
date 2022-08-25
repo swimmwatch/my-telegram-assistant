@@ -31,10 +31,10 @@ async def handle_login_request(
         detail_msg = err.details()
         match status_code:
             case grpc.StatusCode.ALREADY_EXISTS:
-                await update.message.reply_text(detail_msg)
+                await update.message.reply_text(detail_msg)  # type: ignore
             case _:
                 logger.error(detail_msg)
-                await update.message.reply_text('Something went wrong.')
+                await update.message.reply_text('Something went wrong.')  # type: ignore
 
 
 @serve_only_me
@@ -52,12 +52,12 @@ async def handle_logout_request(
         detail_msg = err.details()
         match status_code:
             case grpc.StatusCode.UNAUTHENTICATED:
-                await update.message.reply_text(detail_msg)
+                await update.message.reply_text(detail_msg)  # type: ignore
             case _:
                 logger.error(detail_msg)
-                await update.message.reply_text('Something went wrong.')
+                await update.message.reply_text('Something went wrong.')  # type: ignore
     else:
-        await update.message.reply_text('You logged out.')
+        await update.message.reply_text('You logged out.')  # type: ignore
 
 
 @serve_only_me
@@ -70,6 +70,6 @@ async def handle_status_request(
     req = Empty()
     res = assistant_grpc_client.stub.is_user_authorized(req)
     if res.value:
-        await update.message.reply_text('You are authorized.')
+        await update.message.reply_text('You are authorized.')  # type: ignore
     else:
-        await update.message.reply_text('You are not authorized.')
+        await update.message.reply_text('You are not authorized.')  # type: ignore
