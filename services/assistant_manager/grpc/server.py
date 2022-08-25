@@ -1,8 +1,8 @@
 """
 Assistant manager gRPC server.
 """
-from aiogram import Bot
 from google.protobuf.empty_pb2 import Empty
+from telegram import Bot
 
 from services.assistant_manager.assistant_manager_pb2 import MessageResponse
 from services.assistant_manager.assistant_manager_pb2_grpc import AssistantManagerServicer
