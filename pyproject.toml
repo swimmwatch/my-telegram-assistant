@@ -17,7 +17,7 @@ grpcio-tools = "^1.47.0"
 grpcio = "^1.48.0"
 google = "^3.0.0"
 fastapi = "^0.80.0"
-uvicorn = "^0.18.2"
+uvicorn = "^0.18.3"
 pydantic = "^1.9.2"
 SQLAlchemy = {extras = ["asyncio"], version = "^1.4.40"}
 asyncpg = "^0.26.0"
@@ -31,7 +31,7 @@ mypy = "^0.971"
 flake8 = "^5.0.4"
 pytest = "^7.1.1"
 types-redis = "^4.3.17"
-types-protobuf = "^3.19.22"
+types-protobuf = "^3.20.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
