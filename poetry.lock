@@ -876,7 +876,7 @@ python-versions = ">= 3.7"
 
 [[package]]
 name = "types-protobuf"
-version = "3.20.0"
+version = "3.20.1"
 description = "Typing stubs for protobuf"
 category = "dev"
 optional = false
@@ -975,7 +975,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "e00895c33e08c23731d1c43abb9b03cb074e7de2a47a397ed65fe49986f4590b"
+content-hash = "b7fc01c7bb8477fdfbf87def265e50b3e1a5de9a6a35193c5eb577ee7478a3f0"
 
 [metadata.files]
 aioredis = [
@@ -1629,8 +1629,8 @@ tornado = [
     {file = "tornado-6.2.tar.gz", hash = "sha256:9b630419bde84ec666bfd7ea0a4cb2a8a651c2d5cccdbdd1972a0c859dfc3c13"},
 ]
 types-protobuf = [
-    {file = "types-protobuf-3.20.0.tar.gz", hash = "sha256:ffcfe1cf2bf5aa703d0b466a5e54d077f562164a7f5220b91632cd355e4dc360"},
-    {file = "types_protobuf-3.20.0-py3-none-any.whl", hash = "sha256:249e0f476a3db6067e55c646a91a1148a7495634016f08eb9450d983720f82c3"},
+    {file = "types-protobuf-3.20.1.tar.gz", hash = "sha256:36e3426476e373da6f2bb8a81a1194478cd1f33813a4e254849146d28c450e00"},
+    {file = "types_protobuf-3.20.1-py3-none-any.whl", hash = "sha256:b0bc0ffde2a339ee25c4b47e9dd515010153ad80c21d16fb57a2429987579801"},
 ]
 types-redis = [
     {file = "types-redis-4.3.17.tar.gz", hash = "sha256:03b023c08acf344f4f0821cc1c7e4dbecb7b17bc5483927c3e73d80f7fe1768e"},
