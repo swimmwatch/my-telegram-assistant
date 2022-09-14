@@ -16,7 +16,7 @@ asgiref = "^3.5.0"
 grpcio-tools = "^1.48.1"
 grpcio = "^1.48.1"
 google = "^3.0.0"
-fastapi = "^0.83.0"
+fastapi = "^0.84.0"
 uvicorn = "^0.18.3"
 pydantic = "^1.10.2"
 SQLAlchemy = {extras = ["asyncio"], version = "^1.4.41"}
