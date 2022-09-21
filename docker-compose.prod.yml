@@ -6,10 +6,7 @@ services:
       context: '.'
       dockerfile: Dockerfile
     restart: always
-    command: poetry run celery --app services.worker.app worker --loglevel INFO --concurrency=1
-    depends_on:
-      - redis
-      - rabbitmq
+    command: python -m celery --app services.worker.app worker --loglevel INFO --concurrency=1
     environment:
       ASSISTANT_GRPC_ADDR: "assistant:50051"
       CELERY_BROKER_URL: "amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq"
@@ -23,7 +20,7 @@ services:
       context: '.'
       dockerfile: Dockerfile
     restart: always
-    command: poetry run python -m services.assistant_manager.main
+    command: python -m services.assistant_manager.main
       - assistant
     environment:
       TELEGRAM_API_TOKEN: "${TELEGRAM_API_TOKEN}"
@@ -39,7 +36,7 @@ services:
       context: '.'
       dockerfile: Dockerfile
     restart: always
-    command: poetry run python -m services.assistant.main
+    command: python -m services.assistant.main
     depends_on:
       - worker
       - assistant_manager
@@ -65,5 +62,4 @@ volumes:
 
 networks:
   default:
-    external:
-      name: shared
+    name: shared
