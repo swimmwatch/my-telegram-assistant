@@ -11,7 +11,12 @@ from telegram.ext import Application, CommandHandler
 from services.assistant_manager import assistant_manager_pb2_grpc
 from services.assistant_manager.config import assistant_manager_settings
 from services.assistant_manager.grpc.server import AsyncAssistantManagerService
-from services.assistant_manager.handlers import handle_login_request, handle_logout_request, handle_status_request
+from services.assistant_manager.handlers import (
+    handle_login_request,
+    handle_logout_request,
+    handle_status_request,
+    handle_settings_request,
+)
 
 
 class AssistantManagerEntrypoint:
@@ -20,27 +25,31 @@ class AssistantManagerEntrypoint:
         self._bot = self._app.bot
 
     def _setup_bot_handlers(self):
-        self._app.add_handlers([
-            CommandHandler('start', handle_login_request),
-            CommandHandler('stop', handle_logout_request),
-            CommandHandler('status', handle_status_request),
-        ])
+        self._app.add_handlers(
+            [
+                CommandHandler("start", handle_login_request),
+                CommandHandler("stop", handle_logout_request),
+                CommandHandler("status", handle_status_request),
+                CommandHandler("settings", handle_settings_request),
+            ]
+        )
 
     def _run_bot(self):
         self._setup_bot_handlers()
 
-        logger.info('launch bot')
+        logger.info("launch bot")
         self._app.run_polling()
 
     async def _run_grpc_server(self):
         server = aio.server()
         assistant_manager_pb2_grpc.add_AssistantManagerServicer_to_server(
-            AsyncAssistantManagerService(self._bot),
-            server
+            AsyncAssistantManagerService(self._bot), server
         )
         server.add_insecure_port(assistant_manager_settings.assistant_manager_grpc_addr)
 
-        logger.info(f'starting gRPC server on {assistant_manager_settings.assistant_manager_grpc_addr}')
+        logger.info(
+            f"starting gRPC server on {assistant_manager_settings.assistant_manager_grpc_addr}"
+        )
         await server.start()
         await server.wait_for_termination()
 
