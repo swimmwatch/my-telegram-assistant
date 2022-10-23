@@ -852,7 +852,7 @@ full = ["itsdangerous", "jinja2", "python-multipart", "pyyaml", "requests"]
 
 [[package]]
 name = "telethon"
-version = "1.25.2"
+version = "1.25.4"
 description = "Full-featured Telegram client library for Python 3"
 category = "main"
 optional = false
@@ -982,7 +982,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "9d6639c33040f4c1d2ecc61898702a765533904d0100bcc13f46a77a651c99f8"
+content-hash = "58bcec32c6ef622fd7f73caffe4329217ae6723d4872490a95ce56f8d36893b7"
 
 [metadata.files]
 aioredis = [
@@ -1611,8 +1611,8 @@ starlette = [
     {file = "starlette-0.20.4.tar.gz", hash = "sha256:42fcf3122f998fefce3e2c5ad7e5edbf0f02cf685d646a83a08d404726af5084"},
 ]
 telethon = [
-    {file = "Telethon-1.25.2-py3-none-any.whl", hash = "sha256:9806fe57c2452be1ffc468fe0924e7c8ba3f6bd43504a6c094cbd259fbcad091"},
-    {file = "Telethon-1.25.2.tar.gz", hash = "sha256:a63da7a456727ffb0cac6b385563e57c4863d2b64fff58f9fa28ce188142b238"},
+    {file = "Telethon-1.25.4-py3-none-any.whl", hash = "sha256:a085348801bd62db79ad75c9a67c5c8312507b113f0228b92e2dd4397edc7c1d"},
+    {file = "Telethon-1.25.4.tar.gz", hash = "sha256:8df802aad2d11f7198f1d5b1d84c7498ef19c28e160041dcb8aaf0814f91115b"},
 ]
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
