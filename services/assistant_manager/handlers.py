@@ -91,7 +91,9 @@ async def handle_settings_request(update: Update, _: ContextTypes.DEFAULT_TYPE) 
         ],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text(
-        "Please press the button below to choose a color via the WebApp.",
-        reply_markup=reply_markup,
-    )
+    message = update.message
+    if message:
+        await message.reply_text(
+            "Please press the button below to choose a color via the WebApp.",
+            reply_markup=reply_markup,
+        )
