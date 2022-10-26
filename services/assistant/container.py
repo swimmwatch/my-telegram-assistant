@@ -17,8 +17,8 @@ class AssistantContainer(DeclarativeContainer):
     telegram_client: Singleton[TelegramClient] = Singleton(
         TelegramClient,
         session=MemorySession(),
-        api_id=assistant_settings.aiotdlib_api_id,
-        api_hash=assistant_settings.aiotdlib_api_hash,
+        api_id=assistant_settings.telegram_api_id,
+        api_hash=assistant_settings.telegram_api_hash,
     )
     assistant_manager_grpc_client = Singleton(
         AssistantManagerGrpcClient,

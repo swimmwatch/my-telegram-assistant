@@ -87,7 +87,7 @@ class Assistant:
             self._send_qr_code(img)
             try:
                 user = await qr_login.wait(
-                    assistant_settings.assistant_qr_login_timeout
+                    assistant_settings.qr_login_timeout
                 )
             except asyncio.TimeoutError:
                 await qr_login.recreate()
