@@ -13,7 +13,7 @@ from services.assistant.grpc.client import AssistantGrpcClient
 class AssistantManagerContainer(DeclarativeContainer):
     assistant_grpc_client = Singleton(
         AssistantGrpcClient,
-        addr=assistant_settings.grpc_addr
+        addr=assistant_settings.assistant_grpc_addr
     )
     # assistant_manager_entrypoint = Singleton(
     #     AssistantManagerEntrypoint,

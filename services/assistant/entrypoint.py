@@ -26,9 +26,9 @@ class AssistantEntrypoint:
             AsyncAssistantService(self.assistant),
             server
         )
-        server.add_insecure_port(assistant_settings.grpc_addr)
+        server.add_insecure_port(assistant_settings.assistant_grpc_addr)
 
-        logger.info(f'starting gRPC server on {assistant_settings.grpc_addr}')
+        logger.info(f'starting gRPC server on {assistant_settings.assistant_grpc_addr}')
         await server.start()
         await self.assistant.init()  # connect to Telegram inside gRPC process
         await server.wait_for_termination()

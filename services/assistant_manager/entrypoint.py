@@ -45,10 +45,10 @@ class AssistantManagerEntrypoint:
         assistant_manager_pb2_grpc.add_AssistantManagerServicer_to_server(
             AsyncAssistantManagerService(self._bot), server
         )
-        server.add_insecure_port(assistant_manager_settings.grpc_addr)
+        server.add_insecure_port(assistant_manager_settings.assistant_grpc_addr)
 
         logger.info(
-            f"starting gRPC server on {assistant_manager_settings.grpc_addr}"
+            f"starting gRPC server on {assistant_manager_settings.assistant_grpc_addr}"
         )
         await server.start()
         await server.wait_for_termination()

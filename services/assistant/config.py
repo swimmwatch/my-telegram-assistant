@@ -8,7 +8,7 @@ from pydantic import BaseSettings
 class AssistantSettings(BaseSettings):
     telegram_api_id: int = 0
     telegram_api_hash: str = ''
-    grpc_addr: str = 'localhost:50051'
+    assistant_grpc_addr: str = 'localhost:50051'
 
     qr_login_timeout: float = 60.0
 
