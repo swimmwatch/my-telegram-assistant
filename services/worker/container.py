@@ -17,8 +17,8 @@ class WorkerContainer(DeclarativeContainer):
     )
     redis_client = providers.Singleton(
         Redis,
-        host=worker_settings.redis_host,
-        port=worker_settings.redis_port
+        host=worker_settings.host,
+        port=worker_settings.port
     )
     post_cache_state_manager = providers.Singleton(
         RedisPostStateCacheManager,

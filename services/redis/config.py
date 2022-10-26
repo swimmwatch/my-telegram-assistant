@@ -5,8 +5,11 @@ from pydantic import BaseSettings
 
 
 class RedisSettings(BaseSettings):
-    redis_host: str = 'localhost'
-    redis_port: int = 6364
+    host: str = 'localhost'
+    port: int = 6364
+
+    class Config:
+        env_prefix = 'redis_'
 
 
 redis_settings = RedisSettings()
