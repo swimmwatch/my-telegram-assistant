@@ -11,7 +11,7 @@ COPY protobufs /app/protobufs
 RUN python -m grpc_tools.protoc \
     -I /app/protobufs \
     --python_out=. \
-     --grpc_python_out=. \
+    --grpc_python_out=. \
     /app/protobufs/services/**/**.proto
 
 COPY . .
