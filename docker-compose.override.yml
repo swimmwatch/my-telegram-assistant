@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  db:
+    ports:
+      - '5432:5432'
+    env_file:
+      - .env.test
+  redis:
+    ports:
+      - "6379:6379"
+  rabbitmq:
+    ports:
+      - "5672:5672"
+    env_file:
+      - .env.test
+  control_panel:
+    environment:
+      NODE_ENV: development
+    env_file:
+      - .env.test
+    volumes:
+      - '.:/app'
+  worker:
+    restart: "no"
+    env_file:
+      - .env.test
+    volumes:
+      - cached_posts:/tmp/posts
+      - ".:/app"
+  control_panel_api:
+    restart: "no"
+    ports:
+      - '8000:8000'
+    env_file:
+      - .env.test
+    volumes:
+      - '.:/app'
+  assistant_manager:
+    restart: "no"
+    env_file:
+      - .env.test
+    ports:
+      - "50052:50052"
+    volumes:
+      - ".:/app"
+  assistant:
+    restart: "no"
+    ports:
+      - "50051:50051"
+    env_file:
+      - .env.test
+    volumes:
+      - cached_posts:/tmp/posts
+      - ".:/app"
+
+volumes:
+  db:
+    driver: local
+  cached_posts:
