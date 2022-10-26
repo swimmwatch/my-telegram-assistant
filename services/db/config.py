@@ -5,15 +5,18 @@ from pydantic import BaseSettings
 
 
 class DatabaseSettings(BaseSettings):
-    db_user: str = 'postgres'
-    db_password: str
-    db_scheme: str = 'postgresql+asyncpg'
-    db_host: str = 'localhost'
-    db_name: str
+    user: str = 'postgres'
+    password: str
+    scheme: str = 'postgresql+asyncpg'
+    host: str = 'localhost'
+    name: str
 
     @property
     def db_url(self):
-        return f'{self.db_scheme}://{self.db_user}:{self.db_password}@{self.db_host}/{self.db_name}'
+        return f'{self.scheme}://{self.user}:{self.password}@{self.host}/{self.name}'
+
+    class Config:
+        env_prefix = 'db_'
 
 
 database_settings = DatabaseSettings()
