@@ -22,7 +22,7 @@ class AssistantContainer(DeclarativeContainer):
     )
     assistant_manager_grpc_client = Singleton(
         AssistantManagerGrpcClient,
-        addr=assistant_manager_settings.assistant_manager_grpc_addr
+        addr=assistant_manager_settings.grpc_addr
     )
     assistant = Singleton(
         Assistant,
