@@ -54,15 +54,10 @@ services:
       - cached_posts:/tmp/posts
       - ".:/app"
   flower:
-    image: mher/flower:0.9.7
-    command: flower --broker=${CELERY_BROKER_URL} --port=5555
     env_file:
       - .env.test
     ports:
-      - "5555:5555"
-    depends_on:
-      - redis
-      - worker
+      - "${FLOWER_PORT}:${FLOWER_PORT}"
 
 volumes:
   db:

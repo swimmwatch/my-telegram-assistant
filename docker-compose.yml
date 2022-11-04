@@ -76,6 +76,14 @@ services:
       - .env
     volumes:
       - cached_posts:/tmp/posts
+  flower:
+    image: mher/flower:0.9.7
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+      - redis
+      - worker
 
 volumes:
   db:
