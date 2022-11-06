@@ -3,15 +3,18 @@
 #######################
 FROM node:16 as builder
 
+WORKDIR /app/react-app
+
+COPY react-app/package.json .
+COPY react-app/package-lock.json .
+
+RUN npm install --only=prod
+
 WORKDIR /app
 
 COPY . .
 
 WORKDIR /app/react-app
-
-RUN npm install -g npm
-
-RUN npm install --only=prod
 
 RUN npm run build
 
@@ -19,8 +22,6 @@ RUN npm run build
 ### Start Ngnix server ###
 ##########################
 FROM nginx:stable-alpine
-
-WORKDIR /app
 
 # Copy static files
 COPY --from=builder /app/react-app/build /usr/share/nginx/html
