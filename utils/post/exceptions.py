@@ -5,6 +5,7 @@ Post exceptions.
 
 class BasePostException(Exception):
     """Base post exception class"""
+
     def __init__(self, url: str, message: str):
         self.url = url
         super().__init__(message)

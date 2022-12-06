@@ -12,4 +12,4 @@ def get_mention_text(user_id: int, username: str) -> str:
     :param username: Username
     :return: Message text with mention
     """
-    return a({'href': f'tg://user?id={user_id}'}, username)
+    return a({"href": f"tg://user?id={user_id}"}, username)

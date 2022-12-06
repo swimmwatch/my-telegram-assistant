@@ -8,6 +8,7 @@ class SupportsTelegramSending(Protocol):
     """
     Declares sending process to Telegram
     """
+
     def send(self, client: AssistantGrpcClient, **kwargs) -> MessageResponse:
         """
         Send data as Telegram message.

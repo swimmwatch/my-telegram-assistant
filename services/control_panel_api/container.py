@@ -10,11 +10,5 @@ from services.db.dal import UserRepository
 
 
 class ControlPanelApiContainer(DeclarativeContainer):
-    db = providers.Singleton(
-        AsyncDatabase,
-        db_url=database_settings.db_url
-    )
-    user_repo = providers.Singleton(
-        UserRepository,
-        session_factory=db.provided.session
-    )
+    db = providers.Singleton(AsyncDatabase, db_url=database_settings.db_url)
+    user_repo = providers.Singleton(UserRepository, session_factory=db.provided.session)

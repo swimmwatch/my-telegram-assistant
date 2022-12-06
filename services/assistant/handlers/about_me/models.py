@@ -8,25 +8,25 @@ from htmgem.tags import a
 
 
 class TypeProfiles(Enum):
-    WORK = 'work'
-    GAME = 'game'
+    WORK = "work"
+    GAME = "game"
 
 
 class WorkScopeValues(Enum):
-    EMAIL = 'email'
-    CV = 'cv'
-    GITHUB = 'github'
-    LINKEDIN = 'linkedin'
-    TELEGRAM = 'telegram'
+    EMAIL = "email"
+    CV = "cv"
+    GITHUB = "github"
+    LINKEDIN = "linkedin"
+    TELEGRAM = "telegram"
 
 
 class GameScopeValues(Enum):
-    ORIGIN = 'origin'
-    EPIC = 'epic'
-    STEAM = 'steam'
-    DISCORD = 'discord'
-    PSN = 'psn'
-    UBISOFT = 'ubisoft'
+    ORIGIN = "origin"
+    EPIC = "epic"
+    STEAM = "steam"
+    DISCORD = "discord"
+    PSN = "psn"
+    UBISOFT = "ubisoft"
 
 
 class ScopeInfo(NamedTuple):
@@ -38,87 +38,75 @@ work_info_dict = {
     WorkScopeValues.EMAIL: ScopeInfo(
         full_name="\N{CLOSED MAILBOX WITH RAISED FLAG} Email",
         value=a(
-            {
-                'href': 'mailto:contact.vasiliev.dmitry@gmail.com'
-            }, "contact.vasiliev.dmitry@gmail.com"
-        )
+            {"href": "mailto:contact.vasiliev.dmitry@gmail.com"},
+            "contact.vasiliev.dmitry@gmail.com",
+        ),
     ),
     WorkScopeValues.CV: ScopeInfo(
-        full_name='\N{SCROLL} CV',
+        full_name="\N{SCROLL} CV",
         # TODO: add short link
         value=f"{a({'href': 'https://hh.ru/resume_converter/Васильев Дмитрий Олегович.pdf?hash=78777defff08eb88a60039ed1f6f7739383057&type=pdf&hhtmSource=resume&hhtmFrom=resume_list&force-roles=true'}, 'Russian version')},"  # noqa: E501
-              f" {a({'href': 'www.linkedin.com/in/dmitry-vasiliev'}, 'English version')}"  # TODO: add short link
+        f" {a({'href': 'www.linkedin.com/in/dmitry-vasiliev'}, 'English version')}",  # TODO: add short link
     ),
     WorkScopeValues.GITHUB: ScopeInfo(
-        full_name='\N{GLOBE WITH MERIDIANS} GitHub',
-        value=f"{a({'href': 'https://github.com/swimmwatch'}, 'swimmwatch')}"
+        full_name="\N{GLOBE WITH MERIDIANS} GitHub",
+        value=f"{a({'href': 'https://github.com/swimmwatch'}, 'swimmwatch')}",
     ),
     WorkScopeValues.LINKEDIN: ScopeInfo(
-        full_name='\N{BRIEFCASE} LinkedIn',
+        full_name="\N{BRIEFCASE} LinkedIn",
         value=f"{a({'href': 'https://www.linkedin.com/in/dmitry-vasiliev/?locale=ru_RU'}, 'Russian version')},"
-              f" {a({'href': 'https://www.linkedin.com/in/dmitry-vasiliev'}, 'English version')}"
+        f" {a({'href': 'https://www.linkedin.com/in/dmitry-vasiliev'}, 'English version')}",
     ),
     WorkScopeValues.TELEGRAM: ScopeInfo(
-        full_name='\N{TELEPHONE RECEIVER} Telegram',
-        value="@contact_dmitry_vasiliev"
+        full_name="\N{TELEPHONE RECEIVER} Telegram", value="@contact_dmitry_vasiliev"
     ),
 }
 
 game_info_dict = {
     GameScopeValues.PSN: ScopeInfo(
-        full_name='Playstation Network',
+        full_name="Playstation Network",
         value=a(
             {
                 # TODO: fina another link
-                'href': 'https://www.exophase.com/psn/user/swimmwatch/'
+                "href": "https://www.exophase.com/psn/user/swimmwatch/"
             },
-            'swimmwatch'
-        )
+            "swimmwatch",
+        ),
     ),
     GameScopeValues.EPIC: ScopeInfo(
-        full_name='Epic Games',
+        full_name="Epic Games",
         value=a(
             {
                 # TODO: fina another link
-                'href': 'https://www.exophase.com/epic/user/swimmwatch/'
+                "href": "https://www.exophase.com/epic/user/swimmwatch/"
             },
-            'swimmwatch'
-        )
+            "swimmwatch",
+        ),
     ),
     GameScopeValues.STEAM: ScopeInfo(
-        full_name='Steam',
+        full_name="Steam",
         value=a(
-            {
-                'href': 'https://steamcommunity.com/profiles/76561198076339909'
-            },
-            'swimmwatch'
-        )
+            {"href": "https://steamcommunity.com/profiles/76561198076339909"},
+            "swimmwatch",
+        ),
     ),
     GameScopeValues.DISCORD: ScopeInfo(
-        full_name='Discord',
+        full_name="Discord",
         value=a(
-            {
-                'href': 'https://discordapp.com/users/277206963845201932'
-            },
-            'swimmwatch'
-        )
+            {"href": "https://discordapp.com/users/277206963845201932"}, "swimmwatch"
+        ),
     ),
     GameScopeValues.ORIGIN: ScopeInfo(
-        full_name='Origin',
+        full_name="Origin",
         value=a(
-            {
-                'href': 'https://www.exophase.com/origin/user/swimmwatch/'
-            },
-            'swimmwatch'
-        )
+            {"href": "https://www.exophase.com/origin/user/swimmwatch/"}, "swimmwatch"
+        ),
     ),
     GameScopeValues.UBISOFT: ScopeInfo(
-        full_name='Ubisoft Connect',
+        full_name="Ubisoft Connect",
         value=a(
-            {
-                'href': 'https://www.exophase.com/uplay/user/swimmwatch007/'
-            },
-            'swimmwatch007'
-        )
-    )
+            {"href": "https://www.exophase.com/uplay/user/swimmwatch007/"},
+            "swimmwatch007",
+        ),
+    ),
 }

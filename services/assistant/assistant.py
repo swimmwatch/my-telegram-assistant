@@ -12,10 +12,15 @@ from services.assistant.commands import CommandRequest, ExplicitCommandHandlerWr
 from services.assistant.config import assistant_settings
 from services.assistant.handlers.about_me import about_me_command
 from services.assistant.handlers.all import all_command
-from services.assistant.handlers.download_post import YouTubeShortVideoDownloadCommandHandler, \
-    reply_download_post_command
+from services.assistant.handlers.download_post import (
+    YouTubeShortVideoDownloadCommandHandler,
+    reply_download_post_command,
+)
 from services.assistant.handlers.hello import hello_command
-from services.assistant_manager.assistant_manager_pb2 import SendPhotoRequest, SendTextRequest
+from services.assistant_manager.assistant_manager_pb2 import (
+    SendPhotoRequest,
+    SendTextRequest,
+)
 from services.assistant_manager.config import assistant_manager_settings
 from services.assistant_manager.grpc.client import AssistantManagerGrpcClient
 from utils.img.base64 import Base64Image
@@ -25,6 +30,7 @@ class AssistantCommandsManager:
     """
     Commands manager.
     """
+
     _commands = YouTubeShortVideoDownloadCommandHandler(
         ExplicitCommandHandlerWrapper(
             about_me_command,
@@ -32,11 +38,9 @@ class AssistantCommandsManager:
                 hello_command,
                 ExplicitCommandHandlerWrapper(
                     reply_download_post_command,
-                    ExplicitCommandHandlerWrapper(
-                        all_command
-                    )
-                )
-            )
+                    ExplicitCommandHandlerWrapper(all_command),
+                ),
+            ),
         )
     )
 
@@ -47,9 +51,9 @@ class AssistantCommandsManager:
 
 class Assistant:
     def __init__(
-            self,
-            telegram_client: TelegramClient,
-            assistant_manager_grpc_client: AssistantManagerGrpcClient
+        self,
+        telegram_client: TelegramClient,
+        assistant_manager_grpc_client: AssistantManagerGrpcClient,
     ):
         self.telegram_client = telegram_client
         self.assistant_manager_grpc_client = assistant_manager_grpc_client
@@ -58,6 +62,7 @@ class Assistant:
         """
         Add Telegram handlers.
         """
+
         @self.telegram_client.on(events.NewMessage(outgoing=True))
         async def handle_new_own_message(event: events.NewMessage.Event):
             command_request = CommandRequest(event)
@@ -73,8 +78,8 @@ class Assistant:
         base64_img = Base64Image.encode(img)
         req = SendPhotoRequest(
             chat_id=assistant_manager_settings.my_telegram_id,
-            caption='Please login using this QR code.',
-            base64_img=base64_img
+            caption="Please login using this QR code.",
+            base64_img=base64_img,
         )
         self.assistant_manager_grpc_client.stub.send_photo(req)
 
@@ -86,15 +91,13 @@ class Assistant:
             img = self._create_login_qr_code(qr_login)
             self._send_qr_code(img)
             try:
-                user = await qr_login.wait(
-                    assistant_settings.qr_login_timeout
-                )
+                user = await qr_login.wait(assistant_settings.qr_login_timeout)
             except asyncio.TimeoutError:
                 await qr_login.recreate()
 
         req = SendTextRequest(
             chat_id=assistant_manager_settings.my_telegram_id,
-            text=f'{user.username}, authorized successful!'
+            text=f"{user.username}, authorized successful!",
         )
         self.assistant_manager_grpc_client.stub.send_text(req)
 

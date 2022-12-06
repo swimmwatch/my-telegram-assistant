@@ -10,15 +10,17 @@ class PostCacheState(Enum):
     """
     Post cache states.
     """
-    NONE = 'NONE'
-    DOWNLOADED = 'DOWNLOADED'
-    DOWNLOADING = 'DOWNLOADING'
+
+    NONE = "NONE"
+    DOWNLOADED = "DOWNLOADED"
+    DOWNLOADING = "DOWNLOADING"
 
 
 class SupportsPostStateCache(Protocol):
     """
     Protocol that declares getting and setting cache state.
     """
+
     def get_state(self, post_id: str) -> Tuple[PostCacheState, PathLike | None]:
         """
         Get post cache state.
@@ -28,7 +30,9 @@ class SupportsPostStateCache(Protocol):
         """
         ...
 
-    def set_state(self, post_id: str, new_state: PostCacheState, out_filename: PathLike) -> None:
+    def set_state(
+        self, post_id: str, new_state: PostCacheState, out_filename: PathLike
+    ) -> None:
         """
         Set post cache state.
 

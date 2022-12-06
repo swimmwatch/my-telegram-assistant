@@ -15,12 +15,6 @@ async def async_init_db(db: AsyncDatabase):
 
     async with db.session() as session:
         # init subjects
-        session.add_all(
-            User(name=name) for name in [
-                'Dmitry',
-                'Alex',
-                'Drag'
-            ]
-        )
+        session.add_all(User(name=name) for name in ["Dmitry", "Alex", "Drag"])
 
         await session.commit()

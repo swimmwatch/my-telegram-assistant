@@ -3,7 +3,11 @@ Command decorators.
 """
 import functools
 
-from services.assistant.commands import ExplicitCommandHandler, ParsedArguments, CommandRequest
+from services.assistant.commands import (
+    CommandRequest,
+    ExplicitCommandHandler,
+    ParsedArguments,
+)
 
 
 def serve_only_replied_request(func: ExplicitCommandHandler) -> ExplicitCommandHandler:
@@ -13,6 +17,7 @@ def serve_only_replied_request(func: ExplicitCommandHandler) -> ExplicitCommandH
     :param func: Explicit command handler
     :return: Wrapped explicit command handler
     """
+
     @functools.wraps(func)
     async def wrapper(args: ParsedArguments, request: CommandRequest):
         if request.event.is_reply:
@@ -28,6 +33,7 @@ def serve_only_group_messages(func: ExplicitCommandHandler) -> ExplicitCommandHa
     :param func: Explicit command handler
     :return: Wrapped explicit command handler
     """
+
     @functools.wraps(func)
     async def wrapper(args: ParsedArguments, request: CommandRequest):
         if request.event.message.is_group:

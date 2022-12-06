@@ -3,7 +3,7 @@ Text manipulation helpers.
 """
 import re
 
-RE_HASHTAG = re.compile(r'(#[\w]+)')
+RE_HASHTAG = re.compile(r"(#[\w]+)")
 
 
 def remove_hashtags(text: str) -> str:
@@ -12,5 +12,5 @@ def remove_hashtags(text: str) -> str:
     :param text: Some string
     :return: String without hashtags
     """
-    res = re.sub(RE_HASHTAG, '', text)
+    res = re.sub(RE_HASHTAG, "", text)
     return res

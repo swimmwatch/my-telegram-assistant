@@ -1,6 +1,6 @@
 from collections import deque
 from dataclasses import dataclass
-from typing import Type, Dict, Callable, Deque, Any, Awaitable, Optional, Tuple
+from typing import Any, Awaitable, Callable, Deque, Dict, Optional, Tuple, Type
 
 from loguru import logger
 from telethon import events
@@ -13,6 +13,7 @@ class CommandRequest:
     """
     Command request data.
     """
+
     event: events.NewMessage.Event
 
     @property
@@ -34,6 +35,7 @@ class ExplicitCommand:
     """
     Explicit command.
     """
+
     MAX_COMMAND_NAME_LEN = 16
 
     def __init__(self, name: str):
@@ -43,20 +45,24 @@ class ExplicitCommand:
         :param name: Command name
         """
         if not name:
-            raise ValueError('Command name must be not empty')
+            raise ValueError("Command name must be not empty")
 
-        if '\\' in name:
+        if "\\" in name:
             raise ValueError(r'Command name must doesn\'t contain "\" character')
 
         if len(name) >= ExplicitCommand.MAX_COMMAND_NAME_LEN:
-            raise ValueError(f'Command name length must be less then {ExplicitCommand.MAX_COMMAND_NAME_LEN}')
+            raise ValueError(
+                f"Command name length must be less then {ExplicitCommand.MAX_COMMAND_NAME_LEN}"
+            )
 
         if any(char.isdigit() for char in name):
-            raise ValueError('Command name must doesn\'t contain digits')
+            raise ValueError("Command name must doesn't contain digits")
 
         self._name = name
         self._args: Dict[str, Type] = {}
-        self._handlers: Deque[Tuple[ExplicitCommandHandler, Optional[ExplicitCommandCondition]]] = deque()
+        self._handlers: Deque[
+            Tuple[ExplicitCommandHandler, Optional[ExplicitCommandCondition]]
+        ] = deque()
 
     @property
     def name(self) -> str:
@@ -74,7 +80,7 @@ class ExplicitCommand:
         """
         self._args[name] = type_
 
-    def add_arg(self, name: str, type_: Type) -> 'ExplicitCommand':
+    def add_arg(self, name: str, type_: Type) -> "ExplicitCommand":
         """
         Add command argument.
 
@@ -85,24 +91,29 @@ class ExplicitCommand:
         self._add_arg(name, type_)
         return self
 
-    def _add_handler(self, func: ExplicitCommandHandler, condition: Optional[ExplicitCommandCondition]) -> None:
+    def _add_handler(
+        self,
+        func: ExplicitCommandHandler,
+        condition: Optional[ExplicitCommandCondition],
+    ) -> None:
         """
         Private method for adding explicit command handler.
 
         :param func: Explicit command handler
         :param condition: Explicit command condition predicate
         """
-        self._handlers.append(
-            (func, condition)
-        )
+        self._handlers.append((func, condition))
 
-    def on(self, condition: Optional[ExplicitCommandCondition] = None) -> Callable[[ExplicitCommandHandler], None]:
+    def on(
+        self, condition: Optional[ExplicitCommandCondition] = None
+    ) -> Callable[[ExplicitCommandHandler], None]:
         """
         Decorate explicit command handler.
 
         :param condition: Explicit command condition predicate
         :return: Decorated explicit command handler that calls if condition returns True
         """
+
         def wrapper(func: ExplicitCommandHandler) -> None:
             self._add_handler(func, condition)
 
@@ -134,9 +145,12 @@ class ExplicitCommand:
 
         parts = text.split()
         actual_command_name = parts[0]
-        expected_command_name = fr'\{self._name}'
+        expected_command_name = rf"\{self._name}"
 
-        if not text.startswith(expected_command_name) or actual_command_name != expected_command_name:
+        if (
+            not text.startswith(expected_command_name)
+            or actual_command_name != expected_command_name
+        ):
             return None
 
         values = parts[1:]
@@ -153,7 +167,12 @@ class ExplicitCommandHandlerWrapper(AsyncChainOfResponsibility):
     """
     Handler wrapper for explicit commands.
     """
-    def __init__(self, command: ExplicitCommand, next_handler: Optional['AsyncChainOfResponsibility'] = None):
+
+    def __init__(
+        self,
+        command: ExplicitCommand,
+        next_handler: Optional["AsyncChainOfResponsibility"] = None,
+    ):
         super().__init__(next_handler)
         self.command = command
 
@@ -173,6 +192,6 @@ class ExplicitCommandHandlerWrapper(AsyncChainOfResponsibility):
             return False
 
         await self.command.emit(args, request)
-        logger.info(f'handling {self.command.name} command')
+        logger.info(f"handling {self.command.name} command")
 
         return True

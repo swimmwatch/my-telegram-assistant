@@ -1,22 +1,22 @@
 """
 Database configuration.
 """
-from pydantic import BaseSettings
+from pydantic import BaseSettings, SecretStr
 
 
 class DatabaseSettings(BaseSettings):
-    user: str = 'postgres'
-    password: str
-    scheme: str = 'postgresql+asyncpg'
-    host: str = 'localhost'
+    user: str = "postgres"
+    password: SecretStr
+    scheme: str = "postgresql+asyncpg"
+    host: str = "localhost"
     name: str
 
     @property
     def db_url(self):
-        return f'{self.scheme}://{self.user}:{self.password}@{self.host}/{self.name}'
+        return f"{self.scheme}://{self.user}:{self.password}@{self.host}/{self.name}"
 
     class Config:
-        env_prefix = 'db_'
+        env_prefix = "db_"
 
 
 database_settings = DatabaseSettings()

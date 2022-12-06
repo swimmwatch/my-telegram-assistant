@@ -12,15 +12,11 @@ from utils.post.cache.state.redis import RedisPostStateCacheManager
 
 class WorkerContainer(DeclarativeContainer):
     assistant_grpc_client = providers.Factory(
-        AssistantGrpcClient,
-        addr=worker_settings.assistant_grpc_addr
+        AssistantGrpcClient, addr=worker_settings.assistant_grpc_addr
     )
     redis_client = providers.Singleton(
-        Redis,
-        host=worker_settings.host,
-        port=worker_settings.port
+        Redis, host=worker_settings.host, port=worker_settings.port
     )
     post_cache_state_manager = providers.Singleton(
-        RedisPostStateCacheManager,
-        redis_client=redis_client
+        RedisPostStateCacheManager, redis_client=redis_client
     )

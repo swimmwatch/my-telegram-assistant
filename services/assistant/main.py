@@ -16,6 +16,6 @@ async def main():
     await assistant_entrypoint.run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     asyncio.run(main())

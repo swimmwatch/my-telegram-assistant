@@ -5,7 +5,7 @@ from google.protobuf.empty_pb2 import Empty
 from grpc import StatusCode
 
 from services.assistant.assistant import Assistant
-from services.assistant.assistant_pb2 import MessageResponse, BooleanValue
+from services.assistant.assistant_pb2 import BooleanValue, MessageResponse
 from services.assistant.assistant_pb2_grpc import AssistantServicer
 
 
@@ -19,9 +19,7 @@ class AsyncAssistantService(AssistantServicer):
     async def send_text(self, request, context) -> Empty:
         # TODO: handle errors
         result_msg = await self.telegram_client.send_message(
-            request.chat_id,
-            message=request.text,
-            silent=request.disable_notification
+            request.chat_id, message=request.text, silent=request.disable_notification
         )
         return MessageResponse(
             id=result_msg.id,
@@ -35,7 +33,7 @@ class AsyncAssistantService(AssistantServicer):
             request.chat_id,
             request.video_path,
             caption=request.caption,
-            silent=request.disable_notification
+            silent=request.disable_notification,
         )
         return MessageResponse(
             id=result_msg.id,
@@ -49,7 +47,7 @@ class AsyncAssistantService(AssistantServicer):
             request.from_chat_id,
             list(request.message_ids),
             request.chat_id,
-            silent=request.disable_notification
+            silent=request.disable_notification,
         )
         return Empty()
 
@@ -67,7 +65,7 @@ class AsyncAssistantService(AssistantServicer):
             # TODO: Handle too much attempts error.
             await self.assistant.authorize_user()
         else:
-            detail_msg = 'You are already logged in.'
+            detail_msg = "You are already logged in."
             context.set_code(StatusCode.ALREADY_EXISTS)
             context.set_details(detail_msg)
 
@@ -79,11 +77,11 @@ class AsyncAssistantService(AssistantServicer):
             status = await self.telegram_client.log_out()
 
             if not status:
-                detail_msg = 'Something wrong with logout.'
+                detail_msg = "Something wrong with logout."
                 context.set_code(StatusCode.CANCELLED)
                 context.set_details(detail_msg)
         else:
-            detail_msg = 'You are not authorized.'
+            detail_msg = "You are not authorized."
             context.set_code(StatusCode.UNAUTHENTICATED)
             context.set_details(detail_msg)
 

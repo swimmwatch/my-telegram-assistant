@@ -11,8 +11,8 @@ class RedisPostStateCacheManager(SupportsPostStateCache):
     Implementation of post cache manager for Redis.
     """
 
-    STATE_KEY_PATTERN = 'state:%s'
-    STATE_VALUE_SEP = '\t'
+    STATE_KEY_PATTERN = "state:%s"
+    STATE_VALUE_SEP = "\t"
 
     def __init__(self, redis_client: Redis):
         self.redis_client = redis_client
@@ -27,9 +27,11 @@ class RedisPostStateCacheManager(SupportsPostStateCache):
         state, output_filename = dec_state_str.split(self.STATE_VALUE_SEP)
         return PostCacheState[state], output_filename or None
 
-    def set_state(self, post_id: str, new_state: PostCacheState, out_filename: PathLike) -> None:
+    def set_state(
+        self, post_id: str, new_state: PostCacheState, out_filename: PathLike
+    ) -> None:
         key = self.STATE_KEY_PATTERN % post_id
-        val = f'{new_state.value}{self.STATE_VALUE_SEP}{out_filename}'
+        val = f"{new_state.value}{self.STATE_VALUE_SEP}{out_filename}"
         self.redis_client.set(key, val)
 
     def clear_state(self, post_id: str):

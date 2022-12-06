@@ -2,7 +2,7 @@
 Assistant DI container.
 """
 from dependency_injector.containers import DeclarativeContainer
-from dependency_injector.providers import Singleton, Factory
+from dependency_injector.providers import Factory, Singleton
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
 
@@ -22,14 +22,11 @@ class AssistantContainer(DeclarativeContainer):
     )
     assistant_manager_grpc_client = Singleton(
         AssistantManagerGrpcClient,
-        addr=assistant_manager_settings.assistant_manager_grpc_addr
+        addr=assistant_manager_settings.assistant_manager_grpc_addr,
     )
     assistant = Singleton(
         Assistant,
         telegram_client=telegram_client.provided,
-        assistant_manager_grpc_client=assistant_manager_grpc_client.provided
+        assistant_manager_grpc_client=assistant_manager_grpc_client.provided,
     )
-    assistant_entrypoint = Factory(
-        AssistantEntrypoint,
-        assistant=assistant.provided
-    )
+    assistant_entrypoint = Factory(AssistantEntrypoint, assistant=assistant.provided)

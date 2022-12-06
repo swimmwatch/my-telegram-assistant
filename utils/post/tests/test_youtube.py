@@ -11,9 +11,9 @@ from utils.post.impl import YouTubeShortVideo
 @pytest.mark.smoke
 def test_download_youtube_short_video_post():
     # download random video and delete it
-    url = 'https://www.youtube.com/watch?v=jNQXAC9IVRw'
+    url = "https://www.youtube.com/watch?v=jNQXAC9IVRw"
     yt = YouTubeShortVideo(url)
-    out_dir = path.join('/tmp', 'data')
+    out_dir = path.join("/tmp", "data")
     out_filename = yt.download(out_dir)
 
     assert path.exists(out_filename)

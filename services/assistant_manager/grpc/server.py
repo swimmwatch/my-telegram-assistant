@@ -5,7 +5,9 @@ from google.protobuf.empty_pb2 import Empty
 from telegram import Bot
 
 from services.assistant_manager.assistant_manager_pb2 import MessageResponse
-from services.assistant_manager.assistant_manager_pb2_grpc import AssistantManagerServicer
+from services.assistant_manager.assistant_manager_pb2_grpc import (
+    AssistantManagerServicer,
+)
 from utils.img.base64 import Base64Image
 
 
@@ -17,10 +19,7 @@ class AsyncAssistantManagerService(AssistantManagerServicer):
 
     async def send_text(self, request, context) -> Empty:
         # TODO: handle errors
-        result_msg = await self.bot.send_message(
-            request.chat_id,
-            text=request.text
-        )
+        result_msg = await self.bot.send_message(request.chat_id, text=request.text)
         return MessageResponse(
             id=result_msg.message_id,
             chat_id=request.chat_id,

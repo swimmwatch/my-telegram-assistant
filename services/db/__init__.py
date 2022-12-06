@@ -2,22 +2,25 @@
 Database service.
 """
 from contextlib import asynccontextmanager
-from typing import Protocol, Union, ContextManager, AsyncContextManager
+from typing import AsyncContextManager, ContextManager, Protocol, Union
 
 from loguru import logger
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 from services.db.types import SessionType
 
 Base = declarative_base()
-AnySessionAbstractContextManager = Union[ContextManager[SessionType], AsyncContextManager[SessionType]]
+AnySessionAbstractContextManager = Union[
+    ContextManager[SessionType], AsyncContextManager[SessionType]
+]
 
 
 class SQLAlchemyDatabaseProtocol(Protocol):
     """
     SQLAlchemy database protocol.
     """
+
     def session(self) -> AnySessionAbstractContextManager:
         """
         Implements method that returns SQLAlchemy session context manager.
@@ -37,7 +40,9 @@ class AsyncDatabase(SQLAlchemyDatabaseProtocol):
         :param db_url: Database URL.
         """
         self._engine = create_async_engine(db_url, echo=True)
-        self._session_factory = sessionmaker(self._engine, expire_on_commit=False, class_=AsyncSession)
+        self._session_factory = sessionmaker(
+            self._engine, expire_on_commit=False, class_=AsyncSession
+        )
 
     @asynccontextmanager
     async def session(self):
@@ -45,7 +50,7 @@ class AsyncDatabase(SQLAlchemyDatabaseProtocol):
         try:
             yield session
         except Exception as err:
-            logger.error(f'Session rollback because of exception: {err}')
+            logger.error(f"Session rollback because of exception: {err}")
             await session.rollback()
         finally:
             await session.close()

@@ -4,28 +4,24 @@ Init Celery application.
 from datetime import datetime
 
 from celery import Celery
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide, inject
 from loguru import logger
 
 from services.assistant.grpc.client import AssistantGrpcClient
 from services.worker.config import OUT_DIR, worker_settings
 from services.worker.container import WorkerContainer
-from utils.post.impl import PostFactory
 from utils.post.cache.state import PostCacheState
 from utils.post.cache.state.redis import RedisPostStateCacheManager
-from utils.post.exceptions import PostNonDownloadable, PostUnavailable, PostTooLarge
+from utils.post.exceptions import PostNonDownloadable, PostTooLarge, PostUnavailable
+from utils.post.impl import PostFactory
 
 celery = Celery(
-    'tasks',
+    "tasks",
     broker=worker_settings.celery_broker_url,
-    backend=worker_settings.celery_result_backend
+    backend=worker_settings.celery_result_backend,
 )
 
-task_routes = {
-    'services.worker.app.download_and_send_post': {
-        'queue': 'downloads'
-    }
-}
+task_routes = {"services.worker.app.download_and_send_post": {"queue": "downloads"}}
 
 
 @celery.on_after_configure.connect
@@ -39,7 +35,9 @@ def init_di_container(sender, **kwargs):
 def clear_cached_post(
     post_id: str,
     out_filename: str,
-    post_state_cache_manager: RedisPostStateCacheManager = Provide[WorkerContainer.post_cache_state_manager],
+    post_state_cache_manager: RedisPostStateCacheManager = Provide[
+        WorkerContainer.post_cache_state_manager
+    ],
 ):
     """Clear cached post"""
     post = PostFactory.init_from_post_id(post_id)
@@ -52,8 +50,12 @@ def clear_cached_post(
 def download_and_send_post(
     chat_id: int,
     post_id: str,
-    post_state_cache_manager: RedisPostStateCacheManager = Provide[WorkerContainer.post_cache_state_manager],
-    assistant_grpc_client: AssistantGrpcClient = Provide[WorkerContainer.assistant_grpc_client]
+    post_state_cache_manager: RedisPostStateCacheManager = Provide[
+        WorkerContainer.post_cache_state_manager
+    ],
+    assistant_grpc_client: AssistantGrpcClient = Provide[
+        WorkerContainer.assistant_grpc_client
+    ],
 ):
     try:
         post = PostFactory.init_from_post_id(post_id)
@@ -69,9 +71,7 @@ def download_and_send_post(
             logger.warning(err.message)
             return
         post_state_cache_manager.set_state(
-            post.id,
-            PostCacheState.DOWNLOADED,
-            out_filename
+            post.id, PostCacheState.DOWNLOADED, out_filename
         )
     elif cache_state is PostCacheState.DOWNLOADED and filename:
         out_filename = filename
@@ -80,7 +80,7 @@ def download_and_send_post(
         assistant_grpc_client,
         video_path=out_filename,
         chat_id=chat_id,
-        disable_notification=True
+        disable_notification=True,
     )
 
     release_date = datetime.now() + post.ttl
