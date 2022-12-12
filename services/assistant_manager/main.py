@@ -11,7 +11,7 @@ def main():
     assistant_manager_container.wire(modules=[__name__, ".handlers"])
 
     assistant_manager_entrypoint = AssistantManagerEntrypoint(
-        assistant_manager_settings.telegram_api_token
+        assistant_manager_settings.telegram_api_token.get_secret_value()
     )
 
     assistant_manager_entrypoint.run()
