@@ -614,7 +614,7 @@ testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.
 
 [[package]]
 name = "python-telegram-bot"
-version = "20.0a6"
+version = "20.0b0"
 description = "We have made you a wrapper you can't refuse"
 category = "main"
 optional = false
@@ -883,7 +883,7 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "ab4926e6494f201a825ed67167c39310aa7478e8e1b56a88f7c16cebcedb0bc6"
+content-hash = "036534a44a55724c8e975a811c0519236f3acc1f8131b5e190d95cb109b478c6"
 
 [metadata.files]
 aioredis = [
@@ -1419,8 +1419,8 @@ pytest = [
     {file = "pytest-7.2.0.tar.gz", hash = "sha256:c4014eb40e10f11f355ad4e3c2fb2c6c6d1919c73f3b5a433de4708202cade59"},
 ]
 python-telegram-bot = [
-    {file = "python-telegram-bot-20.0a6.tar.gz", hash = "sha256:aac039b54043d5c1778b182d506f2d51ddccef746eeb36e6ca9a236c4cd1c848"},
-    {file = "python_telegram_bot-20.0a6-py3-none-any.whl", hash = "sha256:0279d0d727ab36e4b42a8819656098485bcd0724961c2f5fced3218b15b26c02"},
+    {file = "python-telegram-bot-20.0b0.tar.gz", hash = "sha256:61e8c4d92d4641391d853d9431c8b0b1f21678a0bff8d990bc6de777f53f843e"},
+    {file = "python_telegram_bot-20.0b0-py3-none-any.whl", hash = "sha256:70dec236386a809f777d0227117fb37fa4f5ca0c367a4c392d28346657749687"},
 ]
 pytube = [
     {file = "pytube-12.1.0-py3-none-any.whl", hash = "sha256:c2e4b1ffdf9eca4c287f881557a6b4f98dd287ecfa06e2e5d5936d39c5f4d8da"},
