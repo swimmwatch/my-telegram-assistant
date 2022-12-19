@@ -635,7 +635,7 @@ webhooks = ["tornado (>=6.2,<7.0)"]
 
 [[package]]
 name = "pytube"
-version = "12.1.0"
+version = "12.1.2"
 description = "Python 3 library for downloading YouTube Videos."
 category = "main"
 optional = false
@@ -883,7 +883,7 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "036534a44a55724c8e975a811c0519236f3acc1f8131b5e190d95cb109b478c6"
+content-hash = "16df73316e06f6a68a22542bacea52f81ba8bd7e38aca6dd929664daf776a901"
 
 [metadata.files]
 aioredis = [
@@ -1423,8 +1423,8 @@ python-telegram-bot = [
     {file = "python_telegram_bot-20.0b0-py3-none-any.whl", hash = "sha256:70dec236386a809f777d0227117fb37fa4f5ca0c367a4c392d28346657749687"},
 ]
 pytube = [
-    {file = "pytube-12.1.0-py3-none-any.whl", hash = "sha256:c2e4b1ffdf9eca4c287f881557a6b4f98dd287ecfa06e2e5d5936d39c5f4d8da"},
-    {file = "pytube-12.1.0.tar.gz", hash = "sha256:6de1f3a4cb125dd6ff912598c7e88a866325a63cc91755cae616f53c40ae5503"},
+    {file = "pytube-12.1.2-py3-none-any.whl", hash = "sha256:a844800002744f33107f4440543f9a5f1fd9fcd97dad35cf2dd4803212352d9a"},
+    {file = "pytube-12.1.2.tar.gz", hash = "sha256:2d34a484f81cae106ea84e8c00871f97dcc293e8ed8c074e65abc4119f02c98f"},
 ]
 pytz = [
     {file = "pytz-2022.6-py2.py3-none-any.whl", hash = "sha256:222439474e9c98fced559f1709d89e6c9cbf8d79c794ff3eb9f8800064291427"},
