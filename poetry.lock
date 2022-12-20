@@ -43,7 +43,7 @@ trio = ["trio (>=0.16,<0.22)"]
 
 [[package]]
 name = "asgiref"
-version = "3.5.2"
+version = "3.6.0"
 description = "ASGI specs, helper code, and adapters"
 category = "main"
 optional = false
@@ -883,7 +883,7 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "f291586e5570081810bd572b0c510c07bf4853741f1e9e8244254e7a1e8375ac"
+content-hash = "441a353c9899164d3f0ba2ae70b35b0e8257409d6a0e8bbccc66d91c2e60611e"
 
 [metadata.files]
 aioredis = [
@@ -899,8 +899,8 @@ anyio = [
     {file = "anyio-3.6.2.tar.gz", hash = "sha256:25ea0d673ae30af41a0c442f81cf3b38c7e79fdc7b60335a4c14e05eb0947421"},
 ]
 asgiref = [
-    {file = "asgiref-3.5.2-py3-none-any.whl", hash = "sha256:1d2880b792ae8757289136f1db2b7b99100ce959b2aa57fd69dab783d05afac4"},
-    {file = "asgiref-3.5.2.tar.gz", hash = "sha256:4a29362a6acebe09bf1d6640db38c1dc3d9217c68e6f9f6204d72667fc19a424"},
+    {file = "asgiref-3.6.0-py3-none-any.whl", hash = "sha256:71e68008da809b957b7ee4b43dbccff33d1b23519fb8344e33f049897077afac"},
+    {file = "asgiref-3.6.0.tar.gz", hash = "sha256:9567dfe7bd8d3c8c892227827c41cce860b368104c3431da67a0c5a65a949506"},
 ]
 async-timeout = [
     {file = "async-timeout-4.0.2.tar.gz", hash = "sha256:2163e1640ddb52b7a8c80d0a67a08587e5d245cc9c553a74a847056bc2976b15"},
