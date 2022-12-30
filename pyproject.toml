@@ -18,7 +18,7 @@ grpcio = "^1.51.1"
 google = "^3.0.0"
 fastapi = "^0.88.0"
 uvicorn = "^0.20.0"
-pydantic = "^1.10.3"
+pydantic = "^1.10.4"
 SQLAlchemy = {extras = ["asyncio"], version = "^1.4.45"}
 asyncpg = "^0.27.0"
 htmgem = "^0.0.2"
