@@ -824,7 +824,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-redis"
-version = "4.3.21.7"
+version = "4.4.0.0"
 description = "Typing stubs for redis"
 category = "dev"
 optional = false
@@ -883,7 +883,7 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "97c864c1cabcc592c9c12a119e6d62faae128bfcc5ae8300dac73eafdab5b3b2"
+content-hash = "9e974e26d89ef02b857525fd9ac112ede5b56c81d750b0984fc45382099e2917"
 
 [metadata.files]
 aioredis = [
@@ -1555,8 +1555,8 @@ types-protobuf = [
     {file = "types_protobuf-4.21.0.2-py3-none-any.whl", hash = "sha256:aeefcf39d637016998b3c7b699750847071b555f7c2e0c9873d42ab6103d1a39"},
 ]
 types-redis = [
-    {file = "types-redis-4.3.21.7.tar.gz", hash = "sha256:f9baac41fcafb0b8ec655893feebc5d8bd189da05062d03b4566a16c092fc08c"},
-    {file = "types_redis-4.3.21.7-py3-none-any.whl", hash = "sha256:834e816a84fc570aa96551a9252b0df164ac671bc09e4708e2f8e2b129449ef1"},
+    {file = "types-redis-4.4.0.0.tar.gz", hash = "sha256:7d826d458e9a6dbd7d4f21fdf6d7c39ba2e2f3474c8a348000241965860a0edf"},
+    {file = "types_redis-4.4.0.0-py3-none-any.whl", hash = "sha256:cc3832caab14f86af2c62ac3c865694df925df525b8083509035842ecb6b5950"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.4.0-py3-none-any.whl", hash = "sha256:16fa4864408f655d35ec496218b85f79b3437c829e93320c7c9215ccfd92489e"},
