@@ -3,15 +3,15 @@ on:
   pull_request:
     paths:
       - "**/*.[jt]sx?"
-      - "services/control_panel/react-app/package.json"
-      - "services/control_panel/react-app/package-lock.json"
+      - "control_panel/react-app/package.json"
+      - "control_panel/react-app/package-lock.json"
     branches:
       - master
       - dev
 
 defaults:
   run:
-    working-directory: services/control_panel/react-app
+    working-directory: control_panel/react-app
 
 jobs:
   test:
@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: ${{matrix.node-version}}
           cache: 'npm'
-          cache-dependency-path: 'services/control_panel/react-app/package-lock.json'
+          cache-dependency-path: 'control_panel/react-app/package-lock.json'
       - name: Install dependencies
         run: npm install
       - name: Build app
