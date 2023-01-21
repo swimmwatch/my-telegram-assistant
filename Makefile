@@ -18,3 +18,6 @@ lint: flake mypy
 
 unit-test:
 	poetry run pytest $(SRC_DIR)
+
+cov:
+	poetry run pytest --cov=$(SRC_DIR) $(SRC_DIR)
