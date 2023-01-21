@@ -3,4 +3,4 @@ build-protobuf:
     -I protobufs \
     --python_out=. \
     --grpc_python_out=. \
-    protobufs/services/**/**.proto
+    protobufs/services/*/*.proto
