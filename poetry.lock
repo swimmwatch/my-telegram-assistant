@@ -1019,6 +1019,22 @@ files = [
 ]
 
 [[package]]
+name = "mypy-protobuf"
+version = "3.4.0"
+description = "Generate mypy stub files from protobuf specs"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "mypy-protobuf-3.4.0.tar.gz", hash = "sha256:7d75a079651b105076776a35a5405e3fa773b8a167118f1b712e443e9a6c18a2"},
+    {file = "mypy_protobuf-3.4.0-py3-none-any.whl", hash = "sha256:da33dfde7547ff57e5ba5564126cbfa114f14413b2fa50759b1fa5de1e4ab511"},
+]
+
+[package.dependencies]
+protobuf = ">=4.21.8"
+types-protobuf = ">=3.20.4"
+
+[[package]]
 name = "packaging"
 version = "23.0"
 description = "Core utilities for Python packages"
@@ -1720,4 +1736,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "f2e726192783d5056fd1a15fc26c1f57ae3c5e65f7b0bf71b0935f7b83a71d10"
+content-hash = "efa0a7a34711dd07a4023fc066cc9ba87d1c28171ac3fa90d9824556bb186b72"

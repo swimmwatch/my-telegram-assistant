@@ -5,6 +5,7 @@ build-protobuf:
     -I src/protobufs \
     --python_out=$(SRC_DIR) \
     --grpc_python_out=$(SRC_DIR) \
+    --mypy_out=$(SRC_DIR) \
     $(SRC_DIR)/protobufs/services/*/*.proto
 
 mypy:

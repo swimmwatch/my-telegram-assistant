@@ -16,7 +16,7 @@ class AsyncAssistantService(AssistantServicer):
         self.assistant = assistant
         self.telegram_client = self.assistant.telegram_client
 
-    async def send_text(self, request, context) -> Empty:
+    async def send_text(self, request, context):
         # TODO: handle errors
         result_msg = await self.telegram_client.send_message(
             request.chat_id, message=request.text, silent=request.disable_notification

@@ -17,7 +17,7 @@ class AsyncAssistantManagerService(AssistantManagerServicer):
 
         self.bot = bot
 
-    async def send_text(self, request, context) -> Empty:
+    async def send_text(self, request, context):
         # TODO: handle errors
         result_msg = await self.bot.send_message(request.chat_id, text=request.text)
         return MessageResponse(
