@@ -15,7 +15,6 @@ RUN apt-get install -y --no-install-recommends build-essential gcc curl
 
 WORKDIR /app
 
-
 RUN pip install "poetry==$POETRY_VERSION"
 RUN poetry config virtualenvs.in-project true
 
@@ -33,7 +32,7 @@ COPY --from=build /app/.venv .venv
 ENV PATH="/app/.venv/bin:$PATH"
 
 # Copy application
-COPY . .
+COPY backend .
 
 # Build gRPC services
 RUN python -m grpc_tools.protoc \
