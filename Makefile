@@ -15,3 +15,6 @@ flake:
 	poetry run flake8 $(SRC_DIR)
 
 lint: flake mypy
+
+unit-test:
+	poetry run pytest $(SRC_DIR)
