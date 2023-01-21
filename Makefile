@@ -1,6 +1,6 @@
 build-protobuf:
 	poetry run python -m grpc_tools.protoc \
-    -I protobufs \
-    --python_out=. \
-    --grpc_python_out=. \
-    protobufs/services/*/*.proto
+    -I src/protobufs \
+    --python_out=src \
+    --grpc_python_out=src \
+    src/protobufs/services/*/*.proto

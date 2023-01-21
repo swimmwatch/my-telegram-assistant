@@ -32,7 +32,7 @@ COPY --from=build /app/.venv .venv
 ENV PATH="/app/.venv/bin:$PATH"
 
 # Copy application
-COPY backend .
+COPY src .
 
 # Build gRPC services
 RUN python -m grpc_tools.protoc \
