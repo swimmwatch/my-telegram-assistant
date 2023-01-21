@@ -53,6 +53,6 @@ jobs:
       - name: Install dependencies
         run: poetry install
       - name: Build gRPC proto files
-        uses: ./.github/actions/build-grpc-proto
+        run: make build-protobuf
       - name: Run pytest
         run: poetry run pytest
