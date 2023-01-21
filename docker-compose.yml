@@ -36,7 +36,7 @@ services:
     build:
       context: .
     restart: always
-    command: python -m celery --app services.worker.app worker --loglevel ${LOGURU_LEVEL} --concurrency=1
+    command: celery --app services.worker.app worker --loglevel ${LOGURU_LEVEL} --concurrency=1
     depends_on:
       - redis
       - rabbitmq
