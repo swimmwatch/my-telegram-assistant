@@ -21,3 +21,6 @@ unit-test:
 
 cov:
 	poetry run pytest --cov=$(SRC_DIR) $(SRC_DIR)
+
+black:
+	poetry run black $(SRC_DIR)
