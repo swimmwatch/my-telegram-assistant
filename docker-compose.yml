@@ -49,8 +49,6 @@ services:
     build:
       context: .
     restart: always
-    ports:
-      - '8000'
     depends_on:
       - db
     command: uvicorn services.control_panel_api.main:app --host 0.0.0.0 --port 8000
