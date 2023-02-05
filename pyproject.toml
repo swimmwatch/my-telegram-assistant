@@ -43,6 +43,10 @@ build-backend = "poetry.core.masonry.api"
 [tool.mypy]
 ignore_missing_imports = "True"
 
+[tool.black]
+target-version = ["py310"]
+line_length = 120
+
 [tool.pytest.ini_options]
 markers = [
     "smoke",
