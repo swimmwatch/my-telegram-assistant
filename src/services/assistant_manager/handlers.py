@@ -9,10 +9,11 @@ from telegram import Update, WebAppInfo, InlineKeyboardButton, InlineKeyboardMar
 from telegram.ext import ContextTypes
 
 from services.assistant.grpc.client import AssistantGrpcClient
-from services.assistant_manager.config import assistant_manager_settings
+from services.assistant_manager.config import AssistantManagerSettings
 from services.assistant_manager.container import AssistantManagerContainer
 from utils.python_telegram_bot.decorators import serve_only_specific_user
 
+assistant_manager_settings = AssistantManagerSettings()
 serve_only_me = serve_only_specific_user(assistant_manager_settings.my_telegram_id)
 
 

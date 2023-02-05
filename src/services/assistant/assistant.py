@@ -9,7 +9,7 @@ from telethon import TelegramClient, events
 from telethon.tl.custom import QRLogin
 
 from services.assistant.commands import CommandRequest, ExplicitCommandHandlerWrapper
-from services.assistant.config import assistant_settings
+from services.assistant.config import AssistantSettings
 from services.assistant.handlers.about_me import about_me_command
 from services.assistant.handlers.all import all_command
 from services.assistant.handlers.download_post import (
@@ -21,7 +21,7 @@ from services.assistant_manager.assistant_manager_pb2 import (
     SendPhotoRequest,
     SendTextRequest,
 )
-from services.assistant_manager.config import assistant_manager_settings
+from services.assistant_manager.config import AssistantManagerSettings
 from services.assistant_manager.grpc.client import AssistantManagerGrpcClient
 from utils.img.base64 import Base64Image
 
@@ -55,6 +55,8 @@ class Assistant:
         telegram_client: TelegramClient,
         assistant_manager_grpc_client: AssistantManagerGrpcClient,
     ):
+        self.settings = AssistantSettings()
+        self.assistant_manager_settings = AssistantManagerSettings()
         self.telegram_client = telegram_client
         self.assistant_manager_grpc_client = assistant_manager_grpc_client
 
@@ -77,7 +79,7 @@ class Assistant:
     def _send_qr_code(self, img: Image):
         base64_img = Base64Image.encode(img)
         req = SendPhotoRequest(
-            chat_id=assistant_manager_settings.my_telegram_id,
+            chat_id=self.assistant_manager_settings.my_telegram_id,
             caption="Please login using this QR code.",
             base64_img=base64_img,
         )
@@ -91,12 +93,12 @@ class Assistant:
             img = self._create_login_qr_code(qr_login)
             self._send_qr_code(img)
             try:
-                user = await qr_login.wait(assistant_settings.qr_login_timeout)
+                user = await qr_login.wait(self.settings.qr_login_timeout)
             except asyncio.TimeoutError:
                 await qr_login.recreate()
 
         req = SendTextRequest(
-            chat_id=assistant_manager_settings.my_telegram_id,
+            chat_id=self.assistant_manager_settings.my_telegram_id,
             text=f"{user.username}, authorized successful!",
         )
         self.assistant_manager_grpc_client.stub.send_text(req)

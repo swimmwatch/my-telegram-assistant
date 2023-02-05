@@ -1,12 +1,13 @@
 """
 Assistant manager entrypoint.
 """
-from services.assistant_manager.config import assistant_manager_settings
+from services.assistant_manager.config import AssistantManagerSettings
 from services.assistant_manager.container import AssistantManagerContainer
 from services.assistant_manager.entrypoint import AssistantManagerEntrypoint
 
 
 def main():
+    assistant_manager_settings = AssistantManagerSettings()
     assistant_manager_container = AssistantManagerContainer()
     assistant_manager_container.wire(modules=[__name__, ".handlers"])
 

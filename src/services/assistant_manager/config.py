@@ -9,6 +9,3 @@ class AssistantManagerSettings(BaseSettings):
     telegram_api_token: SecretStr
 
     assistant_manager_grpc_addr: str
-
-
-assistant_manager_settings = AssistantManagerSettings()

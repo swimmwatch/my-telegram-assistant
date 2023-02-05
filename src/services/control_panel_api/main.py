@@ -18,11 +18,6 @@ async def wire_container():
     container.wire(modules=[__name__])
 
 
-@app.on_event("startup")
-async def init_db():
-    await async_init_db(container.db())
-
-
 @app.get("/api/test")
 async def reply_square():
     return {"num": random.randint(1, 10) ** 2}

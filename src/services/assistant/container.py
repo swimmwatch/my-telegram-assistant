@@ -7,10 +7,15 @@ from telethon import TelegramClient
 from telethon.sessions import MemorySession
 
 from services.assistant.assistant import Assistant
-from services.assistant.config import assistant_settings
+from services.assistant.config import AssistantSettings
 from services.assistant.entrypoint import AssistantEntrypoint
-from services.assistant_manager.config import assistant_manager_settings
+from services.assistant_manager.config import AssistantManagerSettings
 from services.assistant_manager.grpc.client import AssistantManagerGrpcClient
+from services.redis.config import RedisSettings
+
+assistant_manager_settings = AssistantManagerSettings()
+assistant_settings = AssistantSettings()
+redis_settings = RedisSettings()
 
 
 class AssistantContainer(DeclarativeContainer):

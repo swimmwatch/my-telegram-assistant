@@ -7,7 +7,7 @@ from telethon.errors import MessageNotModifiedError
 
 from services.assistant.commands import CommandRequest, ExplicitCommand, ParsedArguments
 from services.assistant.commands.decorators import serve_only_replied_request
-from services.worker.app import download_and_send_post
+from services.assistant.tasks import download_and_send_post
 from utils.common.patterns import AsyncChainOfResponsibility
 from utils.post.exceptions import PostTooLarge, PostUnavailable
 from utils.post.impl import YouTubeShortVideo

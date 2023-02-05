@@ -17,6 +17,3 @@ class DatabaseSettings(BaseSettings):
 
     class Config:
         env_prefix = "db_"
-
-
-database_settings = DatabaseSettings()

@@ -11,6 +11,3 @@ class AssistantSettings(BaseSettings):
     assistant_grpc_addr: str = "localhost:50051"
 
     qr_login_timeout: float = 60.0
-
-
-assistant_settings = AssistantSettings()

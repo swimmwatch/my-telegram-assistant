@@ -4,11 +4,13 @@ Assistant manager DI container.
 from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.providers import Singleton
 
-from services.assistant.config import assistant_settings
+from services.assistant.config import AssistantSettings
 from services.assistant.grpc.client import AssistantGrpcClient
 
 # from services.assistant_manager.bot import dp
 # from services.assistant_manager.entrypoint import AssistantManagerEntrypoint
+
+assistant_settings = AssistantSettings()
 
 
 class AssistantManagerContainer(DeclarativeContainer):

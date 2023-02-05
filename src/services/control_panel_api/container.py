@@ -5,8 +5,11 @@ from dependency_injector.containers import DeclarativeContainer
 from dependency_injector.wiring import providers
 
 from services.db import AsyncDatabase
-from services.db.config import database_settings
+from services.db.config import DatabaseSettings
 from services.db.dal import UserRepository
+
+
+database_settings = DatabaseSettings()
 
 
 class ControlPanelApiContainer(DeclarativeContainer):

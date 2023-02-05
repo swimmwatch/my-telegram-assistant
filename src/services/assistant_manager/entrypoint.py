@@ -9,7 +9,7 @@ from loguru import logger
 from telegram.ext import Application, CommandHandler
 
 from services.assistant_manager import assistant_manager_pb2_grpc
-from services.assistant_manager.config import assistant_manager_settings
+from services.assistant_manager.config import AssistantManagerSettings
 from services.assistant_manager.grpc.server import AsyncAssistantManagerService
 from services.assistant_manager.handlers import (
     handle_login_request,
@@ -21,6 +21,7 @@ from services.assistant_manager.handlers import (
 
 class AssistantManagerEntrypoint:
     def __init__(self, telegram_bot_token: str):
+        self.settings = AssistantManagerSettings()
         self._app = Application.builder().token(telegram_bot_token).build()
         self._bot = self._app.bot
 
@@ -45,10 +46,10 @@ class AssistantManagerEntrypoint:
         assistant_manager_pb2_grpc.add_AssistantManagerServicer_to_server(
             AsyncAssistantManagerService(self._bot), server
         )
-        server.add_insecure_port(assistant_manager_settings.assistant_manager_grpc_addr)
+        server.add_insecure_port(self.settings.assistant_manager_grpc_addr)
 
         logger.info(
-            f"starting gRPC server on {assistant_manager_settings.assistant_manager_grpc_addr}"
+            f"starting gRPC server on {self.settings.assistant_manager_grpc_addr}"
         )
         await server.start()
         await server.wait_for_termination()

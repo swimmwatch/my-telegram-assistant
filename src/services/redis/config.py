@@ -10,6 +10,3 @@ class RedisSettings(BaseSettings):
 
     class Config:
         env_prefix = "redis_"
-
-
-redis_settings = RedisSettings()
