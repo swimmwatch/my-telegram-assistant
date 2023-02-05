@@ -57,9 +57,7 @@ work_info_dict = {
         value=f"{a({'href': 'https://www.linkedin.com/in/dmitry-vasiliev/?locale=ru_RU'}, 'Russian version')},"
         f" {a({'href': 'https://www.linkedin.com/in/dmitry-vasiliev'}, 'English version')}",
     ),
-    WorkScopeValues.TELEGRAM: ScopeInfo(
-        full_name="\N{TELEPHONE RECEIVER} Telegram", value="@contact_dmitry_vasiliev"
-    ),
+    WorkScopeValues.TELEGRAM: ScopeInfo(full_name="\N{TELEPHONE RECEIVER} Telegram", value="@contact_dmitry_vasiliev"),
 }
 
 game_info_dict = {
@@ -92,15 +90,11 @@ game_info_dict = {
     ),
     GameScopeValues.DISCORD: ScopeInfo(
         full_name="Discord",
-        value=a(
-            {"href": "https://discordapp.com/users/277206963845201932"}, "swimmwatch"
-        ),
+        value=a({"href": "https://discordapp.com/users/277206963845201932"}, "swimmwatch"),
     ),
     GameScopeValues.ORIGIN: ScopeInfo(
         full_name="Origin",
-        value=a(
-            {"href": "https://www.exophase.com/origin/user/swimmwatch/"}, "swimmwatch"
-        ),
+        value=a({"href": "https://www.exophase.com/origin/user/swimmwatch/"}, "swimmwatch"),
     ),
     GameScopeValues.UBISOFT: ScopeInfo(
         full_name="Ubisoft Connect",

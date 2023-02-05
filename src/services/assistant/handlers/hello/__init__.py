@@ -20,6 +20,4 @@ async def handle_welcome_output(_: ParsedArguments, request: CommandRequest):
             "In short, this program helps to automate messaging in Telegram.",
         ]
     )
-    await request.event.client.send_message(
-        request.event.message.chat_id, res_message, parse_mode="html"
-    )
+    await request.event.client.send_message(request.event.message.chat_id, res_message, parse_mode="html")

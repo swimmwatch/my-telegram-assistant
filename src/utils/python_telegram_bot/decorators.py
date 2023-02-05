@@ -14,9 +14,7 @@ def serve_only_specific_user(user_id: int) -> Callable:
 
     def decorator(handler: Callable) -> Callable:
         @functools.wraps(handler)
-        async def wrapper(
-            update: Update, context: ContextTypes.DEFAULT_TYPE, *args, **kwargs
-        ) -> None:
+        async def wrapper(update: Update, context: ContextTypes.DEFAULT_TYPE, *args, **kwargs) -> None:
             message = update.message
             if message:
                 from_user = message.from_user

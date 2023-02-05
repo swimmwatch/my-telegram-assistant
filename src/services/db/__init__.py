@@ -11,9 +11,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 from services.db.types import SessionType
 
 Base = declarative_base()
-AnySessionAbstractContextManager = Union[
-    ContextManager[SessionType], AsyncContextManager[SessionType]
-]
+AnySessionAbstractContextManager = Union[ContextManager[SessionType], AsyncContextManager[SessionType]]
 
 
 class SQLAlchemyDatabaseProtocol(Protocol):
@@ -40,9 +38,7 @@ class AsyncDatabase(SQLAlchemyDatabaseProtocol):
         :param db_url: Database URL.
         """
         self._engine = create_async_engine(db_url, echo=True)
-        self._session_factory = sessionmaker(
-            self._engine, expire_on_commit=False, class_=AsyncSession
-        )
+        self._session_factory = sessionmaker(self._engine, expire_on_commit=False, class_=AsyncSession)
 
     @asynccontextmanager
     async def session(self):

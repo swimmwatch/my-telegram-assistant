@@ -51,18 +51,14 @@ class ExplicitCommand:
             raise ValueError(r'Command name must doesn\'t contain "\" character')
 
         if len(name) >= ExplicitCommand.MAX_COMMAND_NAME_LEN:
-            raise ValueError(
-                f"Command name length must be less then {ExplicitCommand.MAX_COMMAND_NAME_LEN}"
-            )
+            raise ValueError(f"Command name length must be less then {ExplicitCommand.MAX_COMMAND_NAME_LEN}")
 
         if any(char.isdigit() for char in name):
             raise ValueError("Command name must doesn't contain digits")
 
         self._name = name
         self._args: Dict[str, Type] = {}
-        self._handlers: Deque[
-            Tuple[ExplicitCommandHandler, Optional[ExplicitCommandCondition]]
-        ] = deque()
+        self._handlers: Deque[Tuple[ExplicitCommandHandler, Optional[ExplicitCommandCondition]]] = deque()
 
     @property
     def name(self) -> str:
@@ -104,9 +100,7 @@ class ExplicitCommand:
         """
         self._handlers.append((func, condition))
 
-    def on(
-        self, condition: Optional[ExplicitCommandCondition] = None
-    ) -> Callable[[ExplicitCommandHandler], None]:
+    def on(self, condition: Optional[ExplicitCommandCondition] = None) -> Callable[[ExplicitCommandHandler], None]:
         """
         Decorate explicit command handler.
 
@@ -147,10 +141,7 @@ class ExplicitCommand:
         actual_command_name = parts[0]
         expected_command_name = rf"\{self._name}"
 
-        if (
-            not text.startswith(expected_command_name)
-            or actual_command_name != expected_command_name
-        ):
+        if not text.startswith(expected_command_name) or actual_command_name != expected_command_name:
             return None
 
         values = parts[1:]

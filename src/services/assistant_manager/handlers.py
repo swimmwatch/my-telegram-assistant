@@ -22,9 +22,7 @@ serve_only_me = serve_only_specific_user(assistant_manager_settings.my_telegram_
 async def handle_login_request(
     update: Update,
     _: ContextTypes.DEFAULT_TYPE,
-    assistant_grpc_client: AssistantGrpcClient = Provide[
-        AssistantManagerContainer.assistant_grpc_client
-    ],
+    assistant_grpc_client: AssistantGrpcClient = Provide[AssistantManagerContainer.assistant_grpc_client],
 ):
     req = Empty()
     try:
@@ -45,9 +43,7 @@ async def handle_login_request(
 async def handle_logout_request(
     update: Update,
     _: ContextTypes.DEFAULT_TYPE,
-    assistant_grpc_client: AssistantGrpcClient = Provide[
-        AssistantManagerContainer.assistant_grpc_client
-    ],
+    assistant_grpc_client: AssistantGrpcClient = Provide[AssistantManagerContainer.assistant_grpc_client],
 ):
     req = Empty()
     try:
@@ -70,9 +66,7 @@ async def handle_logout_request(
 async def handle_status_request(
     update: Update,
     _: ContextTypes.DEFAULT_TYPE,
-    assistant_grpc_client: AssistantGrpcClient = Provide[
-        AssistantManagerContainer.assistant_grpc_client
-    ],
+    assistant_grpc_client: AssistantGrpcClient = Provide[AssistantManagerContainer.assistant_grpc_client],
 ):
     req = Empty()
     res = assistant_grpc_client.stub.is_user_authorized(req)

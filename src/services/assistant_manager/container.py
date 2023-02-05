@@ -14,9 +14,7 @@ assistant_settings = AssistantSettings()
 
 
 class AssistantManagerContainer(DeclarativeContainer):
-    assistant_grpc_client = Singleton(
-        AssistantGrpcClient, addr=assistant_settings.assistant_grpc_addr
-    )
+    assistant_grpc_client = Singleton(AssistantGrpcClient, addr=assistant_settings.assistant_grpc_addr)
     # assistant_manager_entrypoint = Singleton(
     #     AssistantManagerEntrypoint,
     #     dp=dp

@@ -45,9 +45,7 @@ def download_and_send_post(
         except PostNonDownloadable as err:
             logger.warning(err.message)
             return
-        post_state_cache_manager.set_state(
-            post.id, PostCacheState.DOWNLOADED, out_filename
-        )
+        post_state_cache_manager.set_state(post.id, PostCacheState.DOWNLOADED, out_filename)
     elif cache_state is PostCacheState.DOWNLOADED and filename:
         out_filename = filename
 

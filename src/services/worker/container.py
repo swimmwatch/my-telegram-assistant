@@ -17,10 +17,6 @@ assistant_settings = AssistantSettings()
 
 
 class WorkerContainer(DeclarativeContainer):
-    assistant_grpc_client = Factory(
-        AssistantGrpcClient, addr=assistant_settings.assistant_grpc_addr
-    )
+    assistant_grpc_client = Factory(AssistantGrpcClient, addr=assistant_settings.assistant_grpc_addr)
     redis_client = Singleton(Redis, host=redis_settings.host, port=redis_settings.port)
-    post_cache_state_manager = Singleton(
-        RedisPostStateCacheManager, redis_client=redis_client
-    )
+    post_cache_state_manager = Singleton(RedisPostStateCacheManager, redis_client=redis_client)

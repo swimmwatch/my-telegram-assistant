@@ -20,9 +20,7 @@ class AssistantEntrypoint:
         Run gRPC server.
         """
         server = aio.server()
-        assistant_pb2_grpc.add_AssistantServicer_to_server(
-            AsyncAssistantService(self.assistant), server
-        )
+        assistant_pb2_grpc.add_AssistantServicer_to_server(AsyncAssistantService(self.assistant), server)
         server.add_insecure_port(self.settings.assistant_grpc_addr)
 
         logger.info(f"starting gRPC server on {self.settings.assistant_grpc_addr}")

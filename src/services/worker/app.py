@@ -15,9 +15,7 @@ celery = Celery(
 
 celery.autodiscover_tasks(["services.assistant"])
 
-task_routes = {
-    "services.assistant.tasks.download_and_send_post": {"queue": "downloads"}
-}
+task_routes = {"services.assistant.tasks.download_and_send_post": {"queue": "downloads"}}
 
 
 @celery.on_after_configure.connect

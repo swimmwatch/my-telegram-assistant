@@ -48,9 +48,7 @@ reply_download_post_command = ExplicitCommand(name="d")
 
 @reply_download_post_command.on()
 @serve_only_replied_request
-async def handle_replied_download_post_call(
-    _: ParsedArguments, request: CommandRequest
-):
+async def handle_replied_download_post_call(_: ParsedArguments, request: CommandRequest):
     replied_message = await request.event.message.get_reply_message()
     inner_req = CommandRequest(events.NewMessage.Event(replied_message))
     yt_handler = YouTubeShortVideoDownloadCommandHandler(None)

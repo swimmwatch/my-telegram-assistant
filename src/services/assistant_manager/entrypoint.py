@@ -48,9 +48,7 @@ class AssistantManagerEntrypoint:
         )
         server.add_insecure_port(self.settings.assistant_manager_grpc_addr)
 
-        logger.info(
-            f"starting gRPC server on {self.settings.assistant_manager_grpc_addr}"
-        )
+        logger.info(f"starting gRPC server on {self.settings.assistant_manager_grpc_addr}")
         await server.start()
         await server.wait_for_termination()
 
