@@ -7,7 +7,6 @@ from fastapi import Depends, FastAPI
 from services.control_panel_api.container import ControlPanelApiContainer
 from services.control_panel_api.schemas.user import User
 from services.db.dal import UserRepository
-from services.db.utils import async_init_db
 
 app = FastAPI()
 container = ControlPanelApiContainer()
