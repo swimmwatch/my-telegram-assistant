@@ -79,16 +79,17 @@ async def handle_status_request(
 @serve_only_me
 @inject
 async def handle_settings_request(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
-    web_app_info = WebAppInfo(url="https://python-telegram-bot.org/static/webappbot")
+    settings = AssistantManagerSettings()
+    web_app_info = WebAppInfo(url=settings.telegram_bot_webapp_url)
     keyboard = [
         [
-            InlineKeyboardButton("Open color picker", web_app=web_app_info),
+            InlineKeyboardButton("Open assistant settings", web_app=web_app_info),
         ],
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     message = update.message
     if message:
         await message.reply_text(
-            "Please press the button below to choose a color via the WebApp.",
+            "Please press the button below to setup assistant settings via the WebApp.",
             reply_markup=reply_markup,
         )
