@@ -1,0 +1,17 @@
+localhost {
+    tls internal
+
+    handle /* {
+        root * /usr/share/caddy/html
+        file_server
+        try_files {path} /index.html
+    }
+
+    handle /api/* {
+        reverse_proxy api:3000
+    }
+
+    log {
+        format json
+    }
+}
