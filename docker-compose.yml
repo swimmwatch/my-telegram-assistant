@@ -64,6 +64,7 @@ services:
     command: python -m services.assistant_manager.main
     depends_on:
       - assistant
+      - web
     env_file:
       - .env
 
