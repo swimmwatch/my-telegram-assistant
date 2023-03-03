@@ -19,7 +19,7 @@ google = "^3.0.0"
 fastapi = "^0.92.0"
 uvicorn = "^0.20.0"
 pydantic = "^1.10.5"
-SQLAlchemy = {extras = ["asyncio"], version = "^1.4.46"}
+SQLAlchemy = {extras = ["asyncio"], version = "^2.0.4"}
 asyncpg = "^0.27.0"
 htmgem = "^0.0.2"
 Telethon = "1.27.0"
