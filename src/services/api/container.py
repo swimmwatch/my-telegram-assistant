@@ -9,7 +9,7 @@ from services.db.config import DatabaseSettings
 from services.db.dal import UserRepository
 
 
-database_settings = DatabaseSettings()
+database_settings = DatabaseSettings()  # type: ignore
 
 
 class ControlPanelApiContainer(DeclarativeContainer):

@@ -55,8 +55,8 @@ class Assistant:
         telegram_client: TelegramClient,
         assistant_manager_grpc_client: AssistantManagerGrpcClient,
     ):
-        self.settings = AssistantSettings()
-        self.assistant_manager_settings = AssistantManagerSettings()
+        self.settings = AssistantSettings()  # type: ignore
+        self.assistant_manager_settings = AssistantManagerSettings()  # type: ignore
         self.telegram_client = telegram_client
         self.assistant_manager_grpc_client = assistant_manager_grpc_client
 

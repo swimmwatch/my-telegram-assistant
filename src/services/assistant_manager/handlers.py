@@ -13,7 +13,7 @@ from services.assistant_manager.config import AssistantManagerSettings
 from services.assistant_manager.container import AssistantManagerContainer
 from utils.python_telegram_bot.decorators import serve_only_specific_user
 
-assistant_manager_settings = AssistantManagerSettings()
+assistant_manager_settings = AssistantManagerSettings()  # type: ignore
 serve_only_me = serve_only_specific_user(assistant_manager_settings.my_telegram_id)
 
 
@@ -79,7 +79,7 @@ async def handle_status_request(
 @serve_only_me
 @inject
 async def handle_settings_request(update: Update, _: ContextTypes.DEFAULT_TYPE) -> None:
-    settings = AssistantManagerSettings()
+    settings = AssistantManagerSettings()  # type: ignore
     web_app_info = WebAppInfo(url=settings.telegram_bot_webapp_url)
     keyboard = [
         [
