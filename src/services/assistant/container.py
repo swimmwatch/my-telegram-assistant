@@ -13,9 +13,9 @@ from services.assistant_manager.config import AssistantManagerSettings
 from services.assistant_manager.grpc.client import AssistantManagerGrpcClient
 from services.redis.config import RedisSettings
 
-assistant_manager_settings = AssistantManagerSettings()
-assistant_settings = AssistantSettings()
-redis_settings = RedisSettings()
+assistant_manager_settings = AssistantManagerSettings()  # type: ignore
+assistant_settings = AssistantSettings()  # type: ignore
+redis_settings = RedisSettings()  # type: ignore
 
 
 class AssistantContainer(DeclarativeContainer):

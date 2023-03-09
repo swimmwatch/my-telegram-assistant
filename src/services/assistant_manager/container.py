@@ -10,7 +10,7 @@ from services.assistant.grpc.client import AssistantGrpcClient
 # from services.assistant_manager.bot import dp
 # from services.assistant_manager.entrypoint import AssistantManagerEntrypoint
 
-assistant_settings = AssistantSettings()
+assistant_settings = AssistantSettings()  # type: ignore
 
 
 class AssistantManagerContainer(DeclarativeContainer):

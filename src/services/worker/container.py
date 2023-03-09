@@ -11,9 +11,9 @@ from services.redis.config import RedisSettings
 from services.worker.config import WorkerSettings
 from utils.post.cache.state.redis import RedisPostStateCacheManager
 
-worker_settings = WorkerSettings()
-redis_settings = RedisSettings()
-assistant_settings = AssistantSettings()
+worker_settings = WorkerSettings()  # type: ignore
+redis_settings = RedisSettings()  # type: ignore
+assistant_settings = AssistantSettings()  # type: ignore
 
 
 class WorkerContainer(DeclarativeContainer):

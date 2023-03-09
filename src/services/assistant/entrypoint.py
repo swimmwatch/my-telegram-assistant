@@ -13,7 +13,7 @@ from services.assistant.grpc.server import AsyncAssistantService
 class AssistantEntrypoint:
     def __init__(self, assistant: Assistant):
         self.assistant = assistant
-        self.settings = AssistantSettings()
+        self.settings = AssistantSettings()  # type: ignore
 
     async def run_grpc_server(self):
         """

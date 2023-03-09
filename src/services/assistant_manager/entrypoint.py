@@ -21,7 +21,7 @@ from services.assistant_manager.handlers import (
 
 class AssistantManagerEntrypoint:
     def __init__(self, telegram_bot_token: str):
-        self.settings = AssistantManagerSettings()
+        self.settings = AssistantManagerSettings()  # type: ignore
         self._app = Application.builder().token(telegram_bot_token).build()
         self._bot = self._app.bot
 
