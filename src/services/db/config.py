@@ -10,6 +10,7 @@ class DatabaseSettings(BaseSettings):
     scheme: str = "postgresql+asyncpg"
     host: str = "localhost"
     name: str
+    debug: bool = True
 
     @property
     def db_url(self):
