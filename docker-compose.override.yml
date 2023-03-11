@@ -17,13 +17,13 @@ services:
     env_file:
       - .env.test
 
-  control_panel:
+  web:
     environment:
       NODE_ENV: development
     env_file:
       - .env.test
     volumes:
-      - '.:/app'
+      - './src:/app'
 
   worker:
     restart: "no"
@@ -31,16 +31,16 @@ services:
       - .env.test
     volumes:
       - cached_posts:/tmp/posts
-      - ".:/app"
+      - "./src:/app"
 
-  control_panel_api:
+  api:
     restart: "no"
     ports:
       - '8000:8000'
     env_file:
       - .env.test
     volumes:
-      - '.:/app'
+      - './src:/app'
 
   assistant_manager:
     restart: "no"
@@ -49,7 +49,7 @@ services:
     ports:
       - "50052:50052"
     volumes:
-      - ".:/app"
+      - "./src:/app"
 
   assistant:
     restart: "no"
@@ -59,7 +59,7 @@ services:
       - .env.test
     volumes:
       - cached_posts:/tmp/posts
-      - ".:/app"
+      - "./src:/app"
 
   flower:
     env_file:
