@@ -1,3 +1,0 @@
-"""
-Control panel API schemas.
-"""
