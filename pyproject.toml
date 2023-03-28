@@ -24,7 +24,7 @@ asyncpg = "^0.27.0"
 htmgem = "^0.0.2"
 Telethon = "1.27.0"
 qrcode = {extras = ["pil"], version = "^7.4"}
-python-telegram-bot = "20.1"
+python-telegram-bot = "20.2"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.1"
