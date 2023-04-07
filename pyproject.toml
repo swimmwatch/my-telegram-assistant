@@ -22,7 +22,7 @@ pydantic = "^1.10.7"
 SQLAlchemy = {extras = ["asyncio"], version = "^2.0.9"}
 asyncpg = "^0.27.0"
 htmgem = "^0.0.2"
-Telethon = "1.28.1"
+Telethon = "1.28.2"
 qrcode = {extras = ["pil"], version = "^7.4"}
 python-telegram-bot = "20.2"
 
