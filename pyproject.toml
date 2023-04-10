@@ -29,7 +29,7 @@ python-telegram-bot = "20.2"
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.2"
 flake8 = "^6.0.0"
-pytest = "^7.2.2"
+pytest = "^7.3.0"
 types-redis = "^4.5.4"
 types-protobuf = "^4.22.0"
 mypy-protobuf = "^3.4.0"
