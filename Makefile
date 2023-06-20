@@ -27,3 +27,6 @@ cov:
 
 black:
 	poetry run black $(SRC_DIR)
+
+develop:
+	docker compose up db redis rabbitmq -d
