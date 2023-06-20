@@ -2,10 +2,13 @@
 Telegram assistant configuration.
 """
 
-from pydantic import BaseSettings, SecretStr
+from pydantic import BaseSettings
+from pydantic import SecretStr
+
+from services.common.config import RunLevelBaseConfigMixin
 
 
-class AssistantSettings(BaseSettings):
+class AssistantSettings(RunLevelBaseConfigMixin, BaseSettings):
     telegram_api_id: SecretStr
     telegram_api_hash: SecretStr
     assistant_grpc_addr: str = "localhost:50051"
