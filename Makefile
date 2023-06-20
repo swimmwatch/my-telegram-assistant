@@ -14,7 +14,10 @@ mypy:
 flake:
 	poetry run flake8 $(SRC_DIR)
 
-lint: flake mypy
+black-lint:
+	poetry run black --check $(SRC_DIR)
+
+lint: flake mypy black-lint
 
 unit-test:
 	poetry run pytest $(SRC_DIR)
