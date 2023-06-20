@@ -30,33 +30,5 @@ Supported social networks:
 ##### `\hello` - self-promotion
 
 ## Installation and startup
-### 1. Setup necessary environment variables
-```shell
-# Telegram bot (assistant manager)
-TELEGRAM_API_TOKEN=
-MY_TELEGRAM_ID=
-
-# Assistant client
-AIOTDLIB_API_ID=
-AIOTDLIB_API_HASH=
-
-# Worker
-CELERY_RESULT_BACKEND=
-CELERY_BROKER_URL=
-
-# Assistant service
-ASSISTANT_GRPC_PORT=
-ASSISTANT_GRPC_HOST=
-ASSISTANT_GRPC_ADDR=
-
-# Database
-DB_NAME=
-DB_USER=
-DB_PASSWORD=
-
-# RabbitMQ
-RABBITMQ_DEFAULT_USER=
-RABBITMQ_DEFAULT_PASS=
-```
-
-### 2. docker compose up!
+1. Setup necessary environment variables (make `.env` from `.env.example`)
+2. docker compose up!

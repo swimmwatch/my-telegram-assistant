@@ -1,4 +1,4 @@
-name: "Run Python linters and tests"
+name: Run Python linters and tests
 on:
   pull_request:
     paths:
@@ -11,50 +11,48 @@ on:
 
 jobs:
   lint:
-    name: "Run Python linters"
+    name: Run Python linters
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.10"]
-        poetry-version: ["1.1.13"]
+        poetry-version: ["1.3.2"]
     steps:
-      - name: "Checkout"
+      - name: Checkout
         uses: actions/checkout@v3
+      - name: Install Poetry
+        run: pipx install poetry
       - name: "Setup Python ${{matrix.python-version}}"
         uses: actions/setup-python@v4
         with:
           python-version: ${{matrix.python-version}}
-      - name: "Setup Poetry"
-        uses: abatilo/actions-poetry@v2.1.5
-        with:
-          poetry-version: ${{matrix.poetry-version}}
+          cache: 'poetry'
       - name: Install dependencies
-        run: poetry install --no-root
+        run: poetry install
       - name: Run flake8
-        run: poetry run flake8 .
+        run: make flake
       - name: Run mypy
-        run: poetry run mypy .
+        run: make mypy
   test:
-    name: "Run Python tests"
+    name: Run Python tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.10"]
-        poetry-version: [ "1.1.13" ]
+        poetry-version: ["1.3.2"]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Install Poetry
+        run: pipx install poetry
       - name: Setup Python ${{matrix.python-versions}}
         uses: actions/setup-python@v4
         with:
           python-version: ${{matrix.python-version}}
-      - name: Add poetry
-        uses: abatilo/actions-poetry@v2.1.5
-        with:
-          poetry-version: ${{matrix.poetry-version}}
+          cache: 'poetry'
       - name: Install dependencies
         run: poetry install
       - name: Build gRPC proto files
-        uses: ./.github/actions/build-grpc-proto
+        run: make build-protobuf
       - name: Run pytest
-        run: poetry run pytest
+        run: make unit-test

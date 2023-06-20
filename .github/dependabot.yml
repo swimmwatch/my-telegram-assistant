@@ -14,7 +14,7 @@ updates:
   - package-ecosystem: "npm"
     assignees:
       - swimmwatch
-    directory: "/services/control_panel/react-app"
+    directory: "/services/web/vue-app"
     target-branch: dev
     schedule:
       interval: "daily"
