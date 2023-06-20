@@ -1,15 +1,17 @@
 """
 Database configuration.
 """
-from pydantic import BaseSettings, SecretStr
+from pydantic import BaseSettings
+
+from services.common.config import RunLevelBaseConfigMixin
 
 
-class DatabaseSettings(BaseSettings):
+class DatabaseSettings(RunLevelBaseConfigMixin, BaseSettings):
     user: str = "postgres"
-    password: SecretStr
-    scheme: str = "postgresql+asyncpg"
-    host: str = "localhost"
-    name: str
+    password: str = "mypass"
+    scheme: str = "postgresql+psycopg"
+    host: str = "localhost:5555"
+    name: str = "my_telegram_assistant"
     debug: bool = True
 
     @property
