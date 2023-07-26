@@ -1,6 +1,6 @@
 ARG PYTHON_VERSION=3.10
 
-FROM python:${PYTHON_VERSION}-slim-buster as build
+FROM python:${PYTHON_VERSION}-slim-buster AS builder
 
 ENV POETRY_VERSION=1.5.1
 
@@ -16,12 +16,13 @@ RUN apt-get install -y --no-install-recommends build-essential gcc curl
 WORKDIR /app
 
 RUN pip install "poetry==$POETRY_VERSION"
-RUN poetry config virtualenvs.in-project true
+
+RUN python -m venv venv
 
 COPY pyproject.toml .
 COPY poetry.lock .
 
-RUN poetry install
+RUN poetry export --format=requirements.txt --without=dev | venv/bin/pip install -r /dev/stdin
 
 FROM python:${PYTHON_VERSION}-slim
 
@@ -31,8 +32,8 @@ WORKDIR /app
 RUN apt-get -y update && apt-get install -y --no-install-recommends curl
 
 # Copy installed packages
-COPY --from=build /app/.venv .venv
-ENV PATH="/app/.venv/bin:$PATH"
+COPY --from=builder /app/venv venv
+ENV PATH="/app/venv/bin:$PATH"
 
 # Copy application
 COPY src .
