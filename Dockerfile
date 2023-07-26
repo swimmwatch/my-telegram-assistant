@@ -27,6 +27,9 @@ FROM python:${PYTHON_VERSION}-slim
 
 WORKDIR /app
 
+# Install curl for healthchecking
+RUN apt-get -y update && apt-get install -y --no-install-recommends curl
+
 # Copy installed packages
 COPY --from=build /app/.venv .venv
 ENV PATH="/app/.venv/bin:$PATH"
