@@ -1756,6 +1756,17 @@ files = [
 ]
 
 [[package]]
+name = "tweetpy"
+version = "1.0.4"
+description = "Python package that allows to access the Tweet data without API"
+optional = false
+python-versions = "*"
+files = [
+    {file = "tweetpy-1.0.4-py3-none-any.whl", hash = "sha256:1cea028697d48b011308a71e2a109ebb1892450a53fcbad3bfb089ffc64f7f60"},
+    {file = "tweetpy-1.0.4.tar.gz", hash = "sha256:e3fcb7d756360da39e67cac772601d4205d87e5ee6b7a0569a91db357e1874be"},
+]
+
+[[package]]
 name = "types-protobuf"
 version = "4.23.0.2"
 description = "Typing stubs for protobuf"
@@ -1875,4 +1886,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "959c3d0c433f8f480de759b646c9987d0d1cde8bf9ebfbe713c097ad062a399f"
+content-hash = "d7b26fd4182ada7573d6731e2969d047cbd6756e98aa50a78d966c19d7bc0d1c"
