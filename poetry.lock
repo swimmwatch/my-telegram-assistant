@@ -692,21 +692,22 @@ test = ["pytest (>=6)"]
 
 [[package]]
 name = "fastapi"
-version = "0.98.0"
+version = "0.100.1"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "fastapi-0.98.0-py3-none-any.whl", hash = "sha256:f4165fb1fe3610c52cb1b8282c1480de9c34bc270f56a965aa93a884c350d605"},
-    {file = "fastapi-0.98.0.tar.gz", hash = "sha256:0d3c18886f652038262b5898fec6b09f4ca92ee23e9d9b1d1d24e429f84bf27b"},
+    {file = "fastapi-0.100.1-py3-none-any.whl", hash = "sha256:ec6dd52bfc4eff3063cfcd0713b43c87640fefb2687bbbe3d8a08d94049cdf32"},
+    {file = "fastapi-0.100.1.tar.gz", hash = "sha256:522700d7a469e4a973d92321ab93312448fbe20fca9c8da97effc7e7bc56df23"},
 ]
 
 [package.dependencies]
-pydantic = ">=1.7.4,<1.8 || >1.8,<1.8.1 || >1.8.1,<2.0.0"
+pydantic = ">=1.7.4,<1.8 || >1.8,<1.8.1 || >1.8.1,<2.0.0 || >2.0.0,<2.0.1 || >2.0.1,<3.0.0"
 starlette = ">=0.27.0,<0.28.0"
+typing-extensions = ">=4.5.0"
 
 [package.extras]
-all = ["email-validator (>=1.1.1)", "httpx (>=0.23.0)", "itsdangerous (>=1.1.0)", "jinja2 (>=2.11.2)", "orjson (>=3.2.1)", "python-multipart (>=0.0.5)", "pyyaml (>=5.3.1)", "ujson (>=4.0.1,!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0)", "uvicorn[standard] (>=0.12.0)"]
+all = ["email-validator (>=2.0.0)", "httpx (>=0.23.0)", "itsdangerous (>=1.1.0)", "jinja2 (>=2.11.2)", "orjson (>=3.2.1)", "pydantic-extra-types (>=2.0.0)", "pydantic-settings (>=2.0.0)", "python-multipart (>=0.0.5)", "pyyaml (>=5.3.1)", "ujson (>=4.0.1,!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0)", "uvicorn[standard] (>=0.12.0)"]
 
 [[package]]
 name = "flake8"
@@ -1211,18 +1212,18 @@ files = [
 
 [[package]]
 name = "mypy-protobuf"
-version = "3.4.0"
+version = "3.5.0"
 description = "Generate mypy stub files from protobuf specs"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "mypy-protobuf-3.4.0.tar.gz", hash = "sha256:7d75a079651b105076776a35a5405e3fa773b8a167118f1b712e443e9a6c18a2"},
-    {file = "mypy_protobuf-3.4.0-py3-none-any.whl", hash = "sha256:da33dfde7547ff57e5ba5564126cbfa114f14413b2fa50759b1fa5de1e4ab511"},
+    {file = "mypy-protobuf-3.5.0.tar.gz", hash = "sha256:21f270da0a9792a9dac76b0df463c027e561664ab6973c59be4e4d064dfe67dc"},
+    {file = "mypy_protobuf-3.5.0-py3-none-any.whl", hash = "sha256:0d0548c6b9a6faf14ce1a9ce2831c403a5c1f2a9363e85b1e2c51d5d57aa8393"},
 ]
 
 [package.dependencies]
-protobuf = ">=4.21.8"
-types-protobuf = ">=3.20.4"
+protobuf = ">=4.23.4"
+types-protobuf = ">=4.23.0.2"
 
 [[package]]
 name = "oauthlib"
@@ -2054,4 +2055,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "8e81d804464166d38ce85970d2e50220ce4cda4f2adc44631ce5297300e03257"
+content-hash = "6544d13530eb09987ea273968e5d97d080f7547f870d968f71a84bba1b7bc4c0"
