@@ -7,7 +7,7 @@ from pydantic import BaseSettings
 
 # YouTube
 YT_MAX_VIDEO_LENGTH = 60 * 3
-OUT_DIR = os.path.join("/tmp", "posts")
+OUT_DIR = os.path.join("/tmp", "posts")  # noqa
 YT_VIDEO_TTL = 60 * 2
 
 
