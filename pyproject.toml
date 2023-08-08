@@ -45,6 +45,7 @@ flake8-rst-docstrings = "^0.3.0"
 flake8-string-format = "^0.3.0"
 pep8-naming = "^0.13.3"
 flake8-bandit = "^4.1.1"
+flake8-pytest-style = "^1.7.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

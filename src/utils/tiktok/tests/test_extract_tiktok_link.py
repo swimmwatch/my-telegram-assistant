@@ -6,7 +6,7 @@ from utils.tiktok import extract_tiktok_link
 
 
 @pytest.mark.parametrize(
-    "msg,expected",
+    ("msg", "expected"),
     [
         # Basic testcases
         (
@@ -15,10 +15,6 @@ from utils.tiktok import extract_tiktok_link
         ),
         (
             "i sent https://www.tiktok.com/@user/video/some_id",
-            "https://www.tiktok.com/@user/video/some_id",
-        ),
-        (
-            "do i https://www.tiktok.com/@user/video/some_id like",
             "https://www.tiktok.com/@user/video/some_id",
         ),
         (

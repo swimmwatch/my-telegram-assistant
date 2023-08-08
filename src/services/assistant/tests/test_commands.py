@@ -24,12 +24,12 @@ from services.assistant.commands import ParsedArguments
     ],
 )
 def test_command_invalid_name(name: str):
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError):  # noqa
         ExplicitCommand(name=name)
 
 
 @pytest.mark.parametrize(
-    "text,args,expected",
+    ("text", "args", "expected"),
     [
         ("", {}, None),
         ("nam", {}, None),

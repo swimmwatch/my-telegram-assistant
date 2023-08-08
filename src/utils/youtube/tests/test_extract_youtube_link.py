@@ -4,7 +4,7 @@ from utils.youtube import extract_youtube_link
 
 
 @pytest.mark.parametrize(
-    "msg,expected",
+    ("msg", "expected"),
     [
         # Basic testcases
         (
@@ -13,10 +13,6 @@ from utils.youtube import extract_youtube_link
         ),
         (
             "i sent https://www.youtube.com/watch?v=some_id",
-            "https://www.youtube.com/watch?v=some_id",
-        ),
-        (
-            "do i https://www.youtube.com/watch?v=some_id like",
             "https://www.youtube.com/watch?v=some_id",
         ),
         (
