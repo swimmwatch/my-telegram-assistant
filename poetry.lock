@@ -725,6 +725,19 @@ pycodestyle = ">=2.10.0,<2.11.0"
 pyflakes = ">=3.0.0,<3.1.0"
 
 [[package]]
+name = "flake8-quotes"
+version = "3.3.2"
+description = "Flake8 lint for quotes."
+optional = false
+python-versions = "*"
+files = [
+    {file = "flake8-quotes-3.3.2.tar.gz", hash = "sha256:6e26892b632dacba517bf27219c459a8396dcfac0f5e8204904c5a4ba9b480e1"},
+]
+
+[package.dependencies]
+flake8 = "*"
+
+[[package]]
 name = "google"
 version = "3.0.0"
 description = "Python bindings to the Google search engine."
@@ -2054,4 +2067,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "da3e20100681e65ef467efbf508f0d084bce629447f91e6b0a2c6b90b28e6063"
+content-hash = "8cba873b51dca090236086cb67c69ccf1e18f51e6a72d38bf1cd129d81b84c4b"
