@@ -24,9 +24,6 @@ format: black isort
 
 lint: flake mypy black-lint
 
-unit-test:
-	poetry run pytest $(SRC_DIR)
-
 cov:
 	poetry run pytest --cov=$(SRC_DIR) $(SRC_DIR)
 
@@ -35,3 +32,6 @@ black:
 
 develop:
 	docker compose up db redis rabbitmq -d
+
+test:
+	poetry run pytest $(SRC_DIR)

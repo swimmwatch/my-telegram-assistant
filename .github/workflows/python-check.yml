@@ -55,4 +55,4 @@ jobs:
       - name: Build gRPC proto files
         run: make build-protobuf
       - name: Run pytest
-        run: make unit-test
+        run: make test
