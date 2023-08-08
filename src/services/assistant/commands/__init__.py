@@ -1,13 +1,6 @@
+import typing
 from collections import deque
 from dataclasses import dataclass
-from typing import Any
-from typing import Awaitable
-from typing import Callable
-from typing import Deque
-from typing import Dict
-from typing import Optional
-from typing import Tuple
-from typing import Type
 
 from loguru import logger
 from telethon import events
@@ -24,7 +17,7 @@ class CommandRequest:
     event: events.NewMessage.Event
 
     @property
-    def text(self) -> Optional[str]:
+    def text(self) -> str | None:
         """
         Return text from Telegram message if it is contained.
 
@@ -33,9 +26,9 @@ class CommandRequest:
         return self.event.message.message
 
 
-ParsedArguments = Dict[str, Any]
-ExplicitCommandHandler = Callable[[ParsedArguments, CommandRequest], Awaitable[None]]
-ExplicitCommandCondition = Callable[[ParsedArguments], bool]
+ParsedArguments = dict[str, typing.Any]
+ExplicitCommandHandler = typing.Callable[[ParsedArguments, CommandRequest], typing.Awaitable[None]]
+ExplicitCommandCondition = typing.Callable[[ParsedArguments], bool]
 
 
 class ExplicitCommand:
@@ -64,8 +57,8 @@ class ExplicitCommand:
             raise ValueError("Command name must doesn't contain digits")
 
         self._name = name
-        self._args: Dict[str, Type] = {}
-        self._handlers: Deque[Tuple[ExplicitCommandHandler, Optional[ExplicitCommandCondition]]] = deque()
+        self._args: dict[str, typing.Type] = {}
+        self._handlers: typing.Deque[tuple[ExplicitCommandHandler, ExplicitCommandCondition | None]] = deque()
 
     @property
     def name(self) -> str:
@@ -74,30 +67,30 @@ class ExplicitCommand:
         """
         return self._name
 
-    def _add_arg(self, name: str, type_: Type) -> None:
+    def _add_arg(self, name: str, cls: typing.Type) -> None:
         """
         Private method for adding command argument.
 
         :param name: Argument name
-        :param type_: Value type
+        :param cls: Value type
         """
-        self._args[name] = type_
+        self._args[name] = cls
 
-    def add_arg(self, name: str, type_: Type) -> "ExplicitCommand":
+    def add_arg(self, name: str, cls: typing.Type) -> "ExplicitCommand":
         """
         Add command argument.
 
         :param name: Argument
-        :param type_: Value type
+        :param cls: Value type
         :return: Self
         """
-        self._add_arg(name, type_)
+        self._add_arg(name, cls)
         return self
 
     def _add_handler(
         self,
         func: ExplicitCommandHandler,
-        condition: Optional[ExplicitCommandCondition],
+        condition: ExplicitCommandCondition | None,
     ) -> None:
         """
         Private method for adding explicit command handler.
@@ -107,7 +100,7 @@ class ExplicitCommand:
         """
         self._handlers.append((func, condition))
 
-    def on(self, condition: Optional[ExplicitCommandCondition] = None) -> Callable[[ExplicitCommandHandler], None]:
+    def on(self, condition: ExplicitCommandCondition | None = None) -> typing.Callable[[ExplicitCommandHandler], None]:
         """
         Decorate explicit command handler.
 
@@ -134,7 +127,7 @@ class ExplicitCommand:
             else:
                 await func(args, command_request)
 
-    def parse(self, text: str) -> Optional[ParsedArguments]:
+    def parse(self, text: str) -> ParsedArguments | None:
         """
         Parse command arguments from text.
 
@@ -169,7 +162,7 @@ class ExplicitCommandHandlerWrapper(AsyncChainOfResponsibility):
     def __init__(
         self,
         command: ExplicitCommand,
-        next_handler: Optional["AsyncChainOfResponsibility"] = None,
+        next_handler: typing.Optional["AsyncChainOfResponsibility"] = None,
     ):
         super().__init__(next_handler)
         self.command = command

@@ -11,7 +11,7 @@ from services.assistant.handlers.about_me.models import game_info_dict
 from services.assistant.handlers.about_me.models import work_info_dict
 from services.assistant.templates import render_template_
 
-about_me_command = ExplicitCommand(name="me").add_arg(name="type", type_=TypeProfiles).add_arg(name="scope", type_=str)
+about_me_command = ExplicitCommand(name="me").add_arg(name="type", cls=TypeProfiles).add_arg(name="scope", cls=str)
 
 
 @about_me_command.on(lambda args: args["type"] is TypeProfiles.WORK)

@@ -59,11 +59,11 @@ class Post(ABC, SupportsTelegramSending):
 
     @staticmethod
     @abstractmethod
-    def init_from_id(id_: str) -> "Post":
+    def init_from_id(post_id: str) -> "Post":
         """
         Create Post instances by post_id
 
-        :param id_: Post ID
+        :param post_id: Post ID
         :return: Post instance
         """
 
@@ -131,8 +131,8 @@ class YouTubeShortVideo(Post):
         return client.stub.send_video(req)
 
     @staticmethod
-    def init_from_id(id_: str) -> "YouTubeShortVideo":
-        url = f"https://www.youtube.com/watch?v={id_}"
+    def init_from_id(post_id: str) -> "YouTubeShortVideo":
+        url = f"https://www.youtube.com/watch?v={post_id}"
         return YouTubeShortVideo(url)
 
 
