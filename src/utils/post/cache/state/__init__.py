@@ -3,7 +3,8 @@ Post cache state manager.
 """
 from enum import Enum
 from os import PathLike
-from typing import Protocol, Tuple
+from typing import Protocol
+from typing import Tuple
 
 
 class PostCacheState(Enum):

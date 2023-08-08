@@ -2,10 +2,14 @@
 Assistant manager handlers.
 """
 import grpc
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject
 from google.protobuf.empty_pb2 import Empty
 from loguru import logger
-from telegram import Update, WebAppInfo, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import InlineKeyboardButton
+from telegram import InlineKeyboardMarkup
+from telegram import Update
+from telegram import WebAppInfo
 from telegram.ext import ContextTypes
 
 from services.assistant.grpc.client import AssistantGrpcClient

@@ -3,11 +3,9 @@ Command decorators.
 """
 import functools
 
-from services.assistant.commands import (
-    CommandRequest,
-    ExplicitCommandHandler,
-    ParsedArguments,
-)
+from services.assistant.commands import CommandRequest
+from services.assistant.commands import ExplicitCommandHandler
+from services.assistant.commands import ParsedArguments
 
 
 def serve_only_replied_request(func: ExplicitCommandHandler) -> ExplicitCommandHandler:

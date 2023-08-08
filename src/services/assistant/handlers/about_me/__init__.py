@@ -1,14 +1,14 @@
 """
 "About me" command handler.
 """
-from services.assistant.commands import CommandRequest, ExplicitCommand, ParsedArguments
-from services.assistant.handlers.about_me.models import (
-    GameScopeValues,
-    TypeProfiles,
-    WorkScopeValues,
-    game_info_dict,
-    work_info_dict,
-)
+from services.assistant.commands import CommandRequest
+from services.assistant.commands import ExplicitCommand
+from services.assistant.commands import ParsedArguments
+from services.assistant.handlers.about_me.models import GameScopeValues
+from services.assistant.handlers.about_me.models import TypeProfiles
+from services.assistant.handlers.about_me.models import WorkScopeValues
+from services.assistant.handlers.about_me.models import game_info_dict
+from services.assistant.handlers.about_me.models import work_info_dict
 from services.assistant.templates import render_template_
 
 about_me_command = ExplicitCommand(name="me").add_arg(name="type", type_=TypeProfiles).add_arg(name="scope", type_=str)

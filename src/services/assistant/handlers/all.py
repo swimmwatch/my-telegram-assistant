@@ -1,7 +1,9 @@
 """
 Command for mentioning all in basic chat.
 """
-from services.assistant.commands import CommandRequest, ExplicitCommand, ParsedArguments
+from services.assistant.commands import CommandRequest
+from services.assistant.commands import ExplicitCommand
+from services.assistant.commands import ParsedArguments
 from services.assistant.commands.decorators import serve_only_group_messages
 from utils.telegram.message import get_mention_text
 

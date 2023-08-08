@@ -6,17 +6,16 @@ from multiprocessing import Process
 
 from grpc import aio
 from loguru import logger
-from telegram.ext import Application, CommandHandler
+from telegram.ext import Application
+from telegram.ext import CommandHandler
 
 from services.assistant_manager import assistant_manager_pb2_grpc
 from services.assistant_manager.config import AssistantManagerSettings
 from services.assistant_manager.grpc.server import AsyncAssistantManagerService
-from services.assistant_manager.handlers import (
-    handle_login_request,
-    handle_logout_request,
-    handle_status_request,
-    handle_settings_request,
-)
+from services.assistant_manager.handlers import handle_login_request
+from services.assistant_manager.handlers import handle_logout_request
+from services.assistant_manager.handlers import handle_settings_request
+from services.assistant_manager.handlers import handle_status_request
 
 
 class AssistantManagerEntrypoint:

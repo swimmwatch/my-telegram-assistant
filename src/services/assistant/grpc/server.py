@@ -5,7 +5,8 @@ from google.protobuf.empty_pb2 import Empty
 from grpc import StatusCode
 
 from services.assistant.assistant import Assistant
-from services.assistant.assistant_pb2 import BooleanValue, MessageResponse
+from services.assistant.assistant_pb2 import BooleanValue
+from services.assistant.assistant_pb2 import MessageResponse
 from services.assistant.assistant_pb2_grpc import AssistantServicer
 
 

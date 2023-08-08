@@ -1,13 +1,16 @@
 from datetime import datetime
 
 from celery import shared_task
-from dependency_injector.wiring import Provide, inject
+from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject
 from loguru import logger
 
 from services.worker.config import OUT_DIR
 from services.worker.container import WorkerContainer
 from utils.post.cache.state import PostCacheState
-from utils.post.exceptions import PostNonDownloadable, PostTooLarge, PostUnavailable
+from utils.post.exceptions import PostNonDownloadable
+from utils.post.exceptions import PostTooLarge
+from utils.post.exceptions import PostUnavailable
 from utils.post.impl import PostFactory
 
 

@@ -3,7 +3,8 @@ from typing import Tuple
 
 from redis import Redis
 
-from utils.post.cache.state import PostCacheState, SupportsPostStateCache
+from utils.post.cache.state import PostCacheState
+from utils.post.cache.state import SupportsPostStateCache
 
 
 class RedisPostStateCacheManager(SupportsPostStateCache):

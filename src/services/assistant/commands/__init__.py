@@ -1,6 +1,13 @@
 from collections import deque
 from dataclasses import dataclass
-from typing import Any, Awaitable, Callable, Deque, Dict, Optional, Tuple, Type
+from typing import Any
+from typing import Awaitable
+from typing import Callable
+from typing import Deque
+from typing import Dict
+from typing import Optional
+from typing import Tuple
+from typing import Type
 
 from loguru import logger
 from telethon import events

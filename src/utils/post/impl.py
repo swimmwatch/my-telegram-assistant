@@ -2,17 +2,21 @@
 Basic class for social networks posts.
 """
 import os
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 from datetime import timedelta
 from os import path
 
 import pytube
 from pytube import YouTube
 
-from services.assistant.assistant_pb2 import MessageResponse, SendVideoRequest
+from services.assistant.assistant_pb2 import MessageResponse
+from services.assistant.assistant_pb2 import SendVideoRequest
 from services.assistant.grpc.client import AssistantGrpcClient
 from utils.common.patterns import Factory
-from utils.post.exceptions import PostNonDownloadable, PostTooLarge, PostUnavailable
+from utils.post.exceptions import PostNonDownloadable
+from utils.post.exceptions import PostTooLarge
+from utils.post.exceptions import PostUnavailable
 from utils.telegram.protocols import SupportsTelegramSending
 
 

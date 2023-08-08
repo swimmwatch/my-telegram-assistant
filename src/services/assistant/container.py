@@ -2,7 +2,8 @@
 Assistant DI container.
 """
 from dependency_injector.containers import DeclarativeContainer
-from dependency_injector.providers import Factory, Singleton
+from dependency_injector.providers import Factory
+from dependency_injector.providers import Singleton
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
 

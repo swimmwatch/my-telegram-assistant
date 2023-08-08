@@ -1,11 +1,13 @@
 """
 Unittests for commands.
 """
-from typing import Dict, Type
+from typing import Dict
+from typing import Type
 
 import pytest
 
-from services.assistant.commands import ExplicitCommand, ParsedArguments
+from services.assistant.commands import ExplicitCommand
+from services.assistant.commands import ParsedArguments
 
 
 @pytest.mark.parametrize(

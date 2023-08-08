@@ -8,7 +8,6 @@ from pydantic import SecretStr
 
 from services.common.config import RunLevelBaseConfigMixin
 
-
 BASE_DIR = Path(__file__).resolve().parent
 
 

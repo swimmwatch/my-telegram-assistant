@@ -5,22 +5,22 @@ import asyncio
 
 import qrcode
 from PIL.Image import Image
-from telethon import TelegramClient, events
+from telethon import TelegramClient
+from telethon import events
 from telethon.tl.custom import QRLogin
 
-from services.assistant.commands import CommandRequest, ExplicitCommandHandlerWrapper
+from services.assistant.commands import CommandRequest
+from services.assistant.commands import ExplicitCommandHandlerWrapper
 from services.assistant.config import AssistantSettings
 from services.assistant.handlers.about_me import about_me_command
 from services.assistant.handlers.all import all_command
 from services.assistant.handlers.download_post import (
     YouTubeShortVideoDownloadCommandHandler,
-    reply_download_post_command,
 )
+from services.assistant.handlers.download_post import reply_download_post_command
 from services.assistant.handlers.hello import hello_command
-from services.assistant_manager.assistant_manager_pb2 import (
-    SendPhotoRequest,
-    SendTextRequest,
-)
+from services.assistant_manager.assistant_manager_pb2 import SendPhotoRequest
+from services.assistant_manager.assistant_manager_pb2 import SendTextRequest
 from services.assistant_manager.config import AssistantManagerSettings
 from services.assistant_manager.grpc.client import AssistantManagerGrpcClient
 from utils.img.base64 import Base64Image

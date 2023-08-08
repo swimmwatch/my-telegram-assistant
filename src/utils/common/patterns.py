@@ -1,8 +1,10 @@
 """
 Common patterns.
 """
-from abc import ABC, abstractmethod
-from typing import Optional, Protocol
+from abc import ABC
+from abc import abstractmethod
+from typing import Optional
+from typing import Protocol
 
 
 class Repository(Protocol):

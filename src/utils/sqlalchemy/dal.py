@@ -1,4 +1,7 @@
-from typing import Type, Generic, Optional, TypeVar
+from typing import Generic
+from typing import Optional
+from typing import Type
+from typing import TypeVar
 
 import sqlalchemy as sa
 from sqlalchemy.orm import Session

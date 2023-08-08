@@ -17,6 +17,11 @@ flake:
 black-lint:
 	poetry run black --check $(SRC_DIR)
 
+isort:
+	poetry run isort $(SRC_DIR)
+
+format: black isort
+
 lint: flake mypy black-lint
 
 unit-test:
