@@ -13,12 +13,6 @@ services:
     image: redis:6.2.6-alpine
     restart: always
 
-  rabbitmq:
-    image: rabbitmq:3.9-alpine
-    restart: always
-    env_file:
-      - .env
-
   web:
     build:
       context: .
@@ -41,7 +35,6 @@ services:
     command: celery --app services.worker.app worker --loglevel ${LOGURU_LEVEL} --concurrency=1
     depends_on:
       - redis
-      - rabbitmq
     env_file:
       - .env
     volumes:
@@ -80,13 +73,6 @@ services:
       - .env
     volumes:
       - cached_posts:/tmp/posts
-
-  flower:
-    image: mher/flower:0.9.7
-    env_file:
-      - .env
-    depends_on:
-      - worker
 
 volumes:
   db:

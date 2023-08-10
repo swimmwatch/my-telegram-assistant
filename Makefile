@@ -31,7 +31,7 @@ black:
 	poetry run black $(SRC_DIR)
 
 develop:
-	docker compose up db redis rabbitmq -d
+	docker compose up db redis -d
 
 test:
 	poetry run pytest $(SRC_DIR)
