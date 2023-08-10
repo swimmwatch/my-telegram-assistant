@@ -2,7 +2,7 @@ from typing import Optional
 
 import pytest
 
-from utils.tiktok import extract_tiktok_link
+from utils.tiktok.url import extract_tiktok_link
 
 
 @pytest.mark.parametrize(

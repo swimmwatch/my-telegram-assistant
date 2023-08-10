@@ -1,6 +1,6 @@
 import pytest
 
-from utils.youtube import extract_youtube_link
+from utils.youtube.url import extract_youtube_link
 
 
 @pytest.mark.parametrize(
