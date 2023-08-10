@@ -40,6 +40,26 @@ jobs:
       matrix:
         python-version: ["3.10"]
         poetry-version: ["1.5.1"]
+    env:
+      DB_NAME: my_telegram_assistant
+      DB_USER: postgres
+      DB_PASSWORD: mypass
+      DB_HOST: "localhost:5555"
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_DB: ${{env.DB_NAME}}
+          POSTGRES_USER: ${{env.DB_USER}}
+          POSTGRES_PASSWORD: ${{env.DB_PASSWORD}}
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+           - 5555:5432
     steps:
       - name: Checkout
         uses: actions/checkout@v3
