@@ -2023,6 +2023,22 @@ tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
+name = "pytest-alembic"
+version = "0.10.7"
+description = "A pytest plugin for verifying alembic migrations."
+optional = false
+python-versions = ">=3.6,<4"
+files = [
+    {file = "pytest_alembic-0.10.7-py3-none-any.whl", hash = "sha256:69b7d756c26c07060734c9c346e2250f58f78ba5e6cdf4d8a5d2558a551c6348"},
+    {file = "pytest_alembic-0.10.7.tar.gz", hash = "sha256:19d256424684d6c83e31b2410b73f1a435799396241b155d54aa103836e4640f"},
+]
+
+[package.dependencies]
+alembic = "*"
+pytest = ">=6.0"
+sqlalchemy = "*"
+
+[[package]]
 name = "pytest-cov"
 version = "4.1.0"
 description = "Pytest plugin for measuring coverage."
@@ -2622,4 +2638,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "b80a826916d07783c0aa17cdc5569eb176ee181c9cb066317b8bc8bf164ea1f4"
+content-hash = "5162d380c47e36cabe1469e9c52a2e9e05aeb91030af3588f1f7ffd5a7b2331f"
