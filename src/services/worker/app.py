@@ -21,4 +21,4 @@ task_routes = {"services.assistant.tasks.download_and_send_post": {"queue": "dow
 @celery.on_after_configure.connect
 def init_di_container(sender, **kwargs):
     worker_container = WorkerContainer()
-    worker_container.wire(modules=[__name__], packages=["..assistant"])
+    worker_container.wire(modules=[__name__, "services.assistant.tasks"])
