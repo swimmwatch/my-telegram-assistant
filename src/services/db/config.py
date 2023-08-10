@@ -15,7 +15,7 @@ class DatabaseSettings(RunLevelBaseConfigMixin, BaseSettings):
     debug: bool = True
 
     @property
-    def db_url(self):
+    def url(self):
         return f"{self.scheme}://{self.user}:{self.password}@{self.host}/{self.name}"
 
     class Config:
