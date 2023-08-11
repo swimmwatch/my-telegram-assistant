@@ -2,9 +2,7 @@ import contextlib
 import os
 import typing
 from collections.abc import Iterable
-from pathlib import Path
 
-import alembic
 import pytest
 import sqlalchemy as sa
 import sqlalchemy.orm as orm
@@ -13,25 +11,10 @@ from sqlalchemy_utils import database_exists
 from sqlalchemy_utils import drop_database
 
 from services.db.config import DatabaseSettings
+from services.db.tests.utils import _upgrade_head
 from utils.factory import FactoryType
 from utils.sqlalchemy.types import SessionFactory
 from utils.sqlalchemy.types import SessionGenerator
-
-
-def _upgrade_head(settings: DatabaseSettings, rootdir: str) -> None:
-    """
-    Upgrade the test database to head.
-
-    :param settings: Database settings
-    :param rootdir: Root project directory
-    """
-    config = alembic.config.Config()
-    alembic_folder = Path(rootdir) / Path("src") / Path("migrations")
-    config.set_main_option("script_location", str(alembic_folder))
-    config.set_main_option("sqlalchemy.url", settings.url)
-
-    # heads means all migrations from all branches (in case there are split branches)
-    alembic.command.upgrade(config, "heads")
 
 
 @pytest.fixture(scope="session")

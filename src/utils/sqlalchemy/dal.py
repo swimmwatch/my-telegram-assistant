@@ -1,59 +1,33 @@
 """
 SQLAlchemy Data Access Layer.
 """
+import abc
 import typing
 
 import sqlalchemy as sa
 from sqlalchemy import inspect
+from sqlalchemy.sql.dml import ReturningDelete
 
+from utils.sqlalchemy.types import AsyncSessionFactory
 from utils.sqlalchemy.types import SessionFactory
 
 T = typing.TypeVar("T")
 
 
-class SqlAlchemyRepository(typing.Generic[T]):
+class BaseSqlAlchemyRepository(abc.ABC):
     class Config:
         # TODO: annotate using generic
         model: typing.Type
 
-    def __init__(self, session_factory: SessionFactory):
+    def __init__(self, session_factory):
         self.session_factory = session_factory
         self._base_query = sa.select(self.Config.model)
 
-    def base(self, query: sa.Select) -> "SqlAlchemyRepository":
-        self._base_query = query
-        return self
-
-    def query(self) -> sa.Select:
-        return self._base_query
-
-    def filter(self, **kwargs) -> "SqlAlchemyRepository":
-        self._base_query = self._base_query.filter_by(**kwargs)
-        return self
-
-    def where(self, *args) -> "SqlAlchemyRepository":
-        self._base_query = self._base_query.where(*args)
-        return self
-
-    def order_by(self, *args) -> "SqlAlchemyRepository":
-        self._base_query = self._base_query.order_by(*args)
-        return self
-
-    def group_by(self, *args) -> "SqlAlchemyRepository":
-        self._base_query = self._base_query.group_by(*args)
-        return self
-
-    def join(self, *args) -> "SqlAlchemyRepository":
-        self._base_query = self._base_query.join(*args)
-        return self
-
-    def first(self) -> T | None:
-        with self.session_factory() as session:
-            return session.execute(self._base_query).scalar_one_or_none()
-
-    def all(self) -> sa.ScalarResult[T]:
-        with self.session_factory() as session:
-            return session.execute(self._base_query).scalars()
+    @classmethod
+    def _update(cls, instance, **kwargs):
+        for key, value in kwargs.items():
+            setattr(instance, key, value)
+        return instance
 
     @property
     def pk(self) -> str | None:
@@ -63,18 +37,83 @@ class SqlAlchemyRepository(typing.Generic[T]):
 
         return meta.primary_key[0].name
 
+    def base(self, query: sa.Select) -> "BaseSqlAlchemyRepository":
+        self._base_query = query
+        return self
+
+    def query(self) -> sa.Select:
+        return self._base_query
+
+    def filter(self, **kwargs) -> "BaseSqlAlchemyRepository":
+        self._base_query = self._base_query.filter_by(**kwargs)
+        return self
+
+    def where(self, *args) -> "BaseSqlAlchemyRepository":
+        self._base_query = self._base_query.where(*args)
+        return self
+
+    def order_by(self, *args) -> "BaseSqlAlchemyRepository":
+        self._base_query = self._base_query.order_by(*args)
+        return self
+
+    def group_by(self, *args) -> "BaseSqlAlchemyRepository":
+        self._base_query = self._base_query.group_by(*args)
+        return self
+
+    def join(self, *args) -> "BaseSqlAlchemyRepository":
+        self._base_query = self._base_query.join(*args)
+        return self
+
+    def _delete_stmt(self) -> ReturningDelete:
+        return sa.delete(self.Config.model).where(self._base_query.whereclause).returning(self.Config.model)
+
+    @abc.abstractmethod
+    def first(self):
+        ...
+
+    @abc.abstractmethod
+    def all(self):
+        ...
+
+    @abc.abstractmethod
+    def create_one(self, **kwargs):
+        ...
+
+    @abc.abstractmethod
+    def update_instance(self, instance, **kwargs):
+        ...
+
+    @abc.abstractmethod
+    def update_or_create(self, **kwargs) -> typing.Callable:
+        ...
+
+    @abc.abstractmethod
+    def delete(self):
+        ...
+
+
+class SqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
+    session_factory: SessionFactory
+
+    def delete(self) -> sa.Result:
+        with self.session_factory() as session:
+            stmt = self._delete_stmt()
+            return session.execute(stmt)
+
+    def first(self) -> T | None:
+        with self.session_factory() as session:
+            return session.execute(self._base_query).scalar_one_or_none()
+
+    def all(self) -> sa.ScalarResult[T]:
+        with self.session_factory() as session:
+            return session.execute(self._base_query).scalars()
+
     def create_one(self, **kwargs):
         with self.session_factory() as session:
             instance = self.Config.model(**kwargs)
             session.add(instance)
             session.commit()
             return instance
-
-    @classmethod
-    def _update(cls, instance, **kwargs):
-        for key, value in kwargs.items():
-            setattr(instance, key, value)
-        return instance
 
     def update_instance(self, instance, **kwargs):
         with self.session_factory() as session:
@@ -93,6 +132,55 @@ class SqlAlchemyRepository(typing.Generic[T]):
                 return self.create_one(**params)
 
             instance = self.update_instance(instance, **inner_kwargs)
+
+            return instance
+
+        return update
+
+
+class AsyncSqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
+    session_factory: AsyncSessionFactory
+
+    async def delete(self) -> sa.Result:
+        async with self.session_factory() as session:
+            stmt = self._delete_stmt()
+            cursor = await session.execute(stmt)
+            return cursor
+
+    async def first(self) -> T | None:
+        async with self.session_factory() as session:
+            cursor = await session.execute(self._base_query)
+            return cursor.scalar_one_or_none()
+
+    async def all(self) -> sa.ScalarResult[T]:
+        async with self.session_factory() as session:
+            cursor = await session.execute(self._base_query)
+            return cursor.scalars()
+
+    async def create_one(self, **kwargs):
+        async with self.session_factory() as session:
+            instance = self.Config.model(**kwargs)
+            session.add(instance)
+            await session.commit()
+            return instance
+
+    async def update_instance(self, instance, **kwargs):
+        async with self.session_factory() as session:
+            updated_instance = self._update(instance, **kwargs)
+            await session.commit()
+            return updated_instance
+
+    def update_or_create(self, **kwargs) -> typing.Callable:
+        async def update(**inner_kwargs):
+            instance = await self.filter(**kwargs).first()
+
+            if not instance:
+                params = {**kwargs, **inner_kwargs}
+                if self.pk and self.pk in params:
+                    params.pop(self.pk)
+                return await self.create_one(**params)
+
+            instance = await self.update_instance(instance, **inner_kwargs)
 
             return instance
 
