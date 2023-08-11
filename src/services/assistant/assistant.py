@@ -7,7 +7,6 @@ import qrcode
 from PIL.Image import Image
 from telethon import TelegramClient
 from telethon import events
-from telethon.errors import SessionPasswordNeededError
 from telethon.tl.custom import QRLogin
 
 from services.assistant.commands import CommandRequest
