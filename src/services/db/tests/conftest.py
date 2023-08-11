@@ -42,7 +42,7 @@ def db_engine(request) -> typing.Generator[sa.Engine, None, None]:
     if not database_exists(settings.url):
         create_database(settings.url)
 
-    engine = sa.create_engine(settings.url)
+    engine = sa.create_engine(settings.url, echo=settings.debug)
 
     _upgrade_head(settings, request.config.rootdir)
 
@@ -72,6 +72,7 @@ def db_session(db_engine: sa.Engine) -> SessionGenerator:
     test_local_session = orm.sessionmaker(
         autocommit=False,
         autoflush=False,
+        expire_on_commit=False,
         bind=connection,
         class_=orm.Session,
     )
