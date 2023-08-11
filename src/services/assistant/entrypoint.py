@@ -7,7 +7,7 @@ from loguru import logger
 from services.assistant import assistant_pb2_grpc
 from services.assistant.assistant import Assistant
 from services.assistant.config import AssistantSettings
-from services.assistant.grpc.server import AsyncAssistantService
+from services.assistant.grpc_.server import AsyncAssistantService
 
 
 class AssistantEntrypoint:

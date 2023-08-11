@@ -1,7 +1,7 @@
 from typing import Protocol
 
 from services.assistant.assistant_pb2 import MessageResponse
-from services.assistant.grpc.client import AssistantGrpcClient
+from services.assistant.grpc_.client import AssistantGrpcClient
 
 
 class SupportsTelegramSending(Protocol):

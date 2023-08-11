@@ -1,21 +1,18 @@
 """
 API dependencies.
 """
-from services.db.client.async_ import AsyncSession_
-from services.db.client.sync import Session_
+from services.db.client.async_ import AsyncDatabase
+from services.db.client.sync import Database
+from services.db.config import DatabaseSettings
 
 
 def get_db():
-    session = Session_()
-    try:
-        yield session
-    finally:
-        session.close()
+    # TODO: add return typing
+    settings = DatabaseSettings()
+    return Database(settings.url).session
 
 
 async def get_async_db():
-    session = AsyncSession_()
-    try:
-        yield session
-    finally:
-        await session.close()
+    # TODO: add return typing
+    settings = DatabaseSettings()
+    return AsyncDatabase(settings.url).session

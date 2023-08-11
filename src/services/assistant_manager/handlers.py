@@ -12,7 +12,7 @@ from telegram import Update
 from telegram import WebAppInfo
 from telegram.ext import ContextTypes
 
-from services.assistant.grpc.client import AssistantGrpcClient
+from services.assistant.grpc_.client import AssistantGrpcClient
 from services.assistant_manager.config import AssistantManagerSettings
 from services.assistant_manager.container import AssistantManagerContainer
 from utils.python_telegram_bot.decorators import serve_only_specific_user

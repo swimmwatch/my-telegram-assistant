@@ -11,7 +11,7 @@ from telegram.ext import CommandHandler
 
 from services.assistant_manager import assistant_manager_pb2_grpc
 from services.assistant_manager.config import AssistantManagerSettings
-from services.assistant_manager.grpc.server import AsyncAssistantManagerService
+from services.assistant_manager.grpc_.server import AsyncAssistantManagerService
 from services.assistant_manager.handlers import handle_login_request
 from services.assistant_manager.handlers import handle_logout_request
 from services.assistant_manager.handlers import handle_settings_request

@@ -11,7 +11,7 @@ from services.assistant.assistant import Assistant
 from services.assistant.config import AssistantSettings
 from services.assistant.entrypoint import AssistantEntrypoint
 from services.assistant_manager.config import AssistantManagerSettings
-from services.assistant_manager.grpc.client import AssistantManagerGrpcClient
+from services.assistant_manager.grpc_.client import AssistantManagerGrpcClient
 from services.redis.config import RedisSettings
 
 assistant_manager_settings = AssistantManagerSettings()  # type: ignore

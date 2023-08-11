@@ -7,7 +7,7 @@ from dependency_injector.providers import Singleton
 from redis import Redis
 
 from services.assistant.config import AssistantSettings
-from services.assistant.grpc.client import AssistantGrpcClient
+from services.assistant.grpc_.client import AssistantGrpcClient
 from services.redis.config import RedisSettings
 from services.worker.config import WorkerSettings
 from utils.post.cache.state.redis import RedisPostStateCacheManager

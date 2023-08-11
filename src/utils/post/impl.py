@@ -2,6 +2,7 @@
 Basic class for social networks posts.
 """
 import os
+import typing
 from abc import ABC
 from abc import abstractmethod
 from datetime import timedelta
@@ -12,7 +13,7 @@ from pytube import YouTube
 
 from services.assistant.assistant_pb2 import MessageResponse
 from services.assistant.assistant_pb2 import SendVideoRequest
-from services.assistant.grpc.client import AssistantGrpcClient
+from services.assistant.grpc_.client import AssistantGrpcClient
 from utils.common.patterns import Factory
 from utils.post.exceptions import PostNonDownloadable
 from utils.post.exceptions import PostTooLarge
@@ -21,6 +22,12 @@ from utils.telegram.protocols import SupportsTelegramSending
 
 
 class Post(ABC, SupportsTelegramSending):
+    _subclasses: dict[str, typing.Type] = {}
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        cls._subclasses[cls.__name__] = cls
+
     @property
     @abstractmethod
     def id(self) -> str:
@@ -76,8 +83,7 @@ class PostFactory(Factory):
     @staticmethod
     def init_from_post_id(post_id: str) -> Post:
         class_name, id_ = post_id.split(":")
-        subclasses = {class_.__name__: class_ for class_ in Post.__subclasses__()}
-        return subclasses[class_name].init_from_id(id_)
+        return Post._subclasses[class_name].init_from_id(id_)
 
 
 class YouTubeShortVideo(Post):
