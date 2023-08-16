@@ -1238,12 +1238,12 @@ files = [
 
 [[package]]
 name = "instagrapi"
-version = "1.19.6"
+version = "1.19.7"
 description = "Fast and effective Instagram Private API wrapper"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "instagrapi-1.19.6.tar.gz", hash = "sha256:8ed6e76b131c5ef8ebca7d441847413e60f7a9fc4d875be738b6388c01bbc276"},
+    {file = "instagrapi-1.19.7.tar.gz", hash = "sha256:906613485dfad8c9d5e43dd27216a81f9542a65459ea4e3d43ccb71f5bcf9769"},
 ]
 
 [package.dependencies]
@@ -2684,4 +2684,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "89a665e80935722cb325a073469dc035f9de59db62786b643a805d78fc647489"
+content-hash = "7a71123286aad2270d658cc5a9c6170a3e593f88784ed8fe584551c9ede39b7f"
