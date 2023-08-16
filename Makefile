@@ -33,5 +33,8 @@ black:
 develop:
 	docker compose up db redis -d
 
+down:
+	docker compose down
+
 test:
 	poetry run pytest $(SRC_DIR)
