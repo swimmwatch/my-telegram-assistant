@@ -12,5 +12,5 @@ YT_VIDEO_TTL = 60 * 2
 
 
 class WorkerSettings(BaseSettings):
-    celery_broker_url: str = "redis://localhost:6379"
-    celery_result_backend: str = "redis://localhost:6379"
+    celery_result_backend: str = "redis://localhost:6380/1"
+    celery_broker_url: str = "redis://localhost:6380/2"

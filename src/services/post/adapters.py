@@ -7,22 +7,24 @@ from abc import ABC
 from abc import abstractmethod
 from datetime import timedelta
 from os import path
+from urllib.parse import urlparse
 
+import instagrapi
 import pytube
 from pytube import YouTube
 
 from services.assistant.assistant_pb2 import MessageResponse
-from services.assistant.assistant_pb2 import SendVideoRequest
+from services.assistant.assistant_pb2 import SendFilesRequest
 from services.assistant.grpc_.client import AssistantGrpcClient
-from utils.common.patterns import Factory
-from utils.post.exceptions import PostNonDownloadable
-from utils.post.exceptions import PostTooLarge
-from utils.post.exceptions import PostUnavailable
+from services.instagram.config import InstagramSettings
+from services.post.exceptions import PostNonDownloadable
+from services.post.exceptions import PostTooLarge
+from services.post.exceptions import PostUnavailable
 from utils.telegram.protocols import SupportsTelegramSending
 
 
 class Post(ABC, SupportsTelegramSending):
-    _subclasses: dict[str, typing.Type] = {}
+    _subclasses: dict[str, typing.Type["Post"]] = {}
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -37,7 +39,7 @@ class Post(ABC, SupportsTelegramSending):
         pass
 
     @abstractmethod
-    def download(self, out_dir: str) -> os.PathLike:
+    def download(self, out_dir: os.PathLike) -> typing.Sequence[os.PathLike]:
         """Download post"""
         pass
 
@@ -57,12 +59,10 @@ class Post(ABC, SupportsTelegramSending):
         """
         pass
 
-    @abstractmethod
-    def clear(self, out_filename: str) -> None:
-        """
-        Clear post.
-        """
-        pass
+    def clear(self, *args: os.PathLike) -> None:
+        for file in args:
+            if path.exists(file):
+                os.remove(file)
 
     @staticmethod
     @abstractmethod
@@ -74,16 +74,10 @@ class Post(ABC, SupportsTelegramSending):
         :return: Post instance
         """
 
-
-class PostFactory(Factory):
-    """
-    Post factory that creates post instances by post ID.
-    """
-
-    @staticmethod
-    def init_from_post_id(post_id: str) -> Post:
+    @classmethod
+    def from_post_id(cls, post_id: str) -> "Post":
         class_name, id_ = post_id.split(":")
-        return Post._subclasses[class_name].init_from_id(id_)
+        return cls._subclasses[class_name].init_from_id(id_)
 
 
 class YouTubeShortVideo(Post):
@@ -106,7 +100,7 @@ class YouTubeShortVideo(Post):
     def id(self) -> str:
         return f"{type(self).__name__}:{self.yt.video_id}"
 
-    def download(self, out_dir: str) -> os.PathLike:
+    def download(self, out_dir: os.PathLike) -> typing.Sequence[os.PathLike]:
         """
         Download short YouTube video.
 
@@ -118,11 +112,7 @@ class YouTubeShortVideo(Post):
             raise PostNonDownloadable(self.url)
         uniq_filename = f"{self.id}.{stream.subtype}"
         out_filename = stream.download(out_dir, uniq_filename)
-        return out_filename
-
-    def clear(self, out_filename: str) -> None:
-        if path.exists(out_filename):
-            os.remove(out_filename)
+        return [out_filename]
 
     @property
     def ttl(self) -> timedelta:
@@ -133,13 +123,76 @@ class YouTubeShortVideo(Post):
         return self.yt.title
 
     def send(self, client: AssistantGrpcClient, **kwargs) -> MessageResponse:
-        req = SendVideoRequest(caption=self.title, **kwargs)
-        return client.stub.send_video(req)
+        req = SendFilesRequest(caption=self.title, **kwargs)
+        return client.stub.send_files(req)
 
     @staticmethod
     def init_from_id(post_id: str) -> "YouTubeShortVideo":
         url = f"https://www.youtube.com/watch?v={post_id}"
         return YouTubeShortVideo(url)
+
+
+class InstagramPost(Post):
+    def __init__(self, url: str):
+        self.url = url
+        self.settings = InstagramSettings()
+
+        # TODO: handle errors
+        self.client = instagrapi.Client(proxy=self.settings.proxy, request_timeout=2)
+
+        self._media_pk = self.client.media_pk_from_url(self.url)
+
+    @property
+    def id(self) -> str:
+        parts = [p for p in urlparse(self.url).path.split("/") if p]
+        return f"{type(self).__name__}:{parts.pop()}"
+
+    def download(self, out_dir: os.PathLike) -> typing.Sequence[os.PathLike]:
+        """
+        Download Instagram video.
+
+        :param out_dir: Output directory
+        :return: Output filename
+        """
+
+        # TODO: handle errors
+        self.client.login(self.settings.login, self.settings.password.get_secret_value())
+
+        # TODO: handle errors
+        media_info = self.client.media_info(self._media_pk)
+
+        info = media_info.dict()
+        media_type = info["media_type"]
+        product_type = info["product_type"]
+        match (media_type, product_type):
+            case (1, "feed"):
+                return [self.client.photo_download(self._media_pk, out_dir)]
+            case (2, "feed") | (2, "clips"):
+                return [self.client.video_download(self._media_pk, out_dir)]
+            case (2, "igtv"):
+                return [self.client.igtv_download(self._media_pk, out_dir)]
+            case (8, _):
+                return self.client.album_download(self._media_pk, out_dir)
+            case _ as pair:
+                raise AssertionError(f"Unhandled Instagram post downloading case: {pair}")
+
+    @property
+    def ttl(self) -> timedelta:
+        return timedelta(minutes=3)
+
+    @property
+    def title(self) -> str:
+        return "test"
+        # return self._media.title or ""
+
+    def send(self, client: AssistantGrpcClient, **kwargs) -> MessageResponse:
+        req = SendFilesRequest(caption=self.title, **kwargs)
+        return client.stub.send_files(req)
+
+    @staticmethod
+    def init_from_id(media_code: str) -> "InstagramPost":
+        url = f"https://www.instagram.com/p/{media_code}/"
+        return InstagramPost(url)
 
 
 # class TikTokVideo(Post):
@@ -176,10 +229,6 @@ class YouTubeShortVideo(Post):
 #         # TODO: handle if something wrong
 #         info = self.video.info()
 #         return info['desc']
-#
-#     def clear(self, out_filename: str) -> None:
-#         if os.path.exists(out_filename):
-#             os.remove(out_filename)
 #
 #     @staticmethod
 #     def init_from_id(id_: str) -> 'Post':
