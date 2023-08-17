@@ -8,7 +8,7 @@ from services.common.config import RunLevelBaseConfigMixin
 
 class RedisSettings(RunLevelBaseConfigMixin, BaseSettings):
     host: str = "localhost:6380"
-    db: int = 0
+    db: int = 2
 
     @property
     def url(self):
