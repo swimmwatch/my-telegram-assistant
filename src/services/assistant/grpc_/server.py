@@ -42,6 +42,20 @@ class AsyncAssistantService(AssistantServicer):
             # can_be_forwarded=result_msg.can_be_forwarded
         )
 
+    async def send_files(self, request, context):
+        # TODO: handle errors
+        result_msg = await self.telegram_client.send_file(
+            request.chat_id,
+            list(request.files),
+            caption=request.caption,
+            silent=request.disable_notification,
+        )
+        return MessageResponse(
+            id=result_msg[0].id,
+            chat_id=request.chat_id,
+            # can_be_forwarded=result_msg.can_be_forwarded
+        )
+
     async def forward_messages(self, request, context):
         # TODO: handle errors
         await self.telegram_client.forward_messages(
