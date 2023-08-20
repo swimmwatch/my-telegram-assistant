@@ -4,27 +4,8 @@
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
-      <env name="PYTHONUNBUFFERED" value="1" />
-      <env name="ASSISTANT_GRPC_ADDR" value="localhost:50051" />
-      <env name="ASSISTANT_MANAGER_GRPC_ADDR" value="localhost:50052" />
       <env name="CELERY_BROKER_URL" value="redis://localhost:6380/2" />
       <env name="CELERY_RESULT_BACKEND" value="redis://localhost:6380/1" />
-      <env name="DB_HOST" value="localhost:5555" />
-      <env name="DB_NAME" value="my_telegram_assistant" />
-      <env name="DB_PASSWORD" value="mypass" />
-      <env name="DB_USER" value="postgres" />
-      <env name="FLOWER_PORT" value="5555" />
-      <env name="LOGURU_LEVEL" value="INFO" />
-      <env name="MY_TELEGRAM_ID" value="359774197" />
-      <env name="POSTGRES_DB" value="my_telegram_assistant" />
-      <env name="POSTGRES_PASSWORD" value="mypass" />
-      <env name="POSTGRES_USER" value="postgres" />
-      <env name="REDIS_HOST" value="localhost:6380" />
-      <env name="REDIS_PORT" value="6380" />
-      <env name="TELEGRAM_API_HASH" value="446001d7f3ce06c29792279c9f0eeeda" />
-      <env name="TELEGRAM_API_ID" value="9534494" />
-      <env name="TELEGRAM_API_TOKEN" value="5167313568:AAHWQBBLIjruvW0MDmaM5-nCtPfuExtw2iY" />
-      <env name="TELEGRAM_BOT_WEBAPP_URL" value="https://fb72-109-252-99-220.eu.ngrok.io" />
     </envs>
     <option name="SDK_HOME" value="" />
     <option name="SDK_NAME" value="Poetry (my-telegram-assistant)" />
