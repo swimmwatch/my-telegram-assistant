@@ -1,16 +1,26 @@
 """
 Assistant manager configuration.
 """
+from pathlib import Path
+
 from pydantic import AnyHttpUrl
 from pydantic import BaseSettings
 from pydantic import SecretStr
 
+from services.common.config import BaseConfig
 from services.common.config import RunLevelBaseConfigMixin
+
+BASE_DIR = Path(__file__).resolve().parent
 
 
 class AssistantManagerSettings(RunLevelBaseConfigMixin, BaseSettings):
-    my_telegram_id: int = 0
-    telegram_api_token: SecretStr
-    telegram_bot_webapp_url: AnyHttpUrl
+    token: SecretStr
+    webapp_url: AnyHttpUrl
 
-    assistant_manager_grpc_addr: str
+    grpc_addr: str
+
+    template_dir: Path = BASE_DIR / "templates"
+
+    class Config(BaseConfig):
+        env_prefix = "assistant_manager_"
+        env_file = (".env", ".env.local")
