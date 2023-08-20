@@ -25,8 +25,8 @@ def upgrade() -> None:
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("tg_id", sa.Integer(), nullable=True),
         sa.Column("session", sa.String(), nullable=True),
-        sa.Column("created", sa.DateTime(timezone=True), server_default=sa.text("now()"), nullable=False),
-        sa.Column("updated", sa.DateTime(timezone=True), nullable=True),
+        sa.Column("created", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+        sa.Column("updated", sa.DateTime(timezone=True), server_onupdate=sa.func.now(), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_users_tg_id"), "users", ["tg_id"], unique=True)
