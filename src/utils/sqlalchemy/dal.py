@@ -91,9 +91,20 @@ class BaseSqlAlchemyRepository(abc.ABC):
     def delete(self):
         ...
 
+    @abc.abstractmethod
+    def update(self, **kwargs):
+        ...
+
 
 class SqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
     session_factory: SessionFactory
+
+    def update(self, **kwargs) -> sa.Result:
+        with self.session_factory() as session:
+            # TODO: refactor using base query
+            subquery = sa.select(self.Config.model.id).where(self._base_query.whereclause).exists()
+            stmt = sa.update(self.Config.model).values(**kwargs).where(subquery).returning(self.Config.model)
+            return session.execute(stmt)
 
     def delete(self) -> sa.Result:
         with self.session_factory() as session:
@@ -140,6 +151,13 @@ class SqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
 
 class AsyncSqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
     session_factory: AsyncSessionFactory
+
+    async def update(self, **kwargs) -> sa.Result:
+        async with self.session_factory() as session:
+            # TODO: refactor using base query
+            subquery = sa.select(self.Config.model.id).where(self._base_query.whereclause).exists()
+            stmt = sa.update(self.Config.model).values(**kwargs).where(subquery).returning(self.Config.model)
+            return await session.execute(stmt)
 
     async def delete(self) -> sa.Result:
         async with self.session_factory() as session:
