@@ -3,6 +3,11 @@
     <module name="my-telegram-assistant" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
+    <envs>
+      <env name="CELERY_BROKER_URL" value="redis://localhost:6380/2" />
+      <env name="CELERY_RESULT_BACKEND" value="redis://localhost:6380/1" />
+      <env name="PYTHONUNBUFFERED" value="1" />
+    </envs>
     <option name="SDK_HOME" value="" />
     <option name="SDK_NAME" value="Poetry (my-telegram-assistant)" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
