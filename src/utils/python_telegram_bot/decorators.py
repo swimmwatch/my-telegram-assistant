@@ -8,6 +8,7 @@ from telegram.ext import ContextTypes
 def serve_only_specific_user(user_id: int) -> typing.Callable:
     """
     Decorates Python Telegram Bot handler for serving only specific user messages.
+
     :param user_id: Telegram user ID
     :return: Decorated handler
     """
