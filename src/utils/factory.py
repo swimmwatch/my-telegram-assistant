@@ -3,7 +3,6 @@ Utilities for creating factories.
 """
 import typing
 
-T = typing.TypeVar("T")
 FactoryType = typing.Union["FactoryMaker", "FactoryGroupMaker"]
 
 
@@ -17,12 +16,12 @@ class FactoryGroupMaker:
         elif isinstance(other, FactoryGroupMaker):
             return self.__class__(*other.args, *self.args)
 
-    def make(self) -> typing.Iterable:
+    def make(self) -> typing.Iterable[typing.Any]:
         return (factory_maker.make() for factory_maker in self.args)
 
 
-class FactoryMaker(typing.Generic[T]):
-    def __init__(self, factory: typing.Callable[..., T], **kwargs) -> None:
+class FactoryMaker:
+    def __init__(self, factory: typing.Callable[..., typing.Any], **kwargs) -> None:
         self.factory = factory
         self.kwargs = kwargs
 
@@ -35,5 +34,5 @@ class FactoryMaker(typing.Generic[T]):
         """
         return self.__class__(self.factory, **(self.kwargs | kwargs))
 
-    def make(self) -> T:
+    def make(self) -> typing.Any:
         return self.factory(**self.kwargs)
