@@ -15,6 +15,7 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/src/services/assistant/templates" />
+        <option value="$MODULE_DIR$/src/services/assistant_manager/templates" />
       </list>
     </option>
   </component>
