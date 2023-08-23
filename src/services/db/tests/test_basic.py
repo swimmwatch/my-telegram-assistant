@@ -88,3 +88,18 @@ class TestDelete:
         user_repo.filter(tg_id=1).delete()
 
         assert not user_repo.all().one_or_none()
+
+
+class TestUpdate:
+    def test_update_one(self, user_repo: dal.UserDAL, db_factory: typing.Callable) -> None:
+        instance: models.User = db_factory(user)
+
+        assert user_repo.all().one_or_none()
+        assert not instance.updated
+
+        new_session = "new-secret-session"
+        user_repo.filter(tg_id=1).update(session=new_session)
+
+        instance = user_repo.all().one_or_none()
+        assert instance
+        assert instance.session == new_session

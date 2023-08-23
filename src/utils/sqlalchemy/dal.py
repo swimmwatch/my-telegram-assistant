@@ -152,14 +152,16 @@ class SqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
 class AsyncSqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
     session_factory: AsyncSessionFactory
 
-    async def update(self, **kwargs) -> sa.Result:
+    async def update(self, **kwargs) -> sa.Result[T]:
         async with self.session_factory() as session:
             # TODO: refactor using base query
             subquery = sa.select(self.Config.model.id).where(self._base_query.whereclause).exists()
             stmt = sa.update(self.Config.model).values(**kwargs).where(subquery).returning(self.Config.model)
-            return await session.execute(stmt)
+            res = await session.execute(stmt)
+            await session.commit()
+            return res
 
-    async def delete(self) -> sa.Result:
+    async def delete(self) -> sa.Result[T]:
         async with self.session_factory() as session:
             stmt = self._delete_stmt()
             cursor = await session.execute(stmt)
