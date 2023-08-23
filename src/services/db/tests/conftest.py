@@ -108,6 +108,7 @@ def db_factory(instance: typing.Callable) -> typing.Callable:
         if isinstance(data, Iterable):
             return instance(*data)
         else:
-            return instance(data)
+            obj = instance(data)
+            return obj[0]
 
     return make

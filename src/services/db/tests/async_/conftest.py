@@ -99,6 +99,7 @@ def async_db_factory(async_instance: typing.Callable) -> typing.Callable:
         if isinstance(data, Iterable):
             return await async_instance(*data)
         else:
-            return await async_instance(data)
+            obj = await async_instance(data)
+            return obj[0]
 
     return make
