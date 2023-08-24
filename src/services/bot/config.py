@@ -13,7 +13,7 @@ from services.common.config import RunLevelBaseConfigMixin
 BASE_DIR = Path(__file__).resolve().parent
 
 
-class AssistantManagerSettings(RunLevelBaseConfigMixin, BaseSettings):
+class TelegramBotSettings(RunLevelBaseConfigMixin, BaseSettings):
     token: SecretStr
     webapp_url: AnyHttpUrl
 
@@ -22,5 +22,5 @@ class AssistantManagerSettings(RunLevelBaseConfigMixin, BaseSettings):
     template_dir: Path = BASE_DIR / "templates"
 
     class Config(BaseConfig):
-        env_prefix = "assistant_manager_"
+        env_prefix = "telegram_bot_"
         env_file = (".env", ".env.local")

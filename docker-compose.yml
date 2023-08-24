@@ -50,11 +50,11 @@ services:
     env_file:
       - .env
 
-  assistant_manager:
+  bot:
     build:
       context: .
     restart: always
-    command: python -m services.assistant_manager.main
+    command: python -m services.bot.main
     depends_on:
       - assistant
       - web

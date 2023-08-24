@@ -1,5 +1,5 @@
 syntax = "proto3";
-package assistant_manager;
+package bot;
 
 message SendTextRequest {
   int64 chat_id = 1;
@@ -17,7 +17,7 @@ message MessageResponse {
   int64 chat_id = 2;
 }
 
-service AssistantManager {
+service TelegramBot {
   rpc send_text(SendTextRequest) returns (MessageResponse);
   rpc send_photo(SendPhotoRequest) returns (MessageResponse);
 }
