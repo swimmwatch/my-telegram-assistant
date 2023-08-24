@@ -1,13 +1,14 @@
 """
 Assistant service template utilities.
 """
+import typing
+
 from services.assistant.config import AssistantSettings
 from utils.telegram.templates import render_template
 
-settings = AssistantSettings()  # type: ignore
 
-
-def render_template_(template_name: str, data: dict | None = None) -> str:
+def render_template_(template_name: str, data: dict[str, typing.Any] | None = None) -> str:
+    settings = AssistantSettings()
     return render_template(settings.template_dir, template_name, data)
 
 
