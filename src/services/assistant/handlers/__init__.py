@@ -1,16 +1,32 @@
 """
-Command handlers.
+Implemented Command handlers.
 """
+from services.assistant.commands.handler import ExplicitCommandHandlerWrapper
+from services.assistant.handlers.download_post import (
+    InstagramPostDownloadCommandHandler,
+)
+from services.assistant.handlers.download_post import (
+    YouTubeShortVideoDownloadCommandHandler,
+)
 
+from ..commands.process import AsyncCommandHandlerProcessor
+from .about_me import about_me_command
+from .all import all_command
+from .convert_music import reply_convert_music_command
+from .download_post import reply_download_post_command
+from .hello import hello_command
 
-# class TikTokVideoDownloadCommandHandler(ChainOfResponsibility):
-#     def process_request(self, request: CommandRequest) -> bool:
-#         link = extract_tiktok_link(request.message)
-#         if not link:
-#             return False
-#
-#         post = TikTokVideo(link)
-#         download_and_send_post.delay(request.chat_id, post.id)
-#         logger.info(f'downloading TikTok post: {link}')
-#
-#         return True
+_COMMANDS = [
+    YouTubeShortVideoDownloadCommandHandler(),
+    InstagramPostDownloadCommandHandler(),
+    ExplicitCommandHandlerWrapper(hello_command),
+    ExplicitCommandHandlerWrapper(about_me_command),
+    ExplicitCommandHandlerWrapper(all_command),
+    ExplicitCommandHandlerWrapper(reply_download_post_command),
+    ExplicitCommandHandlerWrapper(reply_convert_music_command),
+]
+command_processor = AsyncCommandHandlerProcessor(_COMMANDS)
+
+__all__ = [
+    "command_processor",
+]

@@ -1,9 +1,9 @@
 """
 "About me" command handler.
 """
-from services.assistant.commands import CommandRequest
-from services.assistant.commands import ExplicitCommand
-from services.assistant.commands import ParsedArguments
+from services.assistant.commands.handler import ExplicitCommand
+from services.assistant.commands.request import CommandRequest
+from services.assistant.commands.types import ParsedArguments
 from services.assistant.handlers.about_me.models import GameScopeValues
 from services.assistant.handlers.about_me.models import TypeProfiles
 from services.assistant.handlers.about_me.models import WorkScopeValues

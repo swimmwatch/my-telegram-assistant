@@ -1,9 +1,9 @@
 """
 Hello command handler.
 """
-from services.assistant.commands import CommandRequest
-from services.assistant.commands import ExplicitCommand
-from services.assistant.commands import ParsedArguments
+from services.assistant.commands.handler import ExplicitCommand
+from services.assistant.commands.request import CommandRequest
+from services.assistant.commands.types import ParsedArguments
 from services.assistant.templates import render_template_
 
 hello_command = ExplicitCommand(name="hello")

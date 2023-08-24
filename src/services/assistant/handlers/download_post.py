@@ -2,20 +2,17 @@
 Download post command handler.
 """
 from loguru import logger
-from telethon import events
 from telethon.errors import MessageNotModifiedError
 
-from services.assistant.commands import CommandRequest
-from services.assistant.commands import ExplicitCommand
-from services.assistant.commands import ParsedArguments
-from services.assistant.commands.decorators import serve_only_replied_request
+from services.assistant.commands.handler import ExplicitCommand
+from services.assistant.commands.request import CommandRequest
 from services.assistant.tasks import download_and_send_post
-from services.instagram.post import InstagramPost
+from services.post.adapters import InstagramPost
+from services.post.adapters import YouTubeShortVideo
+from services.post.exceptions import PostTooLarge
+from services.post.exceptions import PostUnavailable
 from utils.common.patterns import AsyncChainOfResponsibility
 from utils.instagram.url import extract_instagram_link
-from utils.post.exceptions import PostTooLarge
-from utils.post.exceptions import PostUnavailable
-from utils.post.impl import YouTubeShortVideo
 from utils.youtube.url import extract_youtube_link
 
 
@@ -57,11 +54,6 @@ class InstagramPostDownloadCommandHandler(AsyncChainOfResponsibility):
         if not link:
             return False
 
-        # try:
-        #     _ = InstagramPost(link)
-        # except (PostTooLarge, PostUnavailable):
-        #     return False
-
         # remove web page preview
         if not request.event.message.is_reply:
             try:
@@ -78,12 +70,9 @@ class InstagramPostDownloadCommandHandler(AsyncChainOfResponsibility):
 
 
 reply_download_post_command = ExplicitCommand(name="d")
-
-
-@reply_download_post_command.on()
-@serve_only_replied_request
-async def handle_replied_download_post_call(_: ParsedArguments, request: CommandRequest):
-    replied_message = await request.event.message.get_reply_message()
-    inner_req = CommandRequest(events.NewMessage.Event(replied_message))
-    yt_handler = YouTubeShortVideoDownloadCommandHandler(None)
-    await yt_handler.process_request(inner_req)
+reply_download_post_command.on_reply(
+    [
+        YouTubeShortVideoDownloadCommandHandler(),
+        InstagramPostDownloadCommandHandler(),
+    ]
+)
