@@ -2,9 +2,9 @@ name: Run Python linters and tests
 on:
   pull_request:
     paths:
-      - '**/*.py'
-      - 'poetry.lock'
-      - 'pyproject.toml'
+      - "**/*.py"
+      - "poetry.lock"
+      - "pyproject.toml"
     branches:
       - master
       - dev
@@ -26,9 +26,13 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{matrix.python-version}}
-          cache: 'poetry'
+          cache: "poetry"
       - name: Install dependencies
         run: poetry install
+      - name: Build protobuf
+        run: make build-protobuf
+      - name: Reformat generated code
+        run: make format
       - name: Run flake8
         run: make flake
       - name: Run mypy
@@ -69,7 +73,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{matrix.python-version}}
-          cache: 'poetry'
+          cache: "poetry"
       - name: Install dependencies
         run: poetry install
       - name: Build gRPC proto files
