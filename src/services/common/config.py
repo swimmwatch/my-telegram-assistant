@@ -14,6 +14,7 @@ class RunLevelEnum(Enum):
 class BaseConfig:
     env_file_encoding = "utf-8"
     extra = "ignore"
+    env_file = (".env", ".env.local")
 
 
 class RunLevelBaseConfigMixin(BaseSettings):
