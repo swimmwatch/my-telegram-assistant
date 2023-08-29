@@ -5,8 +5,8 @@ import typing
 
 import pytest
 
-from services.assistant.commands import ExplicitCommand
-from services.assistant.commands import ParsedArguments
+from services.assistant.commands.handler import ExplicitCommand
+from services.assistant.commands.types import ParsedArguments
 
 
 @pytest.mark.parametrize(

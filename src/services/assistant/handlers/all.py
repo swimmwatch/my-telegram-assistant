@@ -19,7 +19,7 @@ async def handle_all_command(_: ParsedArguments, request: CommandRequest):
     mentions = [
         get_mention_text(member.id, member.username)
         async for member in members
-        if not member.bot and member.username and member.id != my_id
+        if not member._bot and member.username and member.id != my_id
     ]
     mention_msg = ", ".join(mentions)
     await request.event.client.send_message(request.event.message.chat_id, mention_msg, parse_mode="html")

@@ -1,38 +1,40 @@
 """
 Assistant DI container.
 """
+from dependency_injector import providers
 from dependency_injector.containers import DeclarativeContainer
-from dependency_injector.providers import Factory
-from dependency_injector.providers import Singleton
-from telethon import TelegramClient
-from telethon.sessions import MemorySession
 
-from services.assistant.assistant import Assistant
+from services.assistant.client import AssistantClient
 from services.assistant.config import AssistantSettings
 from services.assistant.entrypoint import AssistantEntrypoint
-from services.assistant_manager.config import AssistantManagerSettings
-from services.assistant_manager.grpc_.client import AssistantManagerGrpcClient
-from services.redis.config import RedisSettings
-
-assistant_manager_settings = AssistantManagerSettings()  # type: ignore
-assistant_settings = AssistantSettings()  # type: ignore
-redis_settings = RedisSettings()  # type: ignore
+from services.bot.config import TelegramBotSettings
+from services.bot.grpc_.client import TelegramBotAsyncGrpcClient
+from services.db.client.async_ import AsyncDatabase
+from services.db.config import DatabaseSettings
 
 
 class AssistantContainer(DeclarativeContainer):
-    telegram_client: Singleton[TelegramClient] = Singleton(
-        TelegramClient,
-        session=MemorySession(),
-        api_id=assistant_settings.telegram_api_id.get_secret_value(),
-        api_hash=assistant_settings.telegram_api_hash.get_secret_value(),
+    database_config = DatabaseSettings()
+    telegram_bot_config = TelegramBotSettings()
+    assistant_config = AssistantSettings()
+
+    bot_grpc_client = providers.Singleton(
+        TelegramBotAsyncGrpcClient,
+        addr=telegram_bot_config.grpc_addr,
     )
-    assistant_manager_grpc_client = Singleton(
-        AssistantManagerGrpcClient,
-        addr=assistant_manager_settings.assistant_manager_grpc_addr,
+    async_database = providers.Singleton(
+        AsyncDatabase,
+        db_url=database_config.url,
     )
-    assistant = Singleton(
-        Assistant,
-        telegram_client=telegram_client.provided,
-        assistant_manager_grpc_client=assistant_manager_grpc_client.provided,
+    assistant = providers.Singleton(
+        AssistantClient,
+        api_id=assistant_config.api_id.get_secret_value(),
+        api_hash=assistant_config.api_hash.get_secret_value(),
     )
-    assistant_entrypoint = Factory(AssistantEntrypoint, assistant=assistant.provided)
+    assistant_entrypoint = providers.Factory(
+        AssistantEntrypoint,
+        grpc_addr=assistant_config.grpc_addr,
+        assistant_client=assistant.provided,
+        bot_grpc_client=bot_grpc_client.provided,
+        session_factory=async_database.provided.session,
+    )
