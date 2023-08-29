@@ -92,7 +92,7 @@ class TestDelete:
 
 class TestUpdate:
     def test_update_one(self, user_repo: dal.UserDAL, db_factory: typing.Callable) -> None:
-        instance: models.User = db_factory(user)
+        instance = db_factory(user)
 
         assert user_repo.all().one_or_none()
         assert not instance.updated

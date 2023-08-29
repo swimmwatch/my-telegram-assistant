@@ -2,6 +2,7 @@
 gRPC Assistant server.
 """
 import asyncio
+import typing
 
 import qrcode
 from google.protobuf.empty_pb2 import Empty
@@ -45,38 +46,42 @@ class AsyncAssistantService(AssistantServicer):
 
     async def send_text(self, request, context):
         # TODO: handle errors
-        result_msg = await self.assistant.telegram_client.send_message(
+        message = await self.assistant.send_text(
             request.chat_id,
-            message=request.text,
-            silent=request.disable_notification,
+            request.text,
+            request.disable_notification,
         )
         return MessageResponse(
-            id=result_msg.id,
+            id=message.id,
             chat_id=request.chat_id,
-            # can_be_forwarded=result_msg.can_be_forwarded
+            # can_be_forwarded=message.can_be_forwarded
         )
 
     async def send_video(self, request, context):
         # TODO: handle errors
-        result_msg = await self.assistant.telegram_client.send_file(
+        message = await self.assistant.send_file(
             request.chat_id,
             request.video_path,
             caption=request.caption,
-            silent=request.disable_notification,
+            disable_notification=request.disable_notification,
         )
+
+        if isinstance(message, typing.Sequence):
+            message = message[0]
+
         return MessageResponse(
-            id=result_msg.id,
+            id=message.id,
             chat_id=request.chat_id,
-            # can_be_forwarded=result_msg.can_be_forwarded
+            # can_be_forwarded=message.can_be_forwarded
         )
 
     async def send_files(self, request, context):
         # TODO: handle errors
-        messages = await self.assistant.telegram_client.send_file(
+        messages = await self.assistant.send_file(
             request.chat_id,
             list(request.files),
             caption=request.caption,
-            silent=request.disable_notification,
+            disable_notification=request.disable_notification,
         )
         return MessageResponse(
             id=messages[0].id,
@@ -86,11 +91,11 @@ class AsyncAssistantService(AssistantServicer):
 
     async def forward_messages(self, request, context):
         # TODO: handle errors
-        await self.assistant.telegram_client.forward_messages(
+        await self.assistant.forward_messages(
             request.chat_id,
             list(request.message_ids),
             request.from_chat_id,
-            silent=request.disable_notification,
+            request.disable_notification,
         )
         return Empty()
 
@@ -110,8 +115,8 @@ class AsyncAssistantService(AssistantServicer):
         )
         await self.bot_grpc_client.stub.send_photo(req)
 
-    async def _authorize_qr_login(self, tg_user_id: int, two_fa_password: str) -> TelethonUser:
-        qr_login = await self.assistant.telegram_client.qr_login()
+    async def _authorize_qr_login(self, tg_user_id: int) -> TelethonUser:
+        qr_login = await self.assistant.qr_login()
         user: TelethonUser | None = None
         attempts = 1
         while not user:
@@ -123,22 +128,17 @@ class AsyncAssistantService(AssistantServicer):
             try:
                 user = await qr_login.wait(self.assistant_settings.qr_login_timeout)
             except SessionPasswordNeededError as err:
-                if not two_fa_password:
-                    raise err
-                user = await self._authorize_2fa_password(two_fa_password)
+                raise err
+                # user = await self.assistant.authorize_2fa_password(password)
             except asyncio.TimeoutError:
                 await qr_login.recreate()
                 attempts += 1
         return user
 
-    async def _authorize_2fa_password(self, password: str) -> TelethonUser:
-        return await self.assistant.telegram_client.sign_in(password=password)
-
     async def _authorize_user(
         self,
         tg_user_id: int,
         auth_method: AuthMethod,
-        two_fa_password: str | None = None,
     ) -> TelethonUser:
         current_user = self.user_repo.filter(tg_id=tg_user_id)
         user = await current_user.first()
@@ -152,7 +152,7 @@ class AsyncAssistantService(AssistantServicer):
         if not is_authorized:
             match auth_method:
                 case AuthMethod.QR_CODE:
-                    user = await self._authorize_qr_login(tg_user_id, two_fa_password)
+                    user = await self._authorize_qr_login(tg_user_id)
                 case AuthMethod.PHONE:
                     pass
                 case _:
@@ -183,7 +183,6 @@ class AsyncAssistantService(AssistantServicer):
                 telegram_user = await self._authorize_user(
                     request.tg_user_id,
                     request.auth_method,
-                    request.two_fa_password,
                 )
             except SessionPasswordNeededError:
                 # Handle case if you need to pass two factor password

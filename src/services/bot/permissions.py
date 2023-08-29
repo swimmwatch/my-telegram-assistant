@@ -30,9 +30,9 @@ def registered(handler: AuthorizedHandler):
 
         if current_user:
             await handler(
-                update=update,
-                context=context,
-                current_user=current_user,
+                update,
+                context,
+                current_user,
             )
         else:
             await send_response(

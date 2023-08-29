@@ -65,7 +65,11 @@ class BaseSqlAlchemyRepository(abc.ABC):
         return self
 
     def _delete_stmt(self) -> ReturningDelete:
-        return sa.delete(self.Config.model).where(self._base_query.whereclause).returning(self.Config.model)
+        return (
+            sa.delete(self.Config.model)
+            .where(self._base_query.whereclause)  # type: ignore
+            .returning(self.Config.model)
+        )
 
     @abc.abstractmethod
     def first(self):
@@ -102,7 +106,7 @@ class SqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
     def update(self, **kwargs) -> sa.Result:
         with self.session_factory() as session:
             # TODO: refactor using base query
-            subquery = sa.select(self.Config.model.id).where(self._base_query.whereclause).exists()
+            subquery = sa.select(self.Config.model.id).where(self._base_query.whereclause).exists()  # type: ignore
             stmt = sa.update(self.Config.model).values(**kwargs).where(subquery).returning(self.Config.model)
             return session.execute(stmt)
 
@@ -152,16 +156,16 @@ class SqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
 class AsyncSqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
     session_factory: AsyncSessionFactory
 
-    async def update(self, **kwargs) -> sa.Result[T]:
+    async def update(self, **kwargs) -> sa.Result:
         async with self.session_factory() as session:
             # TODO: refactor using base query
-            subquery = sa.select(self.Config.model.id).where(self._base_query.whereclause).exists()
+            subquery = sa.select(self.Config.model.id).where(self._base_query.whereclause).exists()  # type: ignore
             stmt = sa.update(self.Config.model).values(**kwargs).where(subquery).returning(self.Config.model)
             res = await session.execute(stmt)
             await session.commit()
             return res
 
-    async def delete(self) -> sa.Result[T]:
+    async def delete(self) -> sa.Result:
         async with self.session_factory() as session:
             stmt = self._delete_stmt()
             cursor = await session.execute(stmt)

@@ -39,7 +39,7 @@ class Post(ABC, SupportsTelegramSending):
         pass
 
     @abstractmethod
-    def download(self, out_dir: os.PathLike) -> typing.Sequence[os.PathLike]:
+    def download(self, out_dir: str) -> typing.Sequence[str]:
         """Download post"""
         pass
 
@@ -59,7 +59,7 @@ class Post(ABC, SupportsTelegramSending):
         """
         pass
 
-    def clear(self, *args: os.PathLike) -> None:
+    def clear(self, *args) -> None:
         for file in args:
             if path.exists(file):
                 os.remove(file)
@@ -100,7 +100,7 @@ class YouTubeShortVideo(Post):
     def id(self) -> str:
         return f"{type(self).__name__}:{self.yt.video_id}"
 
-    def download(self, out_dir: os.PathLike) -> typing.Sequence[os.PathLike]:
+    def download(self, out_dir: str) -> typing.Sequence[str]:
         """
         Download short YouTube video.
 
@@ -147,7 +147,7 @@ class InstagramPost(Post):
         parts = [p for p in urlparse(self.url).path.split("/") if p]
         return f"{type(self).__name__}:{parts.pop()}"
 
-    def download(self, out_dir: os.PathLike) -> typing.Sequence[os.PathLike]:
+    def download(self, out_dir: str) -> typing.Sequence[str]:
         """
         Download Instagram video.
 

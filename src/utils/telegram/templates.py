@@ -2,13 +2,18 @@
 Telegram template utilities.
 """
 import re
+import typing
 from pathlib import Path
 
 import emoji
 import jinja2
 
 
-def render_template(template_dir: Path, template_name: str, data: dict | None = None) -> str:
+def render_template(
+    template_dir: Path,
+    template_name: str,
+    data: dict[str, typing.Any] | None = None,
+) -> str:
     if data is None:
         data = {}
     template = _get_template_env(template_dir).get_template(template_name)

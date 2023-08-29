@@ -18,5 +18,5 @@ class User(Base):
     updated = orm.mapped_column(
         sa.DateTime(timezone=True),
         nullable=True,
-        server_onupdate=sa.func.now(),
+        server_onupdate=sa.func.now(),  # type: ignore
     )

@@ -29,6 +29,7 @@ class AssistantEntrypoint:
         """
         Run gRPC server.
         """
+
         server = aio.server()
         service = AsyncAssistantService(
             self._assistant,
@@ -50,4 +51,5 @@ class AssistantEntrypoint:
         """
         Run assistant service.
         """
+
         await self._run_grpc_server()

@@ -108,7 +108,7 @@ class TestDelete:
 @pytest.mark.asyncio()
 class TestUpdate:
     async def test_update_one(self, user_repo: dal.UserAsyncDAL, async_db_factory: typing.Callable) -> None:
-        instance: models.User = await async_db_factory(user)
+        instance = await async_db_factory(user)
 
         result = await user_repo.all()
         assert result.one_or_none()
