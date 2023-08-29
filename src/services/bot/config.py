@@ -23,4 +23,3 @@ class TelegramBotSettings(RunLevelBaseConfigMixin, BaseSettings):
 
     class Config(BaseConfig):
         env_prefix = "telegram_bot_"
-        env_file = (".env", ".env.local")

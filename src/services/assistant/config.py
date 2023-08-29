@@ -23,4 +23,3 @@ class AssistantSettings(RunLevelBaseConfigMixin, BaseSettings):
 
     class Config(BaseConfig):
         env_prefix = "assistant_"
-        env_file = (".env", ".env.local")
