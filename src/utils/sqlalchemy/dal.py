@@ -7,6 +7,7 @@ import typing
 import sqlalchemy as sa
 from sqlalchemy import inspect
 from sqlalchemy.sql.dml import ReturningDelete
+from sqlalchemy.sql.dml import ReturningUpdate
 
 from utils.sqlalchemy.types import AsyncSessionFactory
 from utils.sqlalchemy.types import SessionFactory
@@ -71,6 +72,17 @@ class BaseSqlAlchemyRepository(abc.ABC):
             .returning(self.Config.model)
         )
 
+    def _update_stmt(self, **kwargs) -> ReturningUpdate:
+        return (
+            sa.update(self.Config.model)
+            .values(**kwargs)
+            .where(self._base_query.whereclause)
+            .returning(self.Config.model)
+        )
+
+    def _reset_query(self):
+        self._base_query = sa.select(self.Config.model)
+
     @abc.abstractmethod
     def first(self):
         ...
@@ -106,34 +118,43 @@ class SqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
     def update(self, **kwargs) -> sa.Result:
         with self.session_factory() as session:
             # TODO: refactor using base query
-            subquery = sa.select(self.Config.model.id).where(self._base_query.whereclause).exists()  # type: ignore
-            stmt = sa.update(self.Config.model).values(**kwargs).where(subquery).returning(self.Config.model)
-            return session.execute(stmt)
+            stmt = self._update_stmt(**kwargs)
+            res = session.execute(stmt)
+            self._reset_query()
+            return res
 
     def delete(self) -> sa.Result:
         with self.session_factory() as session:
             stmt = self._delete_stmt()
-            return session.execute(stmt)
+            res = session.execute(stmt)
+            self._reset_query()
+            return res
 
     def first(self) -> T | None:
         with self.session_factory() as session:
-            return session.execute(self._base_query).scalar_one_or_none()
+            instance = session.execute(self._base_query).scalar_one_or_none()
+            self._reset_query()
+            return instance
 
     def all(self) -> sa.ScalarResult[T]:
         with self.session_factory() as session:
-            return session.execute(self._base_query).scalars()
+            instances = session.execute(self._base_query).scalars()
+            self._reset_query()
+            return instances
 
     def create_one(self, **kwargs):
         with self.session_factory() as session:
             instance = self.Config.model(**kwargs)
             session.add(instance)
             session.commit()
+            self._reset_query()
             return instance
 
     def update_instance(self, instance, **kwargs):
         with self.session_factory() as session:
             updated_instance = self._update(instance, **kwargs)
             session.commit()
+            self._reset_query()
             return updated_instance
 
     def update_or_create(self, **kwargs) -> typing.Callable:
@@ -159,26 +180,29 @@ class AsyncSqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
     async def update(self, **kwargs) -> sa.Result:
         async with self.session_factory() as session:
             # TODO: refactor using base query
-            subquery = sa.select(self.Config.model.id).where(self._base_query.whereclause).exists()  # type: ignore
-            stmt = sa.update(self.Config.model).values(**kwargs).where(subquery).returning(self.Config.model)
+            stmt = self._update_stmt(**kwargs)
             res = await session.execute(stmt)
             await session.commit()
+            self._reset_query()
             return res
 
     async def delete(self) -> sa.Result:
         async with self.session_factory() as session:
             stmt = self._delete_stmt()
             cursor = await session.execute(stmt)
+            self._reset_query()
             return cursor
 
     async def first(self) -> T | None:
         async with self.session_factory() as session:
             cursor = await session.execute(self._base_query)
+            self._reset_query()
             return cursor.scalar_one_or_none()
 
     async def all(self) -> sa.ScalarResult[T]:
         async with self.session_factory() as session:
             cursor = await session.execute(self._base_query)
+            self._reset_query()
             return cursor.scalars()
 
     async def create_one(self, **kwargs):
@@ -186,12 +210,14 @@ class AsyncSqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
             instance = self.Config.model(**kwargs)
             session.add(instance)
             await session.commit()
+            self._reset_query()
             return instance
 
     async def update_instance(self, instance, **kwargs):
         async with self.session_factory() as session:
             updated_instance = self._update(instance, **kwargs)
             await session.commit()
+            self._reset_query()
             return updated_instance
 
     def update_or_create(self, **kwargs) -> typing.Callable:

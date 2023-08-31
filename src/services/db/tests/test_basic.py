@@ -103,3 +103,22 @@ class TestUpdate:
         instance = user_repo.all().one_or_none()
         assert instance
         assert instance.session == new_session
+
+    def test_update_several(self, user_repo: dal.UserDAL, db_factory: typing.Callable) -> None:
+        user1 = user(tg_id=2)
+        user2 = user(tg_id=3)
+
+        u1 = db_factory(user1)
+        _ = db_factory(user2)
+
+        result = user_repo.all()
+        assert result.all()
+
+        new_session = "new-secret-session"
+        user_repo.filter(tg_id=u1.tg_id).update(session=new_session)
+
+        result = user_repo.order_by("tg_id").all()
+        u1, u2 = result.all()
+
+        assert u1.session == new_session
+        assert u2.session != new_session
