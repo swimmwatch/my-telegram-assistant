@@ -1,3 +1,6 @@
+"""
+Data Access Layer (implementations)
+"""
 from services.db import models
 from utils.sqlalchemy.dal import AsyncSqlAlchemyRepository
 from utils.sqlalchemy.dal import SqlAlchemyRepository
