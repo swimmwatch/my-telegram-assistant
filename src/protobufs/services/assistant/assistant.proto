@@ -15,33 +15,37 @@ message MessageResponse {
 }
 
 message ForwardMessagesRequest {
-  int64 from_chat_id = 1;
-  int64 chat_id = 2;
-  repeated uint64 message_ids = 3;
+  int64 tg_user_id = 1;
+  int64 from_chat_id = 2;
+  int64 chat_id = 3;
+  repeated uint64 message_ids = 4;
 
-  optional bool disable_notification = 4;
+  optional bool disable_notification = 5;
 }
 
 message SendVideoRequest {
-  int64 chat_id = 1;
-  string video_path = 2;
+  int64 tg_user_id = 1;
+  int64 chat_id = 2;
+  string video_path = 3;
 
-  optional string caption = 3;
-  optional bool disable_notification = 4;
+  optional string caption = 4;
+  optional bool disable_notification = 5;
 }
 
 message SendFilesRequest {
-  int64 chat_id = 1;
-  repeated string files = 2;
+  int64 tg_user_id = 1;
+  int64 chat_id = 2;
+  repeated string files = 3;
 
-  optional string caption = 3;
-  optional bool disable_notification = 4;
+  optional string caption = 4;
+  optional bool disable_notification = 5;
 }
 
 message SendTextRequest {
-  int64 chat_id = 1;
-  string text = 2;
-  bool disable_notification = 3;
+  int64 tg_user_id = 1;
+  int64 chat_id = 2;
+  string text = 3;
+  bool disable_notification = 4;
 }
 
 message BooleanValue {
@@ -53,12 +57,20 @@ message SendAuthorizationRequest {
   AuthMethod auth_method = 2;
 }
 
+message SendCheckAuthorizationRequest {
+  int64 tg_user_id = 1;
+}
+
+message SendLogoutRequest {
+  int64 tg_user_id = 1;
+}
+
 service Assistant {
   rpc send_video(SendVideoRequest) returns (MessageResponse);
   rpc send_files(SendFilesRequest) returns (MessageResponse);
   rpc send_text(SendTextRequest) returns (MessageResponse);
   rpc forward_messages(ForwardMessagesRequest) returns (google.protobuf.Empty);
-  rpc is_authorized(google.protobuf.Empty) returns (BooleanValue);
+  rpc is_authorized(SendCheckAuthorizationRequest) returns (BooleanValue);
   rpc authorize_user(SendAuthorizationRequest) returns (google.protobuf.Empty);
-  rpc logout_user(google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc logout_user(SendLogoutRequest) returns (google.protobuf.Empty);
 }

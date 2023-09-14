@@ -9,11 +9,12 @@ class SupportsTelegramSending(Protocol):
     Declares sending process to Telegram
     """
 
-    def send(self, client: AssistantGrpcClient, **kwargs) -> MessageResponse:
+    def send(self, client: AssistantGrpcClient, tg_user_id: int, **kwargs) -> MessageResponse:
         """
         Send data as Telegram message.
 
-        :param client: Telegram client
+        :param client: Telegram gRPC client
+        :param tg_user_id: Telegram user ID (sender)
         :param kwargs: Any arguments
         :return: Message response
         """

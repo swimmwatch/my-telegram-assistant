@@ -30,23 +30,32 @@ from utils.sqlalchemy.types import AsyncSessionFactory
 class AsyncAssistantService(AssistantServicer):
     def __init__(
         self,
-        assistant: AssistantClient,
         bot_grpc_client: TelegramBotAsyncGrpcClient,
         session_factory: AsyncSessionFactory,
     ) -> None:
         super().__init__()
 
-        self.assistant = assistant
-        self.bot_grpc_client = bot_grpc_client
+        self._accounts: dict[int, AssistantClient] = {}
+        self._bot_grpc_client = bot_grpc_client
 
-        self.session_factory = session_factory
-        self.user_repo = UserAsyncDAL(self.session_factory)
+        self._session_factory = session_factory
 
-        self.assistant_settings = AssistantSettings()
+        self._settings = AssistantSettings()
+
+    def _get_client(self, tg_user_id: int) -> AssistantClient:
+        if tg_user_id in self._accounts:
+            return self._accounts[tg_user_id]
+        else:
+            client = AssistantClient(
+                self._settings.api_id.get_secret_value(),
+                self._settings.api_hash.get_secret_value(),
+            )
+            self._accounts[tg_user_id] = client
+            return client
 
     async def send_text(self, request, context):
         # TODO: handle errors
-        message = await self.assistant.send_text(
+        message = await self._get_client(request.tg_user_id).send_text(
             request.chat_id,
             request.text,
             request.disable_notification,
@@ -59,7 +68,7 @@ class AsyncAssistantService(AssistantServicer):
 
     async def send_video(self, request, context):
         # TODO: handle errors
-        message = await self.assistant.send_file(
+        message = await self._get_client(request.tg_user_id).send_file(
             request.chat_id,
             request.video_path,
             caption=request.caption,
@@ -77,7 +86,7 @@ class AsyncAssistantService(AssistantServicer):
 
     async def send_files(self, request, context):
         # TODO: handle errors
-        messages = await self.assistant.send_file(
+        messages = await self._get_client(request.tg_user_id).send_file(
             request.chat_id,
             list(request.files),
             caption=request.caption,
@@ -91,7 +100,7 @@ class AsyncAssistantService(AssistantServicer):
 
     async def forward_messages(self, request, context):
         # TODO: handle errors
-        await self.assistant.forward_messages(
+        await self._get_client(request.tg_user_id).forward_messages(
             request.chat_id,
             list(request.message_ids),
             request.from_chat_id,
@@ -100,7 +109,7 @@ class AsyncAssistantService(AssistantServicer):
         return Empty()
 
     async def is_authorized(self, request, context):
-        is_authorized = await self.assistant.is_authorized()
+        is_authorized = await self._get_client(request.tg_user_id).is_authorized()
         return BooleanValue(value=is_authorized)
 
     def _create_login_qr_code(self, qr_login: QRLogin) -> Image:
@@ -113,10 +122,11 @@ class AsyncAssistantService(AssistantServicer):
             caption="Please login using this QR code.",
             base64_img=base64_img,
         )
-        await self.bot_grpc_client.stub.send_photo(req)
+        await self._bot_grpc_client.stub.send_photo(req)
 
     async def _authorize_qr_login(self, tg_user_id: int) -> TelethonUser:
-        qr_login = await self.assistant.qr_login()
+        client = self._get_client(tg_user_id)
+        qr_login = await client.qr_login()
         user: TelethonUser | None = None
         attempts = 1
         while not user:
@@ -126,10 +136,10 @@ class AsyncAssistantService(AssistantServicer):
             img = self._create_login_qr_code(qr_login)
             await self._send_qr_code(tg_user_id, img)
             try:
-                user = await qr_login.wait(self.assistant_settings.qr_login_timeout)
-            except SessionPasswordNeededError as err:
-                raise err
-                # user = await self.assistant.authorize_2fa_password(password)
+                user = await qr_login.wait(self._settings.qr_login_timeout)
+            except SessionPasswordNeededError:
+                # raise err
+                user = await client.authorize_2fa_password("1136i love richard1136")
             except asyncio.TimeoutError:
                 await qr_login.recreate()
                 attempts += 1
@@ -140,15 +150,18 @@ class AsyncAssistantService(AssistantServicer):
         tg_user_id: int,
         auth_method: AuthMethod,
     ) -> TelethonUser:
-        current_user = self.user_repo.filter(tg_id=tg_user_id)
+        user_repo = UserAsyncDAL(self._session_factory)
+        client = self._get_client(tg_user_id)
+
+        current_user = user_repo.filter(tg_id=tg_user_id)
         user = await current_user.first()
 
         # TODO: Handle session decryption/encryption
         session = StringSession(user.session)
-        self.assistant.client_factory(session)
-        await self.assistant.connect()
+        client.make(session)
+        await client.connect()
 
-        is_authorized = await self.assistant.is_authorized()
+        is_authorized = await client.is_authorized()
         if not is_authorized:
             match auth_method:
                 case AuthMethod.QR_CODE:
@@ -158,11 +171,11 @@ class AsyncAssistantService(AssistantServicer):
                 case _:
                     pass
         else:
-            user = await self.assistant.get_me()
+            user = await client.get_me()
 
         # Save new Telegram session for current user
         if user:
-            session = self.assistant.get_session()
+            session = client.get_session()
             await current_user.update(session=session)
 
         return user
@@ -172,11 +185,12 @@ class AsyncAssistantService(AssistantServicer):
             chat_id=chat_id,
             text=f"{username}, authorized successful!",
         )
-        await self.bot_grpc_client.stub.send_text(req)
+        await self._bot_grpc_client.stub.send_text(req)
 
     async def authorize_user(self, request, context):
         telegram_user: TelethonUser | None = None
-        is_authorized = await self.assistant.is_authorized()
+        client = self._get_client(request.tg_user_id)
+        is_authorized = await client.is_authorized()
         if not is_authorized:
             try:
                 # TODO: handle unknown authorization method
@@ -195,7 +209,7 @@ class AsyncAssistantService(AssistantServicer):
                 context.set_code(StatusCode.CANCELLED)
                 context.set_details(detail_msg)
             else:
-                await self.assistant.init()
+                await client.init()
                 await self._send_success_msg(request.tg_user_id, telegram_user.username)
         else:
             detail_msg = "You are already logged in."
@@ -205,9 +219,10 @@ class AsyncAssistantService(AssistantServicer):
         return Empty()
 
     async def logout_user(self, request, context):
-        is_authorized = await self.assistant.is_authorized()
+        client = self._get_client(request.tg_user_id)
+        is_authorized = await client.is_authorized()
         if is_authorized:
-            status = await self.assistant.log_out()
+            status = await client.log_out()
 
             if not status:
                 detail_msg = "Something wrong with logout."

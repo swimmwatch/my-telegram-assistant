@@ -32,7 +32,7 @@ class AssistantEntrypoint:
 
         server = aio.server()
         service = AsyncAssistantService(
-            self._assistant,
+            # self._assistant,
             self._bot_grpc_client,
             self._session_factory,
         )

@@ -9,3 +9,7 @@ class BaseAssistantServerException(Exception):
 
 class ClientIsNotInitiated(BaseAssistantServerException):
     pass
+
+
+class ClientAlreadyInitiated(BaseAssistantServerException):
+    pass

@@ -13,6 +13,7 @@ from telethon.tl.types import Message
 from telethon.tl.types import User as TelethonUser
 
 from services.assistant.commands.request import CommandRequest
+from services.assistant.grpc_.exceptions import ClientAlreadyInitiated
 from services.assistant.grpc_.exceptions import ClientIsNotInitiated
 from services.assistant.handlers import command_processor
 
@@ -33,9 +34,9 @@ class AssistantClient:
             self.telegram_client = None
         return status
 
-    def client_factory(self, session: Session) -> None:
-        if not self.telegram_client:
-            raise ClientIsNotInitiated
+    def make(self, session: Session) -> None:
+        if self.telegram_client:
+            raise ClientAlreadyInitiated
 
         # TODO: handle case if telegram client exists
         self.telegram_client = TelegramClient(

@@ -14,6 +14,11 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       },
+      {
+        path: '/auth',
+        name: 'Authorization',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/AuthView.vue'),
+      },
     ],
   },
 ]

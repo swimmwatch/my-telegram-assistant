@@ -1,11 +1,11 @@
 import grpc
 from dependency_injector.wiring import Provide
 from dependency_injector.wiring import inject
-from google.protobuf.empty_pb2 import Empty
 from loguru import logger
 from telegram import Update
 from telegram.ext import ContextTypes
 
+from services.assistant.assistant_pb2 import SendLogoutRequest
 from services.assistant.grpc_.client import AssistantAsyncGrpcClient
 from services.bot.container import TelegramBotContainer
 from services.bot.permissions import registered
@@ -22,7 +22,10 @@ async def handle_logout_request(
     current_user: models.User,
     assistant_grpc_client: AssistantAsyncGrpcClient = Provide[TelegramBotContainer.assistant_grpc_client],
 ):
-    request = Empty()
+    if not update.effective_user:
+        return
+
+    request = SendLogoutRequest(tg_user_id=update.effective_user.id)
     try:
         await assistant_grpc_client.stub.logout_user(request)
     except grpc.RpcError as err:

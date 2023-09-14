@@ -1,13 +1,13 @@
 import grpc
 from dependency_injector.wiring import Provide
 from dependency_injector.wiring import inject
-from google.protobuf.empty_pb2 import Empty
 from loguru import logger
 from telegram import Update
 from telegram.ext import ContextTypes
 
 from services.assistant.assistant_pb2 import AuthMethod
 from services.assistant.assistant_pb2 import SendAuthorizationRequest
+from services.assistant.assistant_pb2 import SendCheckAuthorizationRequest
 from services.assistant.grpc_.client import AssistantAsyncGrpcClient
 from services.bot.container import TelegramBotContainer
 from services.bot.keyboards import get_auth_methods_keyboard
@@ -25,7 +25,10 @@ async def handle_login_request(
     current_user: models.User,
     assistant_grpc_client: AssistantAsyncGrpcClient = Provide[TelegramBotContainer.assistant_grpc_client],
 ):
-    request = Empty()
+    if not update.effective_user:
+        return
+
+    request = SendCheckAuthorizationRequest(tg_user_id=update.effective_user.id)
     response = await assistant_grpc_client.stub.is_authorized(request)
     is_authorized = response.value
     if is_authorized:
