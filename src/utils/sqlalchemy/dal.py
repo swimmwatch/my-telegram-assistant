@@ -73,10 +73,15 @@ class BaseSqlAlchemyRepository(abc.ABC):
         )
 
     def _update_stmt(self, **kwargs) -> ReturningUpdate:
+        """
+        Returns UPDATE statement with WHERE condition.
+
+        :param kwargs: Condition parameters.
+        """
         return (
             sa.update(self.Config.model)
             .values(**kwargs)
-            .where(self._base_query.whereclause)
+            .where(self._base_query.whereclause)  # type: ignore
             .returning(self.Config.model)
         )
 
