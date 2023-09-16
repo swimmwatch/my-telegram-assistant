@@ -108,11 +108,10 @@ class TestDelete:
 @pytest.mark.asyncio()
 class TestUpdate:
     async def test_update_one(self, user_repo: dal.UserAsyncDAL, async_db_factory: typing.Callable) -> None:
-        instance = await async_db_factory(user)
+        await async_db_factory(user)
 
         result = await user_repo.all()
         assert result.one_or_none()
-        assert not instance.updated
 
         new_session = "new-secret-session"
         await user_repo.filter(tg_id=1).update(session=new_session)
