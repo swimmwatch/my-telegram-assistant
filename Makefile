@@ -30,7 +30,7 @@ cov:
 black:
 	poetry run black $(SRC_DIR)
 
-develop:
+dev:
 	docker compose up db redis -d
 
 down:
