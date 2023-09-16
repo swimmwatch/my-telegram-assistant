@@ -17,5 +17,5 @@ class BaseConfig:
     env_file = (".env", ".env.local")
 
 
-class RunLevelBaseConfigMixin(BaseSettings):
+class RunLevelMixin(BaseSettings):
     run_level: RunLevelEnum = RunLevelEnum.DEVELOPMENT

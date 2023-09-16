@@ -4,10 +4,10 @@ Redis service configuration.
 from pydantic import BaseSettings
 
 from infrastructure.common.config import BaseConfig
-from infrastructure.common.config import RunLevelBaseConfigMixin
+from infrastructure.common.config import RunLevelMixin
 
 
-class RedisSettings(RunLevelBaseConfigMixin, BaseSettings):
+class RedisSettings(RunLevelMixin, BaseSettings):
     host: str
     db: int
 

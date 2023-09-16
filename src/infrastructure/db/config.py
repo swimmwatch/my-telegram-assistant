@@ -5,10 +5,10 @@ from pydantic import BaseSettings
 from pydantic import SecretStr
 
 from infrastructure.common.config import BaseConfig
-from infrastructure.common.config import RunLevelBaseConfigMixin
+from infrastructure.common.config import RunLevelMixin
 
 
-class DatabaseSettings(RunLevelBaseConfigMixin, BaseSettings):
+class DatabaseSettings(RunLevelMixin, BaseSettings):
     user: str
     password: SecretStr
     scheme: str = "postgresql+psycopg"
