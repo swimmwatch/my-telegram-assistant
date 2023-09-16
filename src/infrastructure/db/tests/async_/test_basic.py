@@ -20,34 +20,35 @@ def user_repo(async_db_session_maker: AsyncSessionFactory) -> dal.UserAsyncDAL:
 
 
 # TODO: fix
-# @pytest.mark.asyncio()
-# class TestUpdateOrCreate:
-#     async def test_not_exist(self, user_repo: dal.UserAsyncDAL) -> None:
-#         result = await user_repo.all()
-#         assert not result.one_or_none()
-#
-#         user_create_or_update = user_repo.update_or_create(tg_id=1)
-#         await user_create_or_update(tg_id=2)
-#
-#         result = await user_repo.all()
-#         assert result.one_or_none()
-#
-#     async def test_exist(self, user_repo: dal.UserAsyncDAL, async_db_factory: typing.Callable) -> None:
-#         await async_db_factory(user)
-#
-#         result = await user_repo.all()
-#         instance = result.one_or_none()
-#         assert instance
-#         initial_pk = instance.id
-#
-#         user_create_or_update = user_repo.update_or_create(tg_id=1)
-#         await user_create_or_update(tg_id=2)
-#
-#         result = await user_repo.all()
-#         instance = result.one_or_none()
-#         assert instance
-#         assert instance.tg_id == 2
-#         assert initial_pk == instance.id
+@pytest.mark.skip()
+@pytest.mark.asyncio()
+class TestUpdateOrCreate:
+    async def test_not_exist(self, user_repo: dal.UserAsyncDAL) -> None:
+        result = await user_repo.all()
+        assert not result.one_or_none()
+
+        user_create_or_update = user_repo.update_or_create(tg_id=1)
+        await user_create_or_update(tg_id=2)
+
+        result = await user_repo.all()
+        assert result.one_or_none()
+
+    async def test_exist(self, user_repo: dal.UserAsyncDAL, async_db_factory: typing.Callable) -> None:
+        await async_db_factory(user)
+
+        result = await user_repo.all()
+        instance = result.one_or_none()
+        assert instance
+        initial_pk = instance.id
+
+        user_create_or_update = user_repo.update_or_create(tg_id=1)
+        await user_create_or_update(tg_id=2)
+
+        result = await user_repo.all()
+        instance = result.one_or_none()
+        assert instance
+        assert instance.tg_id == 2
+        assert initial_pk == instance.id
 
 
 @pytest.mark.asyncio()

@@ -20,29 +20,30 @@ def user_repo(db_session_maker: SessionFactory) -> dal.UserDAL:
 
 
 # TODO: fix
-# class TestUpdateOrCreate:
-#     def test_not_exist(self, user_repo: dal.UserDAL) -> None:
-#         assert not user_repo.all().one_or_none()
-#
-#         user_create_or_update = user_repo.update_or_create(tg_id=1)
-#         user_create_or_update(tg_id=2)
-#
-#         assert user_repo.all().one_or_none()
-#
-#     def test_exist(self, user_repo: dal.UserDAL, db_factory: typing.Callable) -> None:
-#         db_factory(user)
-#
-#         instance = user_repo.all().one_or_none()
-#         assert instance
-#         initial_pk = instance.id
-#
-#         user_create_or_update = user_repo.update_or_create(tg_id=1)
-#         user_create_or_update(tg_id=2)
-#
-#         instance = user_repo.all().one_or_none()
-#         assert instance
-#         assert instance.tg_id == 2
-#         assert initial_pk == instance.id
+@pytest.mark.skip()
+class TestUpdateOrCreate:
+    def test_not_exist(self, user_repo: dal.UserDAL) -> None:
+        assert not user_repo.all().one_or_none()
+
+        user_create_or_update = user_repo.update_or_create(tg_id=1)
+        user_create_or_update(tg_id=2)
+
+        assert user_repo.all().one_or_none()
+
+    def test_exist(self, user_repo: dal.UserDAL, db_factory: typing.Callable) -> None:
+        db_factory(user)
+
+        instance = user_repo.all().one_or_none()
+        assert instance
+        initial_pk = instance.id
+
+        user_create_or_update = user_repo.update_or_create(tg_id=1)
+        user_create_or_update(tg_id=2)
+
+        instance = user_repo.all().one_or_none()
+        assert instance
+        assert instance.tg_id == 2
+        assert initial_pk == instance.id
 
 
 class TestGetOneOrMany:
