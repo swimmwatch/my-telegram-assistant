@@ -38,3 +38,6 @@ down:
 
 test:
 	poetry run pytest $(SRC_DIR)
+
+makemigrations:
+	poetry run alembic revision --autogenerate --message $(message)
