@@ -10,7 +10,9 @@ from core import models
 from core.dal import UserAsyncDAL
 from utils.python_telegram_bot.response import send_response
 
-AuthorizedHandler = typing.Callable[[Update, ContextTypes.DEFAULT_TYPE, models.User], typing.Awaitable[None]]
+AuthorizedHandler = typing.Callable[
+    [Update, ContextTypes.DEFAULT_TYPE, models.User], typing.Awaitable[None]
+]
 
 
 def registered(handler: AuthorizedHandler):

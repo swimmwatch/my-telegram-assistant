@@ -10,7 +10,11 @@ from . import callbacks
 def get_auth_methods_keyboard():
     return InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton("QR Code", callback_data=callbacks.AUTH_METHODS_QR_CODE)],
+            [
+                InlineKeyboardButton(
+                    "QR Code", callback_data=callbacks.AUTH_METHODS_QR_CODE
+                )
+            ],
             [InlineKeyboardButton("Phone", callback_data=callbacks.AUTH_METHODS_PHONE)],
         ]
     )

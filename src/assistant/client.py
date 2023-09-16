@@ -80,7 +80,9 @@ class AssistantClient:
             return await self.telegram_client.is_user_authorized()
         return False
 
-    async def send_text(self, chat_id, text, disable_notification: bool = False) -> Message:
+    async def send_text(
+        self, chat_id, text, disable_notification: bool = False
+    ) -> Message:
         if not self.telegram_client:
             raise ClientIsNotInitiated
 

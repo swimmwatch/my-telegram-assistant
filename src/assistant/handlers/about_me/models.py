@@ -51,7 +51,10 @@ work_info_dict = {
         f"{a({'href': 'https://www.linkedin.com/in/dmitry-vasiliev/?locale=ru_RU'}, 'Russian version')},"
         f" {a({'href': 'https://www.linkedin.com/in/dmitry-vasiliev'}, 'English version')}",
     ),
-    WorkScopeValues.TELEGRAM: ("\N{TELEPHONE RECEIVER} Telegram", "@contact_dmitry_vasiliev"),
+    WorkScopeValues.TELEGRAM: (
+        "\N{TELEPHONE RECEIVER} Telegram",
+        "@contact_dmitry_vasiliev",
+    ),
 }
 
 game_info_dict = {

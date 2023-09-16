@@ -1,6 +1,8 @@
 import re
 
-TIKTOK_LINK_PATTERN = re.compile(r"https?://" r"(?:www|m|vt|vm)\." r"(?:tiktok\.com)\/" r"(?:[\w/?=@.&]+)?")
+TIKTOK_LINK_PATTERN = re.compile(
+    r"https?://" r"(?:www|m|vt|vm)\." r"(?:tiktok\.com)\/" r"(?:[\w/?=@.&]+)?"
+)
 
 
 def extract_tiktok_link(text: str) -> str | None:

@@ -23,7 +23,9 @@ async def handle_login_request(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
     current_user: models.User,
-    assistant_grpc_client: AssistantAsyncGrpcClient = Provide[TelegramBotContainer.assistant_grpc_client],
+    assistant_grpc_client: AssistantAsyncGrpcClient = Provide[
+        TelegramBotContainer.assistant_grpc_client
+    ],
 ):
     if not update.effective_user:
         return
@@ -53,7 +55,9 @@ async def auth_method_qr_code_cb(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
     current_user: models.User,
-    assistant_grpc_client: AssistantAsyncGrpcClient = Provide[TelegramBotContainer.assistant_grpc_client],
+    assistant_grpc_client: AssistantAsyncGrpcClient = Provide[
+        TelegramBotContainer.assistant_grpc_client
+    ],
 ):
     user = update.effective_user
     if not user:
@@ -87,7 +91,9 @@ async def auth_method_qr_code_cb(
 async def auth_method_phone_cb(
     update: Update,
     _: ContextTypes.DEFAULT_TYPE,
-    assistant_grpc_client: AssistantAsyncGrpcClient = Provide[TelegramBotContainer.assistant_grpc_client],
+    assistant_grpc_client: AssistantAsyncGrpcClient = Provide[
+        TelegramBotContainer.assistant_grpc_client
+    ],
 ):
     user = update.effective_user
     if not user:

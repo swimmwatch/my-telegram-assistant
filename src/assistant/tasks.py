@@ -108,7 +108,9 @@ def download_and_send_post(
             disable_notification=True,
         )
         assistant_grpc_client.stub.forward_messages(request)
-        logger.debug(f"message with post files was forwarded from {from_chat_id=} to {chat_id=}")
+        logger.debug(
+            f"message with post files was forwarded from {from_chat_id=} to {chat_id=}"
+        )
         return
 
     files = [file if not isinstance(file, bytes) else file.decode() for file in files]

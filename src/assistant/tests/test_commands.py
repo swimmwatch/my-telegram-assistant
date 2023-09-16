@@ -64,7 +64,9 @@ def test_command_invalid_name(name: str):
         ),
     ],
 )
-def test_command_parser_with_immutable_types(text: str, args: dict[str, typing.Type], expected: ParsedArguments):
+def test_command_parser_with_immutable_types(
+    text: str, args: dict[str, typing.Type], expected: ParsedArguments
+):
     name = "name"
     command = ExplicitCommand(name=name)
     for arg_name, arg_type in args.items():

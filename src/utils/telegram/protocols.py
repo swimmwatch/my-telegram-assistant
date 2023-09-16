@@ -9,7 +9,9 @@ class SupportsTelegramSending(Protocol):
     Declares sending process to Telegram
     """
 
-    def send(self, client: AssistantGrpcClient, tg_user_id: int, **kwargs) -> MessageResponse:
+    def send(
+        self, client: AssistantGrpcClient, tg_user_id: int, **kwargs
+    ) -> MessageResponse:
         """
         Send data as Telegram message.
 

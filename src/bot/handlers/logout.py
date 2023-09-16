@@ -20,7 +20,9 @@ async def handle_logout_request(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
     current_user: models.User,
-    assistant_grpc_client: AssistantAsyncGrpcClient = Provide[TelegramBotContainer.assistant_grpc_client],
+    assistant_grpc_client: AssistantAsyncGrpcClient = Provide[
+        TelegramBotContainer.assistant_grpc_client
+    ],
 ):
     if not update.effective_user:
         return

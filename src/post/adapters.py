@@ -122,7 +122,9 @@ class YouTubeShortVideo(Post):
     def title(self) -> str:
         return self.yt.title
 
-    def send(self, client: AssistantGrpcClient, tg_user_id: int, **kwargs) -> MessageResponse:
+    def send(
+        self, client: AssistantGrpcClient, tg_user_id: int, **kwargs
+    ) -> MessageResponse:
         req = SendFilesRequest(tg_user_id=tg_user_id, caption=self.title, **kwargs)
         return client.stub.send_files(req)
 
@@ -185,7 +187,9 @@ class InstagramPost(Post):
         return "test"
         # return self._media.title or ""
 
-    def send(self, client: AssistantGrpcClient, tg_user_id: int, **kwargs) -> MessageResponse:
+    def send(
+        self, client: AssistantGrpcClient, tg_user_id: int, **kwargs
+    ) -> MessageResponse:
         req = SendFilesRequest(caption=self.title, tg_user_id=tg_user_id, **kwargs)
         return client.stub.send_files(req)
 

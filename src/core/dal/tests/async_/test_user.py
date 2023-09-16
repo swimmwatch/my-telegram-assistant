@@ -34,7 +34,9 @@ class TestUpdateOrCreate:
         result = await user_dal.all()
         assert result.one_or_none()
 
-    async def test_exist(self, user_dal: UserAsyncDAL, async_db_factory: typing.Callable) -> None:
+    async def test_exist(
+        self, user_dal: UserAsyncDAL, async_db_factory: typing.Callable
+    ) -> None:
         await async_db_factory(user)
 
         result = await user_dal.all()
@@ -61,7 +63,9 @@ class TestGetOneOrMany:
         instance = await user_dal.filter(id=1).first()
         assert not instance
 
-    async def test_first_exist(self, user_dal: UserAsyncDAL, async_db_factory: typing.Callable) -> None:
+    async def test_first_exist(
+        self, user_dal: UserAsyncDAL, async_db_factory: typing.Callable
+    ) -> None:
         await async_db_factory(user)
         instance = await user_dal.all()
         assert instance.one_or_none()
@@ -73,7 +77,9 @@ class TestGetOneOrMany:
         actual = await user_dal.all()
         assert not actual.all()
 
-    async def test_all_exist(self, user_dal: UserAsyncDAL, async_db_factory: typing.Callable) -> None:
+    async def test_all_exist(
+        self, user_dal: UserAsyncDAL, async_db_factory: typing.Callable
+    ) -> None:
         await async_db_factory(user)
         result = await user_dal.all()
         actual = result.all()
@@ -95,7 +101,9 @@ class TestCreate:
 
 @pytest.mark.asyncio()
 class TestDelete:
-    async def test_delete_one(self, user_dal: UserAsyncDAL, async_db_factory: typing.Callable) -> None:
+    async def test_delete_one(
+        self, user_dal: UserAsyncDAL, async_db_factory: typing.Callable
+    ) -> None:
         await async_db_factory(user)
 
         result = await user_dal.all()
@@ -109,7 +117,9 @@ class TestDelete:
 
 @pytest.mark.asyncio()
 class TestUpdate:
-    async def test_update_one(self, user_dal: UserAsyncDAL, async_db_factory: typing.Callable) -> None:
+    async def test_update_one(
+        self, user_dal: UserAsyncDAL, async_db_factory: typing.Callable
+    ) -> None:
         await async_db_factory(user)
 
         result = await user_dal.all()
@@ -123,7 +133,9 @@ class TestUpdate:
         assert instance
         assert instance.session == new_session
 
-    async def test_update_several(self, user_dal: UserAsyncDAL, async_db_factory: typing.Callable) -> None:
+    async def test_update_several(
+        self, user_dal: UserAsyncDAL, async_db_factory: typing.Callable
+    ) -> None:
         user1 = user(tg_id=2)
         user2 = user(tg_id=3)
 

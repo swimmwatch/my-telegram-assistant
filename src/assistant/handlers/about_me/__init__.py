@@ -11,7 +11,11 @@ from assistant.handlers.about_me.models import game_info_dict
 from assistant.handlers.about_me.models import work_info_dict
 from assistant.templates import render_template_
 
-about_me_command = ExplicitCommand(name="me").add_arg(name="type", cls=TypeProfiles).add_arg(name="scope", cls=str)
+about_me_command = (
+    ExplicitCommand(name="me")
+    .add_arg(name="type", cls=TypeProfiles)
+    .add_arg(name="scope", cls=str)
+)
 
 
 @about_me_command.on(lambda args: args["type"] is TypeProfiles.WORK)
@@ -31,7 +35,9 @@ async def handle_output_work_profile(args: ParsedArguments, request: CommandRequ
         "scope": scope_value,
     }
     message = render_template_("card.html", data)
-    await request.event.client.send_message(request.event.message.chat_id, message, parse_mode="html", silent=True)
+    await request.event.client.send_message(
+        request.event.message.chat_id, message, parse_mode="html", silent=True
+    )
 
 
 @about_me_command.on(lambda args: args["type"] is TypeProfiles.GAME)
@@ -51,4 +57,6 @@ async def handle_output_game_profile(args: ParsedArguments, request: CommandRequ
         "scope": scope_value,
     }
     message = render_template_("card.html", data)
-    await request.event.client.send_message(request.event.message.chat_id, message, parse_mode="html", silent=True)
+    await request.event.client.send_message(
+        request.event.message.chat_id, message, parse_mode="html", silent=True
+    )

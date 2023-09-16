@@ -16,7 +16,9 @@ async def handle_status_request(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE,
     current_user: models.User,
-    assistant_grpc_client: AssistantAsyncGrpcClient = Provide[TelegramBotContainer.assistant_grpc_client],
+    assistant_grpc_client: AssistantAsyncGrpcClient = Provide[
+        TelegramBotContainer.assistant_grpc_client
+    ],
 ) -> None:
     if not update.effective_user:
         return

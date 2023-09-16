@@ -6,4 +6,6 @@ from contextlib import AbstractContextManager
 from typing import TypeVar
 
 # Context manager
-ContextManagerType = TypeVar("ContextManagerType", AbstractContextManager, AbstractAsyncContextManager)
+ContextManagerType = TypeVar(
+    "ContextManagerType", AbstractContextManager, AbstractAsyncContextManager
+)

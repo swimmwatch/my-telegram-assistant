@@ -78,7 +78,9 @@ class BasePostStateCache(abc.ABC):
     def set_files(self, post_id: str, files: list[str]) -> None:
         self._set_files(post_id, files)
 
-    def get(self, post_id: str) -> tuple[PostCacheState | None, list[str], tuple[int | None, int | None]]:
+    def get(
+        self, post_id: str
+    ) -> tuple[PostCacheState | None, list[str], tuple[int | None, int | None]]:
         """
         Get post cache state.
 
