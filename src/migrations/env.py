@@ -4,8 +4,8 @@ from alembic import context
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
-from services.db.base import Base  # noqa: F401,E402,F403
-from services.db.config import DatabaseSettings
+from infrastructure.db.base import Base  # noqa: F401,E402,F403
+from infrastructure.db.config import DatabaseSettings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -21,7 +21,7 @@ config.set_main_option("sqlalchemy.url", settings.url)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-from services.db.models import *  # noqa: F401,E402,F403
+from core.models import *  # noqa: F401,E402,F403
 
 target_metadata = Base.metadata
 

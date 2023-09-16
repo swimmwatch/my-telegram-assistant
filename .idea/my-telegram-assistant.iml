@@ -14,8 +14,7 @@
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/src/services/assistant/templates" />
-        <option value="$MODULE_DIR$/src/services/bot/templates" />
+        <option value="$MODULE_DIR$/src/bot/templates" />
       </list>
     </option>
   </component>

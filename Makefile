@@ -6,7 +6,7 @@ build-protobuf:
     --python_out=$(SRC_DIR) \
     --grpc_python_out=$(SRC_DIR) \
     --mypy_out=$(SRC_DIR) \
-    $(SRC_DIR)/protobufs/services/*/*.proto
+    $(SRC_DIR)/protobufs/*/*.proto
 
 mypy:
 	poetry run mypy $(SRC_DIR)
