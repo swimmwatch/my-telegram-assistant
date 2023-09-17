@@ -31,7 +31,12 @@ def upgrade() -> None:
             server_default=sa.func.now(),
             nullable=False,
         ),
-        sa.Column("updated", sa.DateTime(timezone=True), server_onupdate=sa.func.now(), nullable=True),  # type: ignore
+        sa.Column(
+            "updated",
+            sa.DateTime(timezone=True),
+            server_onupdate=sa.func.now(),  # type: ignore
+            nullable=True,
+        ),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_users_tg_id"), "users", ["tg_id"], unique=True)

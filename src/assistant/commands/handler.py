@@ -37,7 +37,8 @@ class ExplicitCommand:
 
         if len(name) >= ExplicitCommand.MAX_COMMAND_NAME_LEN:
             raise ValueError(
-                f"Command name length must be less then {ExplicitCommand.MAX_COMMAND_NAME_LEN}"
+                f"Command name length must be"
+                f" less then {ExplicitCommand.MAX_COMMAND_NAME_LEN}"
             )
 
         if any(char.isdigit() for char in name):

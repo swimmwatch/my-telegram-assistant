@@ -63,7 +63,7 @@ def alembic_engine(db_engine: sa.Engine) -> sa.Engine:
     """
     Override "alembic_engine" fixture of "pytest-alembic" package.
 
-    Check: https://pytest-alembic.readthedocs.io/en/latest/api.html#pytest_alembic.plugin.fixtures.alembic_engine
+    Check: https://pytest-alembic.readthedocs.io/en/latest/api.html#pytest_alembic.plugin.fixtures.alembic_engine  # noqa: E501
 
     :param db_engine: SQLAlchemy Engine instance
     :return: SQLAlchemy Engine instance

@@ -5,24 +5,23 @@ import abc
 import typing
 
 import sqlalchemy as sa
-from sqlalchemy import inspect
 from sqlalchemy.sql.dml import ReturningDelete
 from sqlalchemy.sql.dml import ReturningUpdate
 
+from infrastructure.db.base import Base
 from utils.sqlalchemy.types import AsyncSessionFactory
 from utils.sqlalchemy.types import SessionFactory
 
-T = typing.TypeVar("T")
+T = typing.TypeVar("T", bound=Base)
 
 
-class BaseSqlAlchemyRepository(abc.ABC):
+class BaseSqlAlchemyDAL(abc.ABC):
     class Config:
-        # TODO: annotate using generic
-        model: typing.Type
+        model: type
 
     def __init__(self, session_factory):
         self.session_factory = session_factory
-        self._base_query = sa.select(self.Config.model)
+        self._base_query = sa.select(self.Config.model)  # type: ignore
 
     @classmethod
     def _update(cls, instance, **kwargs):
@@ -32,36 +31,36 @@ class BaseSqlAlchemyRepository(abc.ABC):
 
     @property
     def pk(self) -> str | None:
-        meta = inspect(self.Config.model)
+        meta = sa.inspect(self.Config.model)  # type: ignore
         if not meta:
             return None
 
         return meta.primary_key[0].name
 
-    def base(self, query: sa.Select) -> "BaseSqlAlchemyRepository":
+    def base(self, query: sa.Select) -> "BaseSqlAlchemyDAL":
         self._base_query = query
         return self
 
     def query(self) -> sa.Select:
         return self._base_query
 
-    def filter(self, **kwargs) -> "BaseSqlAlchemyRepository":
+    def filter(self, **kwargs) -> "BaseSqlAlchemyDAL":
         self._base_query = self._base_query.filter_by(**kwargs)
         return self
 
-    def where(self, *args) -> "BaseSqlAlchemyRepository":
+    def where(self, *args) -> "BaseSqlAlchemyDAL":
         self._base_query = self._base_query.where(*args)
         return self
 
-    def order_by(self, *args) -> "BaseSqlAlchemyRepository":
+    def order_by(self, *args) -> "BaseSqlAlchemyDAL":
         self._base_query = self._base_query.order_by(*args)
         return self
 
-    def group_by(self, *args) -> "BaseSqlAlchemyRepository":
+    def group_by(self, *args) -> "BaseSqlAlchemyDAL":
         self._base_query = self._base_query.group_by(*args)
         return self
 
-    def join(self, *args) -> "BaseSqlAlchemyRepository":
+    def join(self, *args) -> "BaseSqlAlchemyDAL":
         self._base_query = self._base_query.join(*args)
         return self
 
@@ -117,7 +116,7 @@ class BaseSqlAlchemyRepository(abc.ABC):
         ...
 
 
-class SqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
+class SqlAlchemyDAL(BaseSqlAlchemyDAL, typing.Generic[T]):
     session_factory: SessionFactory
 
     def update(self, **kwargs) -> sa.Result:
@@ -179,7 +178,7 @@ class SqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
         return update
 
 
-class AsyncSqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
+class SqlAlchemyAsyncDAL(BaseSqlAlchemyDAL):
     session_factory: AsyncSessionFactory
 
     async def update(self, **kwargs) -> sa.Result:
@@ -204,7 +203,7 @@ class AsyncSqlAlchemyRepository(BaseSqlAlchemyRepository, typing.Generic[T]):
             self._reset_query()
             return cursor.scalar_one_or_none()
 
-    async def all(self) -> sa.ScalarResult[T]:
+    async def all(self) -> sa.ScalarResult:
         async with self.session_factory() as session:
             cursor = await session.execute(self._base_query)
             self._reset_query()
