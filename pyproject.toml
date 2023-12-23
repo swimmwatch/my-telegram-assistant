@@ -25,7 +25,7 @@ Telethon = "1.32.1"
 qrcode = {extras = ["pil"], version = "^7.4"}
 python-telegram-bot = "20.7"
 psycopg = "^3.1.15"
-emoji = "^2.8.0"
+emoji = "^2.9.0"
 jinja2 = "^3.1.2"
 tweepy = "^4.14.0"
 instagrapi = "^1.19.8"
