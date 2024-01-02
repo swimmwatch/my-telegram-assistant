@@ -21,7 +21,7 @@ uvicorn = "^0.25.0"
 pydantic = "1.10.9"
 SQLAlchemy = {extras = ["asyncio"], version = "^2.0.23"}
 htmgem = "^0.0.2"
-Telethon = "1.32.1"
+Telethon = "1.33.1"
 qrcode = {extras = ["pil"], version = "^7.4"}
 python-telegram-bot = "20.7"
 psycopg = "^3.1.16"
